@@ -33,9 +33,9 @@ public class Move : MonoBehaviour {
 
         Vector3 currentPos = transform.position;
         Vector2 mapPos = Terrain_Manager.WorldToMapPosition(currentPos);
-        bool isBlocked = false;
-        Terrain_Manager.SelectRandomSprite(mapPos.x, mapPos.y, out isBlocked);
-        if (isBlocked)
+
+        var terrain = Terrain_Manager.SelectTerrain(mapPos.x, mapPos.y);
+        if (terrain.NotWalkable || Terrain_Manager.IsInBuilding (mapPos))
         {
             transform.position = currentPos = previousPosition;
         }

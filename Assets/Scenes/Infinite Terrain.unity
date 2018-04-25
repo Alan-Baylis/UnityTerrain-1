@@ -153,44 +153,55 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3c6f6cd6d93dc4b84f85ad57e4ef5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TilableImage: {fileID: 21300000, guid: 579f83acaea42044cbef2777595dd579, type: 3}
-  Sprites:
-  - {fileID: 21300000, guid: e08436deb44026d48b3684b0a68b1ec3, type: 3}
-  - {fileID: 21300000, guid: 692ace9e19f422744bc5c5a356b463c5, type: 3}
-  - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
-  - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
-  - {fileID: 21300000, guid: 14535a9051987ca43b2048da9134aac6, type: 3}
-  - {fileID: 21300000, guid: c0f30d0042fa6344c96c8532c1a7e087, type: 3}
-  - {fileID: 21300000, guid: 8d00f8b01d139da4abb13eebf452b982, type: 3}
-  - {fileID: 21300000, guid: e3118d6eb23c18d4ab6447b215da4f01, type: 3}
-  - {fileID: 21300000, guid: 617507ea603ea3148aa0340561e595cf, type: 3}
-  - {fileID: 21300000, guid: 3f46958cf4b35414e9a039fe07ad5438, type: 3}
-  - {fileID: 21300000, guid: 7cc30a9ebcb6f8444b47a6e24cbdda04, type: 3}
-  - {fileID: 21300000, guid: c79a5ed3e74b0974ca28617b76e0775d, type: 3}
-  - {fileID: 21300000, guid: 14535a9051987ca43b2048da9134aac6, type: 3}
-  - {fileID: 21300000, guid: c0f30d0042fa6344c96c8532c1a7e087, type: 3}
-  - {fileID: 21300000, guid: 8d00f8b01d139da4abb13eebf452b982, type: 3}
-  - {fileID: 21300000, guid: e3118d6eb23c18d4ab6447b215da4f01, type: 3}
-  - {fileID: 21300000, guid: 617507ea603ea3148aa0340561e595cf, type: 3}
-  - {fileID: 21300000, guid: 3f46958cf4b35414e9a039fe07ad5438, type: 3}
-  - {fileID: 21300000, guid: 7cc30a9ebcb6f8444b47a6e24cbdda04, type: 3}
-  - {fileID: 21300000, guid: c79a5ed3e74b0974ca28617b76e0775d, type: 3}
-  - {fileID: 21300000, guid: 617507ea603ea3148aa0340561e595cf, type: 3}
-  - {fileID: 21300000, guid: 3f46958cf4b35414e9a039fe07ad5438, type: 3}
-  - {fileID: 21300000, guid: 7cc30a9ebcb6f8444b47a6e24cbdda04, type: 3}
-  - {fileID: 21300000, guid: c79a5ed3e74b0974ca28617b76e0775d, type: 3}
-  - {fileID: 21300000, guid: 617507ea603ea3148aa0340561e595cf, type: 3}
-  - {fileID: 21300000, guid: 3f46958cf4b35414e9a039fe07ad5438, type: 3}
-  - {fileID: 21300000, guid: 7cc30a9ebcb6f8444b47a6e24cbdda04, type: 3}
-  - {fileID: 21300000, guid: c79a5ed3e74b0974ca28617b76e0775d, type: 3}
   HorizontalTiles: 25
   VerticalTiles: 25
   Key: 1
   Player: {fileID: 1954072673}
   MaxDistanceFromCenter: 7
-  WaterAnimation: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38, type: 2}
-  WaterPercentage: 10
   MapOffset: {x: 0.5, y: 0.5}
+  TerrainTypes:
+  - Name: Grass, Rocky
+    NotWalkable: 0
+    Tiles:
+    - {fileID: 21300000, guid: 617507ea603ea3148aa0340561e595cf, type: 3}
+    - {fileID: 21300000, guid: 3f46958cf4b35414e9a039fe07ad5438, type: 3}
+    - {fileID: 21300000, guid: 7cc30a9ebcb6f8444b47a6e24cbdda04, type: 3}
+    - {fileID: 21300000, guid: c79a5ed3e74b0974ca28617b76e0775d, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: Rocky
+    NotWalkable: 0
+    Tiles:
+    - {fileID: 21300000, guid: e08436deb44026d48b3684b0a68b1ec3, type: 3}
+    - {fileID: 21300000, guid: 692ace9e19f422744bc5c5a356b463c5, type: 3}
+    - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
+    - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: Dirt, Dry
+    NotWalkable: 0
+    Tiles:
+    - {fileID: 21300000, guid: 14535a9051987ca43b2048da9134aac6, type: 3}
+    - {fileID: 21300000, guid: c0f30d0042fa6344c96c8532c1a7e087, type: 3}
+    - {fileID: 21300000, guid: 8d00f8b01d139da4abb13eebf452b982, type: 3}
+    - {fileID: 21300000, guid: e3118d6eb23c18d4ab6447b215da4f01, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: Water
+    NotWalkable: 1
+    Tiles:
+    - {fileID: 21300000, guid: 83d38a75f29480c4eac844189bfd4e47, type: 3}
+    IsAnimated: 1
+    AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
+      type: 2}
+  Buildings:
+  - {fileID: 21300000, guid: 87c394d1b4e591341b6c6fdb764f8505, type: 3}
+  - {fileID: 21300000, guid: 65d631002d227c3468e091c06a173008, type: 3}
+  - {fileID: 21300000, guid: 900a810c99b70e44591b3a4a4e743355, type: 3}
+  - {fileID: 21300000, guid: 23655f894b7a94745be08285ee0803ea, type: 3}
+  - {fileID: 21300000, guid: 7916b4107ab4759428737357e8c7c27b, type: 3}
+  - {fileID: 21300000, guid: 9522a05c57c05184791c37b5f085fcb8, type: 3}
+  CityChance: 0.5
 --- !u!1 &1120850917
 GameObject:
   m_ObjectHideFlags: 0

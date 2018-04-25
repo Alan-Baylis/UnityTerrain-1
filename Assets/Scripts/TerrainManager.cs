@@ -4,19 +4,35 @@ using UnityEngine;
 
 public class TerrainManager : MonoBehaviour {
 
-    public Sprite TilableImage;
-    public Sprite[] Sprites;
     public int HorizontalTiles = 25;
     public int VerticalTiles = 25;
     public int Key = 1;
     public Transform Player;
     public float MaxDistanceFromCenter = 7;
-    public RuntimeAnimatorController WaterAnimation;
-    public int WaterPercentage = -1;
     public Vector2 MapOffset ;
-
+    public TerrainType[] TerrainTypes;
+    public Sprite[] Buildings;
+    public float CityChance =0.30f;
 
     private SpriteRenderer[,] _renderers;
+    private IEnumerable<Marker> _markers;
+    private List<GameObject> _buildings = new List<GameObject>();
+
+    public bool IsInBuilding(Vector2 mapPos)
+    {
+        //max will be 9  or at most 100 
+        foreach (var building in _buildings)
+        {
+            var bLoc = building.transform.position;
+            //Mappos inbetween the building 
+            if (mapPos.x >= bLoc.x -1
+                && mapPos.y >= bLoc.y - 1
+                && mapPos.x < bLoc.x 
+                && mapPos.y < bLoc.y )
+                return true;
+        }
+        return false;
+    }
 
 
     public Vector2 WorldToMapPosition(Vector3 worldPosition)
@@ -28,20 +44,99 @@ public class TerrainManager : MonoBehaviour {
         return new Vector2((int)(worldPosition.x + MapOffset.x), (int)(worldPosition.y + MapOffset.y));
     }
 
-
-    // Use this for initialization
-    public Sprite SelectRandomSprite(float x, float y, out bool isWater)
+    
+    public TerrainType SelectTerrain(float x, float y)
     {
-        int index = RandomHelper.Range(x, y, Key, Sprites.Length);
-        isWater = (index > (100-WaterPercentage)* Sprites.Length/100);
-        return Sprites[index];
+        return Marker.Closest(_markers, new Vector2(x, y),Key).Terrain;
     }
 
+
+    void LoadCity(Marker marker)
+    {
+        if (!marker.IsCity)
+            return;
+
+        int cityMass = (int)marker.CityMass;
+        bool[,] addAt = new bool[cityMass * 2, cityMass * 2];
+        for (int iArea = 0; iArea < cityMass; iArea++)
+        {
+            int x1 = RandomHelper.Range(
+                marker.Location.x+iArea,
+                marker.Location.y,
+                Key,
+                cityMass
+                );
+            int y1 = RandomHelper.Range(
+                marker.Location.x,
+                marker.Location.y + iArea,
+                Key,
+                cityMass
+                );
+            int x2 = RandomHelper.Range(
+                marker.Location.x + iArea,
+                marker.Location.y - iArea,
+                Key,
+                cityMass
+                )+ cityMass;
+            int y2 = RandomHelper.Range(
+                marker.Location.x - iArea,
+                marker.Location.y + iArea,
+                Key,
+                cityMass
+                )+ cityMass;
+            for (int x = x1; x < x2; x++)
+            {
+                addAt[x, y1] = true;
+                addAt[x, y2] = true;
+            }
+            for (int y = y1; y < y2; y++)
+            {
+                addAt[x1, y] = true;
+                addAt[x2, y] = true;
+            }
+            if (RandomHelper.TrueFalse(marker.Location,Key+ iArea))
+            {
+                int removeX = RandomHelper.Range(marker.Location, iArea - Key, x2 - x1) + x1;
+                for (int y = 0; y < cityMass*2; y++)
+                    addAt[removeX, y] = false;
+            }
+            else
+            {
+
+                int removeY = RandomHelper.Range(marker.Location, iArea + Key, y2 - y1) + y1;
+                for (int x = 0; x < cityMass * 2; x++)
+                    addAt[x,removeY] = false;
+            }
+
+        }
+        for (int x = 0; x < cityMass*2; x++)
+        {
+            for (int y = 0; y < cityMass * 2; y++)
+            {
+                //Skipp some of the cityies
+                if (!addAt[x, y])
+                    continue;
+                var building = new GameObject();
+                _buildings.Add(building);
+                building.transform.position = new Vector3(
+                                    marker.Location.x - x,
+                                    marker.Location.y - y,
+                                    0.01f);
+                var renderer = building.AddComponent<SpriteRenderer>();
+                renderer.sprite = Buildings[RandomHelper.Range(building.transform.position, Key, Buildings.Length)];
+                building.name = "Building " + building.transform.position;
+                building.transform.parent = transform;
+            }
+        }
+    }
 
 
     void RedrawMap()
     {
         transform.position = new Vector3( (int)Player.position.x, (int)Player.position.y,Player.position.z);
+
+        _markers = Marker.GetMarkers(transform.position.x, transform.position.y, Key,TerrainTypes,CityChance);
+
         var offset = new Vector3(
                 transform.position.x - HorizontalTiles / 2, 
                 transform.position.y - VerticalTiles / 2, 
@@ -51,18 +146,25 @@ public class TerrainManager : MonoBehaviour {
             for (int y = 0; y < VerticalTiles; y++)
             {
                 var spriteRenderer = _renderers[x, y];
-                bool isWater = false;
-                spriteRenderer.sprite = SelectRandomSprite(
+
+
+                var terrain = SelectTerrain(
+                        offset.x + x,
+                        offset.y + y);
+
+                spriteRenderer.sprite = terrain.GetTile(
                         offset.x + x,
                         offset.y + y,
-                        out isWater);
+                        Key);
+                
+
                 var animator = spriteRenderer.gameObject.GetComponent<Animator>();
-                if (isWater)
+                if (terrain.IsAnimated)
                 {
                     if(animator == null )
                     {
                         animator = spriteRenderer.gameObject.AddComponent<Animator>();
-                        animator.runtimeAnimatorController = WaterAnimation;
+                        animator.runtimeAnimatorController = terrain.AnimationControler;
                     }
                 }
                 else
@@ -75,6 +177,11 @@ public class TerrainManager : MonoBehaviour {
 
             }
         }
+        //Destruction happen at the end of the frame not immediately 
+        _buildings.ForEach(x => Destroy(x));
+        _buildings.Clear();
+        foreach (var marker in _markers)
+            LoadCity(marker);
     }
 
     void Start () {
