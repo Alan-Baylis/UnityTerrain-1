@@ -20,7 +20,7 @@ public class Marker  {
             for (int iY = -1; iY < 2; iY++)
             {
                 var terrain = terrains[RandomHelper.Range(x + iX, y + iY, key, terrains.Length)];
-                //it will be a city if the terrain is walkable && a smal chance to be city 
+                //it will be a city if the terrain is walkable && a small chance to be city 
                 bool isCity = (!terrain.NotWalkable) && (cityChance > RandomHelper.Percent(x + iX , y + iY , key));
 
                 //*5 to make it a bigger mass and + 2 to make sure it doesn't come back as 0  Range will be between (2-7) so it is smaller than biom 

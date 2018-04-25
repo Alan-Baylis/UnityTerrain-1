@@ -9,18 +9,29 @@ public class MarkBlockedTiles : MonoBehaviour {
     private float radius = 0.25f;
     private float tileRange = 4;
 
+
+
+    public bool NotWalkable()
+    {
+        return true;
+    }
+
     void OnDrawGizmos()
     {
         if (Application.isPlaying)
             for (float x = transform.position.x - tileRange ; x <= transform.position.x + tileRange; x+= radius)
             {
-                for (float y = transform.position.x - tileRange; y <= transform.position.x + tileRange; y += radius)
+                for (float y = transform.position.y - tileRange; y <= transform.position.y + tileRange; y += radius)
                 {
                     Vector3 worldPos= new Vector3(x, y, 0);
                     var mapPos = Terrain_Manager.WorldToMapPosition(worldPos);
                     var terrain = Terrain_Manager.SelectTerrain(mapPos.x, mapPos.y);
+
+                    //UnityEditor.Handles.color = Color.red;
+                    //UnityEditor.Handles.DrawWireDisc(worldPos, Vector3.back, radius);
                     if (terrain.NotWalkable || Terrain_Manager.IsInBuilding(mapPos))
                     {
+                        UnityEditor.Handles.color = Color.white;
                         UnityEditor.Handles.DrawWireDisc(worldPos, Vector3.back, radius);
                     }
                 }

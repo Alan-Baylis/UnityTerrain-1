@@ -25,11 +25,14 @@ public class TerrainManager : MonoBehaviour {
         {
             var bLoc = building.transform.position;
             //Mappos inbetween the building 
-            if (mapPos.x >= bLoc.x -1
-                && mapPos.y >= bLoc.y - 1
-                && mapPos.x < bLoc.x 
-                && mapPos.y < bLoc.y )
+
+            if (mapPos.x == bLoc.x  && mapPos.y == bLoc.y)
                 return true;
+            //if (mapPos.x >= bLoc.x - 1
+            //    && mapPos.x < bLoc.x
+            //    && mapPos.y >= bLoc.y - 1
+            //    && mapPos.y < bLoc.y )
+            //    return true;
         }
         return false;
     }
@@ -37,10 +40,8 @@ public class TerrainManager : MonoBehaviour {
 
     public Vector2 WorldToMapPosition(Vector3 worldPosition)
     {
-        if (worldPosition.x < 0)
-            worldPosition.x--;
-        if (worldPosition.y < 0)
-            worldPosition.y--;
+        if (worldPosition.x < 0) worldPosition.x--;
+        if (worldPosition.y < 0) worldPosition.y--;        
         return new Vector2((int)(worldPosition.x + MapOffset.x), (int)(worldPosition.y + MapOffset.y));
     }
 
@@ -107,7 +108,6 @@ public class TerrainManager : MonoBehaviour {
                 for (int x = 0; x < cityMass * 2; x++)
                     addAt[x,removeY] = false;
             }
-
         }
         for (int x = 0; x < cityMass*2; x++)
         {
@@ -116,12 +116,16 @@ public class TerrainManager : MonoBehaviour {
                 //Skipp some of the cityies
                 if (!addAt[x, y])
                     continue;
+                var bLoc = new Vector3(
+                                    marker.Location.x + cityMass - x,
+                                    marker.Location.y + cityMass - y,
+                                    0.01f);
+                //So player doesn't land on a building
+                if (bLoc.x  == 0 && bLoc.y == 0)
+                    continue;
                 var building = new GameObject();
                 _buildings.Add(building);
-                building.transform.position = new Vector3(
-                                    marker.Location.x - x,
-                                    marker.Location.y - y,
-                                    0.01f);
+                building.transform.position = bLoc;
                 var renderer = building.AddComponent<SpriteRenderer>();
                 renderer.sprite = Buildings[RandomHelper.Range(building.transform.position, Key, Buildings.Length)];
                 building.name = "Building " + building.transform.position;
@@ -146,18 +150,13 @@ public class TerrainManager : MonoBehaviour {
             for (int y = 0; y < VerticalTiles; y++)
             {
                 var spriteRenderer = _renderers[x, y];
-
-
                 var terrain = SelectTerrain(
                         offset.x + x,
                         offset.y + y);
-
                 spriteRenderer.sprite = terrain.GetTile(
                         offset.x + x,
                         offset.y + y,
                         Key);
-                
-
                 var animator = spriteRenderer.gameObject.GetComponent<Animator>();
                 if (terrain.IsAnimated)
                 {
@@ -174,7 +173,6 @@ public class TerrainManager : MonoBehaviour {
                         GameObject.Destroy(animator);
                     }
                 }
-
             }
         }
         //Destruction happen at the end of the frame not immediately 
@@ -202,7 +200,6 @@ public class TerrainManager : MonoBehaviour {
             }
         }
         RedrawMap();
-
     }
 
 	// Update is called once per frame
