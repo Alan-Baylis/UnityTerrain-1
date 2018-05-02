@@ -29,7 +29,8 @@ public class MarkBlockedTiles : MonoBehaviour {
 
                     //UnityEditor.Handles.color = Color.red;
                     //UnityEditor.Handles.DrawWireDisc(worldPos, Vector3.back, radius);
-                    if (terrain.NotWalkable || Terrain_Manager.IsInBuilding(mapPos))
+                    var building = Terrain_Manager.GetBuilding(mapPos);
+                    if (terrain.NotWalkable || (building != null && !building.BuildingTypeInUse.IsEnterable))
                     {
                         UnityEditor.Handles.color = Color.white;
                         UnityEditor.Handles.DrawWireDisc(worldPos, Vector3.back, radius);

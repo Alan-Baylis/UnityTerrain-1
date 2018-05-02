@@ -6,23 +6,28 @@ public class TerrainManager : MonoBehaviour {
 
     public int HorizontalTiles = 25;
     public int VerticalTiles = 25;
-    public int Key = 1;
+    public static int Key = 1;
     public Transform Player;
     public float MaxDistanceFromCenter = 7;
     public Vector2 MapOffset ;
     public TerrainType[] TerrainTypes;
-    public Sprite[] Buildings;
+    public BuildingType[] BuildingTypes;
     public float CityChance =0.30f;
+    public static int SceneIdForInsideBuilding =1;
 
     private SpriteRenderer[,] _renderers;
     private IEnumerable<Marker> _markers;
-    private List<GameObject> _buildings = new List<GameObject>();
+    private List<ActiveBuildingType> _buildings = new List<ActiveBuildingType>();
 
+    //is not being used 
     public bool IsInBuilding(Vector2 mapPos)
     {
         //max will be 9  or at most 100 
         foreach (var building in _buildings)
         {
+            //enterable building we ignore it 
+            if (building.BuildingTypeInUse.IsEnterable)
+                continue;
             var bLoc = building.transform.position;
             //Mappos inbetween the building 
 
@@ -36,6 +41,27 @@ public class TerrainManager : MonoBehaviour {
         }
         return false;
     }
+
+
+    public ActiveBuildingType GetBuilding(Vector2 mapPos)
+    {
+        //max will be 9  or at most 100 
+        foreach (var building in _buildings)
+        {
+            var bLoc = building.transform.position;
+            //Mappos inbetween the building 
+
+            if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
+                return building;
+            //if (mapPos.x >= bLoc.x - 1
+            //    && mapPos.x < bLoc.x
+            //    && mapPos.y >= bLoc.y - 1
+            //    && mapPos.y < bLoc.y )
+            //    return true;
+        }
+        return null;
+    }
+
 
 
     public Vector2 WorldToMapPosition(Vector3 worldPosition)
@@ -124,10 +150,15 @@ public class TerrainManager : MonoBehaviour {
                 if (bLoc.x  == 0 && bLoc.y == 0)
                     continue;
                 var building = new GameObject();
-                _buildings.Add(building);
+                var active = building.AddComponent<ActiveBuildingType>();
+                _buildings.Add(active);
+
                 building.transform.position = bLoc;
                 var renderer = building.AddComponent<SpriteRenderer>();
-                renderer.sprite = Buildings[RandomHelper.Range(building.transform.position, Key, Buildings.Length)];
+                var buildingInfo = BuildingTypes[RandomHelper.Range(building.transform.position, Key, BuildingTypes.Length)];
+                renderer.sprite = buildingInfo.Tile;
+                active.BuildingTypeInUse = buildingInfo;
+
                 building.name = "Building " + building.transform.position;
                 building.transform.parent = transform;
             }
@@ -176,7 +207,7 @@ public class TerrainManager : MonoBehaviour {
             }
         }
         //Destruction happen at the end of the frame not immediately 
-        _buildings.ForEach(x => Destroy(x));
+        _buildings.ForEach(x => Destroy(x.gameObject));
         _buildings.Clear();
         foreach (var marker in _markers)
             LoadCity(marker);
