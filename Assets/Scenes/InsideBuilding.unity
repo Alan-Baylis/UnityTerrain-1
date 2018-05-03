@@ -156,6 +156,9 @@ MonoBehaviour:
   MapPosition: {x: 0, y: 0}
   Key: 0
   Floor: {fileID: 21300000, guid: 530da72210b423c43a7d9db48bc93cf4, type: 3}
+  Wall: {fileID: 21300000, guid: 48d7f03062bd6324c8a233e353a29c20, type: 3}
+  Door: {fileID: 21300000, guid: 23c785c11cca0bc46a1caa29ff9a2e0c, type: 3}
+  Player: {fileID: 1580321972}
 --- !u!1 &1580321969
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,6 +190,7 @@ MonoBehaviour:
   MaxSpeed: 3
   EnableFastSpeedWithKey: 304
   TurnWithMovement: {fileID: 1909587900}
+  Building: {fileID: 1570060178}
 --- !u!4 &1580321972
 Transform:
   m_ObjectHideFlags: 0

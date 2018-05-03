@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MoveInside : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MoveInside : MonoBehaviour
     public float MaxSpeed = 3;
     public KeyCode EnableFastSpeedWithKey = KeyCode.LeftShift;
     public Transform TurnWithMovement;
+    public BuildingInterior Building;
 
     private Vector3 previousPosition = Vector3.zero;
 
@@ -33,7 +35,27 @@ public class MoveInside : MonoBehaviour
             TurnWithMovement.rotation = Quaternion.LookRotation(Vector3.back, movement.normalized);
         }
 
+
         Vector3 currentPos = transform.position;
+        var targetTile = new Rect(currentPos, Vector2.one);
+
+        if (Building.IsExiting(targetTile))
+        {
+            //Preparing to sreturn to terrain
+            GameObject go = new GameObject();
+            //Make go undestroyable
+            GameObject.DontDestroyOnLoad(go);
+            var starter = go.AddComponent<TerrainStarter>();
+            starter.PreviousPosition = Building.PreviousPosition;
+            go.name = "Terrain Starter";
+            //switch the scene
+            SceneManager.LoadScene(BuildingInterior.SceneIdForTerrainView);
+        }
+
+        if (Building.IsBlocked(targetTile))
+            transform.position = currentPos = previousPosition;
         previousPosition = currentPos;
+
+
     }
 }

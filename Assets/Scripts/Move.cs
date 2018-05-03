@@ -46,11 +46,12 @@ public class Move : MonoBehaviour {
             //Debug.Log("Walked in");
             //Preparing to switch the scene
             GameObject go = new GameObject();
+            //Make go undestroyable
+            GameObject.DontDestroyOnLoad(go);
             var starter=go.AddComponent<InsideBuildingStarter>();
             starter.Key = TerrainManager.Key;
             starter.MapPosition = mapPos;
-            //Make go undestroyable
-            GameObject.DontDestroyOnLoad(go);
+            starter.PreviousPosition = previousPosition;
             go.name = "Inside Building Starter";
 
             //switch the scene

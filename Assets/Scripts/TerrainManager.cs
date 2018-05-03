@@ -213,7 +213,15 @@ public class TerrainManager : MonoBehaviour {
             LoadCity(marker);
     }
 
-    void Start () {
+    void Start() {
+
+        var starter = GameObject.FindObjectOfType<TerrainStarter>();
+        if (starter != null)
+        {
+            Player.position = starter.PreviousPosition;
+            Destroy(starter.gameObject);
+        }
+
         int sortIndex = 0;
         var offset = new Vector3(0 - HorizontalTiles / 2, 0 - VerticalTiles/2, 0);
         _renderers = new SpriteRenderer[HorizontalTiles, VerticalTiles];
