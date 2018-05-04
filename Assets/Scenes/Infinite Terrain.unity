@@ -225,8 +225,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1120850918}
   - component: {fileID: 1120850919}
+  - component: {fileID: 1120850920}
   m_Layer: 0
-  m_Name: withHat
+  m_Name: PlayerPic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -289,6 +290,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
+--- !u!114 &1120850920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1120850917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c555d1ab72192f44b22fb785fa74337, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Terrain_Manager: {fileID: 929507440}
+  KeyToCreateBuilding: 116
 --- !u!1 &1580306287
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,6 +402,7 @@ GameObject:
   - component: {fileID: 1954072673}
   - component: {fileID: 1954072672}
   - component: {fileID: 1954072674}
+  - component: {fileID: 1954072675}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -438,3 +453,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Terrain_Manager: {fileID: 929507440}
+--- !u!114 &1954072675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1954072671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd9e4f383def494d8f5f8062ad2665d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SavedCache: 

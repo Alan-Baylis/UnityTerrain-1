@@ -18,6 +18,7 @@ public class TerrainManager : MonoBehaviour {
     private SpriteRenderer[,] _renderers;
     private IEnumerable<Marker> _markers;
     private List<ActiveBuildingType> _buildings = new List<ActiveBuildingType>();
+    private Cache _cache;
 
     //is not being used 
     public bool IsInBuilding(Vector2 mapPos)
@@ -149,22 +150,31 @@ public class TerrainManager : MonoBehaviour {
                 //So player doesn't land on a building
                 if (bLoc.x  == 0 && bLoc.y == 0)
                     continue;
-                var building = new GameObject();
-                var active = building.AddComponent<ActiveBuildingType>();
-                _buildings.Add(active);
+                CreateBuilding(bLoc);
 
-                building.transform.position = bLoc;
-                var renderer = building.AddComponent<SpriteRenderer>();
-                var buildingInfo = BuildingTypes[RandomHelper.Range(building.transform.position, Key, BuildingTypes.Length)];
-                renderer.sprite = buildingInfo.Tile;
-                active.BuildingTypeInUse = buildingInfo;
 
-                building.name = "Building " + building.transform.position;
-                building.transform.parent = transform;
             }
         }
     }
 
+
+    public ActiveBuildingType CreateBuilding(Vector3 location)
+    {
+        var building = new GameObject();
+        var active = building.AddComponent<ActiveBuildingType>();
+        _buildings.Add(active);
+
+        building.transform.position = location;
+        var renderer = building.AddComponent<SpriteRenderer>();
+        var buildingInfo = BuildingTypes[RandomHelper.Range(building.transform.position, Key, BuildingTypes.Length)];
+        renderer.sprite = buildingInfo.Tile;
+        active.BuildingTypeInUse = buildingInfo;
+
+        building.name = "Building " + building.transform.position;
+        building.transform.parent = transform;
+        return active;
+
+    }
 
     void RedrawMap()
     {
@@ -211,9 +221,13 @@ public class TerrainManager : MonoBehaviour {
         _buildings.Clear();
         foreach (var marker in _markers)
             LoadCity(marker);
+        foreach (var item in _cache.Find("Building", transform.position, HorizontalTiles / 2))
+            CreateBuilding(item.Location);
     }
 
     void Start() {
+
+        _cache = Cache.Get();
 
         var starter = GameObject.FindObjectOfType<TerrainStarter>();
         if (starter != null)

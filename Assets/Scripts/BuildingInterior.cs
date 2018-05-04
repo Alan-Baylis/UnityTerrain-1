@@ -133,7 +133,7 @@ public class BuildingInterior : MonoBehaviour {
         foreach (var wallPos in walls)
         {
 
-            Debug.Log(wallPos);
+            //Debug.Log(wallPos);
             //if it is already tiled then it should not be a wall
             if (applied.Contains(wallPos))
                 continue;
