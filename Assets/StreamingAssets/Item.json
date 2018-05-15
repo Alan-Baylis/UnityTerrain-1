@@ -1,0 +1,12 @@
+{
+  "Id": 0,
+  "Name": "Grape",
+  "Description": "Grape",
+  "Icon": "Grape",
+  "Cost": 1,
+  "Power": 0,
+  "Speed": 0,
+  "StackCnt": 1,
+  "Type": "Grape"
+}
+

@@ -243,8 +243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415cca51ef207d040a824875608dabbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SlotsX: 5
-  SlotsY: 4
+  SlotsX: 6
+  SlotsY: 5
   PlayerSlots: 7
   SlotsPadding: 5
   SlotSize: 50
