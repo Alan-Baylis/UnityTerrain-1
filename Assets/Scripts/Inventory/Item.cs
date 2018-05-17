@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [Serializable]
-public class Item 
+public abstract class Item 
 {
 
     public enum ItemType
@@ -12,6 +12,7 @@ public class Item
         Weapon,
         Consumable,
         Useable,
+        Equipment,
         Chest,
         Head,
         Hands,
@@ -20,54 +21,84 @@ public class Item
         Quest
     }
 
+    public enum ItemRarity
+    {
+        Common,
+        Uncommon,
+        Rare,
+        Epic,
+        Legendary,
+        Artifact
+    }
+
+
     public int Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
-    public Sprite Icon { get; set; }
+    public string IconPath { get; set; }
+    public int IconId { get; set; }
+    //public Sprite Icon { get; set; }
     public int Cost { get; set; }
-    public int Power { get; set; }
-    public int Speed { get; set; }
     public int MaxStackCnt { get; set; }
+    public int StackCnt { get; set; }
     public ItemType Type { get; set; }
-    public bool Stackable { get; set; }
-    public int Rarity { get; set; }
-    public int Vitality { get; set; }
-    public int Defence { get; set; }
+    public ItemRarity Rarity { get; set; }
     public string Slug { get; set; }
 
 
-
-
-
-    public Item(int id, string name,string desc,int cost, ItemType type)
+    protected Item(int id, string name,string desc,int cost, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity)
     {
         Id = id;
-        this.Name = name;
+
+        Name = name;
         Description = desc;
-        Sprite[] myFruit = Resources.LoadAll<Sprite>("Inventory/34x34Icons");
-        Icon = myFruit[id];
+        IconPath = "Inventory/34x34Icons";
+        IconId = id;
         Cost = cost;
-        Power = 0;
         Type = type;
-        Speed = 0;
-        MaxStackCnt = 10;
-        Stackable = false;
-        Rarity = 0;
-        Vitality = 0;
-        Defence = 0;
+        MaxStackCnt = maxStackCnt;
+        StackCnt = stackCnt;
+        Rarity = rarity;
         Slug = name.Replace(" ", "_"); 
     }
 
-    public Item(string json)
+
+    protected Item()
     {
         Id = -1;
     }
-
     
-
-    public Item()
+    public virtual string GetTooltip()
     {
-        Id = -1;
+        string color;
+        switch (this.Type)
+        {
+            case Item.ItemType.Weapon:
+                color = "Blue";
+                break;
+            case Item.ItemType.Consumable:
+                color = "Blue";
+                break;
+            case Item.ItemType.Useable:
+                color = "Blue";
+                break;
+            default:
+                color = "white";
+                break;
+        }
+        var tooltip = "<color=" + color + ">" + this.Name + "</color>\n\n" + this.Description + "\n<color=yellow>Cost:" + this.Cost + "</color>\n < color = green > Available:"+ this.StackCnt +" </ color > ";
+        return tooltip;
     }
+
+
+    public Sprite GetSprite()
+    {
+        Sprite[] spriteList = Resources.LoadAll<Sprite>(IconPath);
+        return spriteList[IconId];
+    }
+
+    //Abstarct
+    public abstract void Usage();
+
 
 }
