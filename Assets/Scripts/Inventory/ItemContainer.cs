@@ -54,11 +54,47 @@ public class ItemContainer {
             return "";
         }
     }
-    //public string Description { get; set; }
+    public string Description
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.Description;
+            if (Equipment != null)
+                return Equipment.Description;
+            if (Weapon != null)
+                return Weapon.Description;
+            return "";
+        }
+    }
     //public string IconPath { get; set; }
     //public int IconId { get; set; }
-    //public int Cost { get; set; }
-    //public int MaxStackCnt { get; set; }
+    public int Cost
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.Cost;
+            if (Equipment != null)
+                return Equipment.Cost;
+            if (Weapon != null)
+                return Weapon.Cost;
+            return 0;
+        }
+    }
+    public int MaxStackCnt
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.MaxStackCnt;
+            if (Equipment != null)
+                return Equipment.MaxStackCnt;
+            if (Weapon != null)
+                return Weapon.MaxStackCnt;
+            return 0;
+        }
+    }
     public int StackCnt
     {
         get
@@ -94,21 +130,47 @@ public class ItemContainer {
             return 0;
         }
     }
-    //public Item.ItemRarity Rarity { get; set; }
+    public Item.ItemRarity Rarity
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.Rarity;
+            if (Equipment != null)
+                return Equipment.Rarity;
+            if (Weapon != null)
+                return Weapon.Rarity;
+            return 0;
+        }
+    }
     //public string Slug { get; set; }
+
+    public int[] Values
+    {
+        get
+        {
+            if (Consumable != null)
+                return new int[3] { Consumable.Health, Consumable.Mana, Consumable.Vitality};
+            if (Equipment != null)
+                return null;
+            if (Weapon != null)
+                return null;
+            return null;
+        }
+    }
+
 
     public ItemContainer(int id,string name,string description,
                         //string iconPath,int iconId,
                         int cost,int maxStackCnt,int stackCnt,
                         Item.ItemType type,Item.ItemRarity rarity,
-                        Consumable.ConsumableType conType = (Consumable.ConsumableType)(-1),
                         int[] values = null )
     {
 
         switch (type)
         {
             case Item.ItemType.Consumable:
-                Consumable = new Consumable(id, name, description, cost, maxStackCnt, stackCnt, type, rarity, conType, values);
+                Consumable = new Consumable(id, name, description, cost, maxStackCnt, stackCnt, type, rarity, values);
                 Equipment = null;
                 Weapon = null;
                 break;

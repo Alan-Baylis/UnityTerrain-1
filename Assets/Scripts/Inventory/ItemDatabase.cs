@@ -23,7 +23,6 @@ public class ItemDatabase : MonoBehaviour {
     public int StackCnt;
     public Item.ItemType Type ;
     public Item.ItemRarity Rarity ;
-    public Consumable.ConsumableType ConType;
     public int[] Values;
 
 
@@ -47,7 +46,7 @@ public class ItemDatabase : MonoBehaviour {
             //IconPath, IconId, 
             Cost, MaxStackCnt, StackCnt,
             Type, Rarity,
-            ConType, Values));
+            Values));
 
         //Save the new list back in Item.xml file in the streamingAssets folder
         fs = new FileStream(Path.Combine(Application.streamingAssetsPath, "Item.xml"), FileMode.Create);
@@ -59,12 +58,13 @@ public class ItemDatabase : MonoBehaviour {
     {
 
 
-        _valueArray = new int[] { 11, 12 };
-        Items.Add(new ItemContainer(0, "Apple", "Apple Consumable", 2, 1, 1, Item.ItemType.Consumable,Item.ItemRarity.Common,Consumable.ConsumableType.HM, _valueArray));
+        _valueArray = new int[3] { 11, 12,0 };
+        Items.Add(new ItemContainer(0, "Apple", "Apple Consumable", 2, 10, 9, Item.ItemType.Consumable,Item.ItemRarity.Common, _valueArray));
 
-        Items.Add(new ItemContainer(1, "Sowrd", "Sowrd Weapon", 10, 1, 1, Item.ItemType.Equipment, Item.ItemRarity.Common));
+        _valueArray = new int[3] { 14, 0, 0 };
+        Items.Add(new ItemContainer(1, "Grape", "Grape Consumable Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable ", 1, 10, 8, Item.ItemType.Consumable, Item.ItemRarity.Rare, _valueArray));
 
-        _valueArray = new int[] { 14};
-        Items.Add(new ItemContainer(2, "Grape", "Grape Consumable Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable ", 1, 1, 1, Item.ItemType.Consumable, Item.ItemRarity.Rare, Consumable.ConsumableType.H, _valueArray));
+        Items.Add(new ItemContainer(2, "Sowrd", "Sowrd Weapon", 10, 1, 1, Item.ItemType.Equipment, Item.ItemRarity.Common));
+
     }
 }

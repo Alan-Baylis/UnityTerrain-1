@@ -153,23 +153,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b039d0447371f0468561e1e18ba49ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Id: 0
-  Name: 
-  Description: 
-  IconPath: 
-  IconId: 0
-  Icon: {fileID: 0}
-  Cost: 0
-  Power: 0
-  Speed: 0
-  MaxStackCnt: 0
-  Type: 0
-  Stackable: 0
-  Rarity: 0
-  Vitality: 0
-  Defence: 0
-  Slug: 
-  StackCnt: 0
+  Id: 1
+  Name: avid
+  Description: avid desc
+  Cost: 3
+  MaxStackCnt: 4
+  StackCnt: 5
+  Type: 1
+  Rarity: 3
+  Values: 0a00000014000000
 --- !u!1 &488256467
 GameObject:
   m_ObjectHideFlags: 0
@@ -204,7 +196,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -226.3, y: -97.6}
+  m_AnchoredPosition: {x: -226, y: 48.8}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &488256469

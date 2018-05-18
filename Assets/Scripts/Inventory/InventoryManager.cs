@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -80,20 +81,25 @@ public class InventoryManager : MonoBehaviour
     }
 
 
-    public void InitInventory(List<ItemContainer> invList)
+    public void InitInventory(List<ItemContainer> invList, int count,int length)
     {
-        for (int i = 0; i < _availableItems.Items.Count; i++)
+        //print("Inside InitInventory " + count +" "+ length);
+        for (int i = 0; i < length; i++)
         {
-            print(i+" item "+ _availableItems.Items[i].Name);
-            invList[i] = _availableItems.Items[i];
-            if (i == 2)
-                break;
+            if (i < count)
+            {
+                ItemContainer ni = GetItemFromDatabase((int) UnityEngine.Random.Range(0, _availableItems.Items.Count));
+                invList.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.Cost, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, ni.Values));
+            }
+            else
+                invList.Add(new ItemContainer());
         }
     }
 
 
     public bool AddItemToInventory(int id, List<ItemContainer> invList)
     {
+
         for (int i = 0; i < invList.Count; i++)
         {
             if (invList[i].Name == null) //empty Slot
@@ -112,12 +118,12 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    public ItemContainer GetItemFromDatabase(int id,  List<ItemContainer> databaseList)
+    public ItemContainer GetItemFromDatabase(int id)
     {
-        for (int i = 0; i < databaseList.Count; i++)
+        for (int i = 0; i < _availableItems.Items.Count; i++)
         {
-            if (databaseList[i].Id == id)
-                return databaseList[i];
+            if (_availableItems.Items[i].Id == id)
+                return _availableItems.Items[i];
         }
         return new ItemContainer();
     }
@@ -144,13 +150,13 @@ public class InventoryManager : MonoBehaviour
         if (invSave)
             for (int i = 0; i < invList.Count; i++)
             {
-                invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("Inventory_" + i, -1), _availableItems.Items);
+                invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("Inventory_" + i, -1));
                 invList[i].StackCnt = PlayerPrefs.GetInt("InventoryCnt_" + i, 1);
             }
         else
             for (int i = 0; i < invList.Count; i++)
             {
-                invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("InvBank_" + i, -1), _availableItems.Items);
+                invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("InvBank_" + i, -1));
                 invList[i].StackCnt = PlayerPrefs.GetInt("InvBankCnt_" + i, 1);
             }
     }

@@ -43,12 +43,9 @@ public class Inventory : MonoBehaviour {
 
         //_player = GameObject.Find(Player);
 
-        for (int i = 0; i < _slotsX * _slotsY; i++)
-        {
-            Inv.Add(new ItemContainer());
-        }
-
-        InventoryManager.Instance.InitInventory(Inv);
+        //Added to InitInventory 
+        //for (int i = 0; i < _slotsX * _slotsY; i++) Inv.Add(new ItemContainer());  
+        InventoryManager.Instance.InitInventory(Inv,5, _slotsX * _slotsY);
     }
 
 
@@ -132,10 +129,13 @@ public class Inventory : MonoBehaviour {
                 if (invIndex > SlotsCount)
                     break;
                 Rect slotRect = new Rect(x * (SlotSize + SlotsPadding) + InvLocation.x, y * (SlotSize + SlotsPadding) + InvLocation.y, SlotSize, SlotSize);
-                if (invIndex > PlayerSlots)
-                    GUI.Box(slotRect, "", Skin.GetStyle("slotBroken"));
-                else
-                    GUI.Box(slotRect, "", Skin.GetStyle("slotDamaged"));
+                GUI.Box(
+                        slotRect, 
+                        "",
+                        invIndex > PlayerSlots ? 
+                                  Skin.GetStyle("slotBroken") 
+                                : Skin.GetStyle("slotDamaged")
+                    );
                 if (Inv[invIndex].Name != null)
                 {
                     //Draw the item sprite in the slot 
@@ -154,13 +154,19 @@ public class Inventory : MonoBehaviour {
                         }
                         if (currentEvent.type == EventType.MouseUp && _dragging)
                         {
+                            _dragging = false;
                             //Drag&Drop #1/3: on filled Item
                             //Same items Stack them together 
-                            if (Inv[_draggedIndex].Id == Inv[invIndex].Id)
+                            if (_draggedItem.Id == Inv[invIndex].Id)
                             {
                                 //Todo: if higher than MaxStackCnt don't let them do it 
                                 Inv[invIndex].StackCnt += _draggedItem.StackCnt;
-                                Inv[_draggedIndex] = new ItemContainer();
+                                if (Inv[invIndex].StackCnt > Inv[invIndex].MaxStackCnt)
+                                {
+                                    _draggedItem.StackCnt = Inv[invIndex].StackCnt - Inv[invIndex].MaxStackCnt;
+                                    Inv[invIndex].StackCnt = Inv[invIndex].MaxStackCnt;
+                                    PutItemBack();
+                                }
                             }
                             //not Same items swap them
                             else
@@ -175,9 +181,7 @@ public class Inventory : MonoBehaviour {
                                     Inv[invIndex] = _draggedItem;
                                 }
                             }
-                            _dragging = false;
                         }
-
                         //Right clicked 
                         if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 1)
                         {

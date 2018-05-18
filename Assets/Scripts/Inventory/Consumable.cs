@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Consumable : Item {
-    public enum ConsumableType
-    {
-        H,
-        M,
-        HM,
-        MH
-    }
     public int Health { get; set; }
     public int Mana { get; set; }
     public int Vitality { get; set; }
@@ -19,29 +12,17 @@ public class Consumable : Item {
     {
     }
 
-    public Consumable(int id, string name, string desc, int cost, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, ConsumableType conType, int[] values)
+    public Consumable(int id, string name, string desc, int cost, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, int[] values =null)
         : base(id, name, desc, cost, maxStackCnt, stackCnt, type, rarity)
     {
-        Health = 0;
-        Mana = 0;
-        Vitality = 0;
-        switch (conType)
+        if (values == null)
         {
-            case ConsumableType.H:
-                Health = values[0];
-                break;
-            case ConsumableType.M:
-                Mana = values[0];
-                break;
-            case ConsumableType.HM:
-                Health = values[0];
-                Mana = values[1];
-                break;
-            case ConsumableType.MH:
-                Mana = values[0];
-                Health = values[1];
-                break;
+            Health = Mana = Vitality = 0;
+            return;
         }
+        Health = values[0];
+        Mana = values[1];
+        Vitality = values[2];
     }
     public override void Usage()
     {

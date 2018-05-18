@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Runtime.InteropServices;
+using Random = UnityEngine.Random;
 
 [Serializable]
 public abstract class Item 
@@ -86,7 +88,7 @@ public abstract class Item
                 color = "white";
                 break;
         }
-        var tooltip = "<color=" + color + ">" + this.Name + "</color>\n\n" + this.Description + "\n<color=yellow>Cost:" + this.Cost + "</color>\n < color = green > Available:"+ this.StackCnt +" </ color > ";
+        var tooltip = "<color=" + color + ">  "+ this.Id+ "  -" + this.Name + "</color>\n\n" + this.Description + "\n<color=yellow>Cost:" + this.Cost + "</color>\n <color=green>Available:"+ this.StackCnt +" </color> ";
         return tooltip;
     }
 
