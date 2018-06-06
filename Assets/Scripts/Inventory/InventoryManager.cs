@@ -26,7 +26,6 @@ public class InventoryManager : MonoBehaviour
 
     void Start()
     {
-
         //print("Inv.Count =" + Inv.Count + InvLocation.ToString());
         _availableItems = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
         print("_availableItems.Count =" + _availableItems.Items.Count);

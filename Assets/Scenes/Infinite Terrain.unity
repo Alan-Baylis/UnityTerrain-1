@@ -153,69 +153,85 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3c6f6cd6d93dc4b84f85ad57e4ef5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HorizontalTiles: 25
-  VerticalTiles: 25
+  BuildingChance: 0.2
+  SpecialChance: 0.01
   Player: {fileID: 1954072673}
   MaxDistanceFromCenter: 7
   MapOffset: {x: 0.5, y: 0.5}
   TerrainTypes:
-  - Name: Grass, Rocky
-    NotWalkable: 0
+  - Name: Grass
+    IsActive: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
     Tiles:
-    - {fileID: 21300000, guid: 617507ea603ea3148aa0340561e595cf, type: 3}
-    - {fileID: 21300000, guid: 3f46958cf4b35414e9a039fe07ad5438, type: 3}
-    - {fileID: 21300000, guid: 7cc30a9ebcb6f8444b47a6e24cbdda04, type: 3}
-    - {fileID: 21300000, guid: c79a5ed3e74b0974ca28617b76e0775d, type: 3}
+    - {fileID: 21300000, guid: c49cb5e2ea05459489ae3c005dd1a359, type: 3}
+    - {fileID: 21300000, guid: 609426a2a537a114bb470189dcd2b264, type: 3}
+    - {fileID: 21300000, guid: c2d461a52a03f6a4696a188d4ab5b2fe, type: 3}
     IsAnimated: 0
     AnimationControler: {fileID: 0}
+  - Name: Water
+    IsActive: 1
+    Walkable: 0
+    Flyable: 0
+    Swimable: 1
+    Tiles:
+    - {fileID: 21300000, guid: 83d38a75f29480c4eac844189bfd4e47, type: 3}
+    IsAnimated: 1
+    AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
+      type: 2}
   - Name: Rocky
-    NotWalkable: 0
+    IsActive: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
     Tiles:
     - {fileID: 21300000, guid: e08436deb44026d48b3684b0a68b1ec3, type: 3}
     - {fileID: 21300000, guid: 692ace9e19f422744bc5c5a356b463c5, type: 3}
     - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
     - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
     IsAnimated: 0
+    AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
+      type: 2}
+  - Name: Desert
+    IsActive: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    Tiles:
+    - {fileID: 21300000, guid: 6f7493252e1f4ea49816805940d29682, type: 3}
+    - {fileID: 21300000, guid: 1c1d55c27ba0d73499e30f981c2fb1f5, type: 3}
+    - {fileID: 21300000, guid: 94fb3b64d39db0b4599b878c973670ec, type: 3}
+    - {fileID: 21300000, guid: 38efcca106a88fa4a97e9515a876f2e6, type: 3}
+    IsAnimated: 0
     AnimationControler: {fileID: 0}
-  - Name: Dirt, Dry
-    NotWalkable: 0
+  - Name: Desert
+    IsActive: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
     Tiles:
     - {fileID: 21300000, guid: 14535a9051987ca43b2048da9134aac6, type: 3}
     - {fileID: 21300000, guid: c0f30d0042fa6344c96c8532c1a7e087, type: 3}
     - {fileID: 21300000, guid: 8d00f8b01d139da4abb13eebf452b982, type: 3}
     - {fileID: 21300000, guid: e3118d6eb23c18d4ab6447b215da4f01, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
-  - Name: Water
-    NotWalkable: 1
-    Tiles:
-    - {fileID: 21300000, guid: 83d38a75f29480c4eac844189bfd4e47, type: 3}
-    IsAnimated: 1
     AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
       type: 2}
   BuildingTypes:
-  - Name: house1
+  - Name: Inn
+    IsEnterable: 1
+    Tile: {fileID: 21300000, guid: af10415190d06e64793d014cfb7043cf, type: 3}
+  - Name: House1
     IsEnterable: 0
     Tile: {fileID: 21300000, guid: 87c394d1b4e591341b6c6fdb764f8505, type: 3}
-  - Name: house2
+  - Name: House1
     IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 65d631002d227c3468e091c06a173008, type: 3}
-  - Name: house3
-    IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 900a810c99b70e44591b3a4a4e743355, type: 3}
-  - Name: house4
-    IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 23655f894b7a94745be08285ee0803ea, type: 3}
-  - Name: house5
-    IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 7916b4107ab4759428737357e8c7c27b, type: 3}
-  - Name: house6
-    IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 9522a05c57c05184791c37b5f085fcb8, type: 3}
-  - Name: shop1
+    Tile: {fileID: 21300000, guid: 87c394d1b4e591341b6c6fdb764f8505, type: 3}
+  SpecialBuildingTypes:
+  - Name: Castle
     IsEnterable: 1
-    Tile: {fileID: 21300000, guid: 0e3da5bfb756237478675422884ddba4, type: 3}
-  CityChance: 0.5
+    Tile: {fileID: 21300000, guid: 21d8057bd3374fc4ebd1f71bb102f7d4, type: 3}
 --- !u!1 &1120850917
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +244,7 @@ GameObject:
   - component: {fileID: 1120850920}
   m_Layer: 0
   m_Name: PlayerPic
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,6 +319,67 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Terrain_Manager: {fileID: 929507440}
   KeyToCreateBuilding: 116
+  KeyToCreateSpecialBuilding: 110
+--- !u!1 &1219221729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1219221732}
+  - component: {fileID: 1219221731}
+  - component: {fileID: 1219221730}
+  m_Layer: 0
+  m_Name: CharacterDB
+  m_TagString: Character Database
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1219221730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1219221729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b1f3d4401f77a4d8cc0e66e50e6288, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Characters: []
+  Id: 0
+  Name: 
+  Description: 
+  Type: 0
+  Attack: 0
+  Defence: 0
+  Speed: 0
+--- !u!114 &1219221731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1219221729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59d63158066e5e4ebb1ff9c81260afd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1219221732
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1219221729}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.986827, y: 1.9817551, z: -0.55217034}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1580306287
 GameObject:
   m_ObjectHideFlags: 0
@@ -403,9 +480,10 @@ GameObject:
   - component: {fileID: 1954072672}
   - component: {fileID: 1954072674}
   - component: {fileID: 1954072675}
+  - component: {fileID: 1954072676}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: PlayerCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -421,10 +499,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d033268ec694db4449488a5691b42a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
-  MaxSpeed: 3
-  EnableFastSpeedWithKey: 304
-  TurnWithMovement: {fileID: 1120850918}
   Terrain_Manager: {fileID: 929507440}
 --- !u!4 &1954072673
 Transform:
@@ -465,3 +539,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SavedCache: 
+--- !u!114 &1954072676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1954072671}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd08a168605e874896f31de95325dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 3
+  MaxSpeed: 5
+  EnableFastSpeedWithKey: 304
+  TurnWithMovement: {fileID: 0}
+  DoAnimation: 1
