@@ -5,14 +5,12 @@ using UnityEngine;
 
 public class RandomHelper
 {
-
-
     public static bool TrueFalse(Vector2 location, int key)
     {
         return Range(location, key, int.MaxValue)>int.MaxValue/2;
     }
 
-    public static int Range(Vector2 location,  int key, float range)
+    public static int Range(Vector2 location, int key, float range)
     {
         return Range(location.x, location.y, key, (int) range);
     }
@@ -21,7 +19,7 @@ public class RandomHelper
     {
         return Range((int)x, (int)y, key, range);
     }
-    public static int Range(int x,int y,int key,int range)
+    public static int Range(int x, int y, int key, int range)
     {
         uint hash = (uint)key;
         hash ^= (uint)x;

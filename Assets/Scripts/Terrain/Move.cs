@@ -9,10 +9,13 @@ public class Move : MonoBehaviour {
 
     private Vector3 previousPosition = Vector3.zero;
 
+    private Character _playerCharacter;
+
     // Use this for initialization
     void Start () {
-		
-	}
+
+        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(0);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -21,15 +24,19 @@ public class Move : MonoBehaviour {
         Vector2 mapPos = Terrain_Manager.WorldToMapPosition(currentPos);
 
         var terrain = Terrain_Manager.SelectTerrain(mapPos.x, mapPos.y);
-        var building = Terrain_Manager.GetBuilding(mapPos);
-	    var specialBuilding = Terrain_Manager.GetSpecialBuilding(mapPos);
-        if (!terrain.Walkable || 
-            (building!=null && !building.BuildingTypeInUse.IsEnterable) || 
-            (specialBuilding != null && !specialBuilding.SpecialBuildingTypeInUse.IsEnterable) )
+        var ellement = Terrain_Manager.GetEllement(mapPos);
+        
+        if (
+            //Terrain Types and charcter type 
+            (!terrain.Walkable && _playerCharacter.MoveType == Character.CharacterType.Walk) || 
+            (!terrain.Flyable && _playerCharacter.MoveType == Character.CharacterType.Fly) ||
+            (!terrain.Swimable && _playerCharacter.MoveType == Character.CharacterType.Swim) ||
+            //ellement + character
+            (ellement != null && !ellement.EllementTypeInUse.IsEnterable  && _playerCharacter.MoveType != Character.CharacterType.Fly)  )
         {
             transform.position = currentPos = previousPosition;
         }
-        if (building != null && building.BuildingTypeInUse.IsEnterable)
+        if (ellement != null && ellement.EllementTypeInUse.IsEnterable)
         {
             //Debug.Log("Walked in");
             //Preparing to switch the scene
@@ -45,10 +52,6 @@ public class Move : MonoBehaviour {
             //switch the scene
             SceneManager.LoadScene(TerrainManager.SceneIdForInsideBuilding);
         }
-	    if (specialBuilding != null && specialBuilding.SpecialBuildingTypeInUse.IsEnterable)
-	    {
-	        Debug.Log("Walked in SB");
-	    }
         previousPosition = currentPos;
     }
 }

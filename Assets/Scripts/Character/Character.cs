@@ -38,20 +38,20 @@ public class Character {
     public string IconPath { get; set; }
     public int IconId { get; set; }
     //public Sprite Icon { get; set; }
-    public CharacterType Type { get; set; }
+    public CharacterType MoveType { get; set; }
     public AttackType Attack { get; set; }
     public DefenceType Defence { get; set; }
     public SpeedType Speed { get; set; }
     public string Slug { get; set; }
 
-    public Character(int id, string name, string desc, CharacterType type, AttackType attack, DefenceType defence, SpeedType speed)
+    public Character(int id, string name, string desc, CharacterType moveType, AttackType attack, DefenceType defence, SpeedType speed)
     {
         Id = id;
         Name = name;
         Description = desc;
         IconPath = "Somewhere";
         IconId = id;
-        Type = type;
+        MoveType = moveType;
         Attack = attack;
         Defence = defence;
         Speed = speed;

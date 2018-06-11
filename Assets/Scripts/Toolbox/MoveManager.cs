@@ -105,18 +105,6 @@ public class MoveManager : MonoBehaviour {
     }
 
 
-    private string GetCharacterName(int charId)
-    {
-        switch (charId)
-        {
-            case 1:
-                return "Phoenix";
-            default:
-                return "Phoenix";
-        }
-    }
-
-
     private void SetMoveSprites(int charId)
     {
         string character = _playerCharacter.Name;
@@ -132,12 +120,8 @@ public class MoveManager : MonoBehaviour {
     private void SetMoveAnimation(int charId)
     {
         string character = _playerCharacter.Name;
-        //string character = GetCharacterName(charId);
         // Load Animation Controllers
         string animationPath = "Characters/Animations/";
-
-   
-
 
         _righAnimet = (RuntimeAnimatorController)Resources.Load(animationPath+ character+"RightWalk"); ; 
         _leftAnime = (RuntimeAnimatorController)Resources.Load(animationPath + character + "LeftWalk"); ; 

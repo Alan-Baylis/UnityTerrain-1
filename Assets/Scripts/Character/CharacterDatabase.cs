@@ -46,9 +46,9 @@ public class CharacterDatabase : MonoBehaviour {
 
     void Start()
     {
-        Characters.Add(new Character(0, "Phoenix", "Phoenix Flyer", Character.CharacterType.Fly, Character.AttackType.Close, Character.DefenceType.Range, Character.SpeedType.Fast));
+        Characters.Add(new Character(0, "Phoenix", "Phoenix Flyer", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Range, Character.SpeedType.Fast));
         
-        Characters.Add(new Character(1, "Phoenix2", "Phoenix walker", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Range, Character.SpeedType.Fast));
+        Characters.Add(new Character(1, "Phoenix2", "Phoenix walker", Character.CharacterType.Fly, Character.AttackType.Close, Character.DefenceType.Range, Character.SpeedType.Fast));
     }
 
 }

@@ -7,16 +7,14 @@ public class Marker  {
 
     public TerrainType Terrain { get; set; }
     public Vector2 Location { get; set; }
-    public bool HasBuilding { get; set; }
-    //public float BuildingMass { get; set; }
-    public bool HasSpecial { get; set; }
+    public bool HasEllement { get; set; }
+    //public float EllementMass { get; set; }
     public char[,] CharMap { get; set; }
 
-    protected Marker(TerrainType terrain, bool hasBuilding, bool hasSpecial, Vector2 location)
+    protected Marker(TerrainType terrain, bool hasEllement, Vector2 location)
     {
         Terrain = terrain;
-        HasBuilding = hasBuilding;
-        HasSpecial = hasSpecial;
+        HasEllement = hasEllement;
         Location = location;
         CharMap = new char[16, 16];
         for (int x = 0; x < 16; x++)
@@ -24,14 +22,9 @@ public class Marker  {
                 CharMap[x, y] = 'E';
     }
 
-    public static IEnumerable<Marker> GetMarkers(float x, float y,int key,TerrainType[] terrains,float buildingChance, float specialChance)
+    public static IEnumerable<Marker> GetMarkers(float x, float y,int key, List<TerrainType> activeTerrains, float ellementChance)
     {
         var markers = new Marker[9];
-        List<TerrainType> activeTerrains = new List<TerrainType>();
-        //Find active Terrain Types
-        for(int i = 0; i < terrains.Length; i++)
-            if (terrains[i].IsActive)
-                activeTerrains.Add(terrains[i]);
 
         x = (int)x >> 4;
         y = (int)y >> 4;
@@ -42,11 +35,10 @@ public class Marker  {
             {
                 var terrain = activeTerrains[RandomHelper.Range(x + iX, y + iY, key, activeTerrains.Count)];
                 //it will be a city if the terrain is walkable && a small chance to be city 
-                bool hasBuilings = (terrain.Walkable) && (buildingChance > RandomHelper.Percent(x + iX , y + iY , key));
-                bool hasSpecial = (terrain.Walkable) && (specialChance > RandomHelper.Percent(x + iX, y + iY, key));
+                bool hasBuilings = (terrain.Walkable) && (ellementChance > RandomHelper.Percent(x + iX , y + iY , key));
 
                 Vector2 location = new Vector2((int) (x + iX) << 4, (int) (y + iY) << 4);
-                markers[markerIndex] = new Marker(terrain, hasBuilings, hasSpecial, location);
+                markers[markerIndex] = new Marker(terrain, hasBuilings, location);
                 //Debug.Log(markerIndex + "-" + markers[markerIndex].Terrain.Name +" " + markers[markerIndex].Location);
                 markerIndex++;
             }

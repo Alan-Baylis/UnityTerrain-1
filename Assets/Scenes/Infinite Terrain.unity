@@ -153,14 +153,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3c6f6cd6d93dc4b84f85ad57e4ef5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BuildingChance: 0.2
-  SpecialChance: 0.01
+  EllementChance: 0.7
   Player: {fileID: 1954072673}
   MaxDistanceFromCenter: 7
   MapOffset: {x: 0.5, y: 0.5}
   TerrainTypes:
   - Name: Grass
-    IsActive: 1
+    Id: 0
+    IsActive: 0
     Walkable: 1
     Flyable: 1
     Swimable: 0
@@ -171,9 +171,10 @@ MonoBehaviour:
     IsAnimated: 0
     AnimationControler: {fileID: 0}
   - Name: Water
-    IsActive: 1
+    Id: 1
+    IsActive: 0
     Walkable: 0
-    Flyable: 0
+    Flyable: 1
     Swimable: 1
     Tiles:
     - {fileID: 21300000, guid: 83d38a75f29480c4eac844189bfd4e47, type: 3}
@@ -181,6 +182,7 @@ MonoBehaviour:
     AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
       type: 2}
   - Name: Rocky
+    Id: 2
     IsActive: 1
     Walkable: 1
     Flyable: 1
@@ -191,10 +193,10 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
     - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
-      type: 2}
-  - Name: Desert
-    IsActive: 1
+    AnimationControler: {fileID: 0}
+  - Name: Desert2
+    Id: 3
+    IsActive: 0
     Walkable: 1
     Flyable: 1
     Swimable: 0
@@ -206,7 +208,8 @@ MonoBehaviour:
     IsAnimated: 0
     AnimationControler: {fileID: 0}
   - Name: Desert
-    IsActive: 1
+    Id: 4
+    IsActive: 0
     Walkable: 1
     Flyable: 1
     Swimable: 0
@@ -216,22 +219,131 @@ MonoBehaviour:
     - {fileID: 21300000, guid: 8d00f8b01d139da4abb13eebf452b982, type: 3}
     - {fileID: 21300000, guid: e3118d6eb23c18d4ab6447b215da4f01, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
-      type: 2}
-  BuildingTypes:
-  - Name: Inn
+    AnimationControler: {fileID: 0}
+  - Name: Cliff
+    Id: 5
+    IsActive: 0
+    Walkable: 1
+    Flyable: 1
+    Swimable: 1
+    Tiles:
+    - {fileID: 21300000, guid: 701457e418393704594f3a29a448bb17, type: 3}
+    - {fileID: 21300000, guid: 6db4c53804be68343b081e6528568035, type: 3}
+    - {fileID: 21300000, guid: 98735565a2ed5584db7604b5baf86331, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: Cliff2
+    Id: 6
+    IsActive: 0
+    Walkable: 1
+    Flyable: 1
+    Swimable: 1
+    Tiles:
+    - {fileID: 21300000, guid: f5f45e6d660746e4a88003593c958c58, type: 3}
+    - {fileID: 21300000, guid: 2d525f01d790733418026b952723f1eb, type: 3}
+    - {fileID: 21300000, guid: 448a9f31ab1192649821457513624bdb, type: 3}
+    - {fileID: 21300000, guid: 478ba7e7f68cf9c499b511d2dc7b425e, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: GrasSand
+    Id: 7
+    IsActive: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    Tiles:
+    - {fileID: 21300000, guid: 4d3bbb45926639647b9aa4004af4da42, type: 3}
+    - {fileID: 21300000, guid: 3bb44488b2b5f5842a03d0cd915e229b, type: 3}
+    - {fileID: 21300000, guid: c9ca7a81ddf0fbd4585be662945d873a, type: 3}
+    - {fileID: 21300000, guid: b0cb9ba7edb5c8c40bbf14037101422b, type: 3}
+    - {fileID: 21300000, guid: 2547025e25adf5f4990883735b69948f, type: 3}
+    - {fileID: 21300000, guid: dd71bb728c1b1a34c86792220f8177ce, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: Grassninja
+    Id: 8
+    IsActive: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    Tiles:
+    - {fileID: 21300000, guid: 771cdfe0834bbb3458202a2416960f05, type: 3}
+    - {fileID: 21300000, guid: 2547025e25adf5f4990883735b69948f, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: ROCKS
+    Id: 8
+    IsActive: 0
+    Walkable: 1
+    Flyable: 1
+    Swimable: 1
+    Tiles:
+    - {fileID: 21300000, guid: e08436deb44026d48b3684b0a68b1ec3, type: 3}
+    - {fileID: 21300000, guid: 692ace9e19f422744bc5c5a356b463c5, type: 3}
+    - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
+    - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
+    - {fileID: 21300000, guid: 701457e418393704594f3a29a448bb17, type: 3}
+    - {fileID: 21300000, guid: 6db4c53804be68343b081e6528568035, type: 3}
+    - {fileID: 21300000, guid: 98735565a2ed5584db7604b5baf86331, type: 3}
+    - {fileID: 21300000, guid: f5f45e6d660746e4a88003593c958c58, type: 3}
+    - {fileID: 21300000, guid: 2d525f01d790733418026b952723f1eb, type: 3}
+    - {fileID: 21300000, guid: 448a9f31ab1192649821457513624bdb, type: 3}
+    - {fileID: 21300000, guid: 478ba7e7f68cf9c499b511d2dc7b425e, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  - Name: Lava
+    Id: 10
+    IsActive: 0
+    Walkable: 0
+    Flyable: 1
+    Swimable: 0
+    Tiles:
+    - {fileID: 21300000, guid: f268e31d2b96079418d263e03a514691, type: 3}
+    IsAnimated: 0
+    AnimationControler: {fileID: 0}
+  EllementTypes:
+  - Name: Anim Inn
+    IsActive: 1
     IsEnterable: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 1
+    FavouriteTerrain: 0000000005000000060000000700000008000000090000000a000000000000000000000000000000
+    Tile: {fileID: 21300000, guid: 749bce67809520a4c8a9b4f5f3327f67, type: 3}
+  - Name: Old inn
+    IsActive: 1
+    IsEnterable: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    FavouriteTerrain: 03000000020000000300000004000000
     Tile: {fileID: 21300000, guid: af10415190d06e64793d014cfb7043cf, type: 3}
-  - Name: House1
+  - Name: house
+    IsActive: 1
     IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 87c394d1b4e591341b6c6fdb764f8505, type: 3}
-  - Name: House1
-    IsEnterable: 0
-    Tile: {fileID: 21300000, guid: 87c394d1b4e591341b6c6fdb764f8505, type: 3}
-  SpecialBuildingTypes:
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    FavouriteTerrain: 03000000020000000300000004000000
+    Tile: {fileID: 21300000, guid: 23655f894b7a94745be08285ee0803ea, type: 3}
   - Name: Castle
-    IsEnterable: 1
+    IsActive: 1
+    IsEnterable: 0
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    FavouriteTerrain: 05000000
     Tile: {fileID: 21300000, guid: 21d8057bd3374fc4ebd1f71bb102f7d4, type: 3}
+  - Name: Tree
+    IsActive: 1
+    IsEnterable: 0
+    Walkable: 1
+    Flyable: 0
+    Swimable: 0
+    FavouriteTerrain: 00000000020000000300000004000000
+    Tile: {fileID: 21300010, guid: 508cac3d482d79c45b7c4d7460ecb031, type: 3}
+  _availableEllementTypes: []
+  _availableTerrainTypes: []
 --- !u!1 &1120850917
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,8 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Terrain_Manager: {fileID: 929507440}
-  KeyToCreateBuilding: 116
-  KeyToCreateSpecialBuilding: 110
+  KeyToDig: 98
 --- !u!1 &1219221729
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,8 +5,10 @@ using System;
 
 
 [Serializable]
-public class TerrainType {
+public class TerrainType
+{
     public string Name;
+    public int Id;
     public bool IsActive;
     public bool Walkable;
     public bool Flyable;

@@ -154,15 +154,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PreviousPosition: {x: 0, y: 0, z: 0}
-  MapPosition: {x: 0, y: 0}
   Key: 0
   FloorTiles:
   - {fileID: 21300000, guid: f2da6a68088082141bd5d16840e6756a, type: 3}
   - {fileID: 21300000, guid: 3bf5e7013f25f9b4c8ce855765f96dda, type: 3}
   - {fileID: 21300000, guid: 115bee1897edb3b4a9c302321b8d1cdd, type: 3}
+  - {fileID: 21300000, guid: a801389175515324989d2e31278bf787, type: 3}
+  - {fileID: 21300000, guid: 4e0b2ed48bb41a540bd0be936ace687e, type: 3}
+  - {fileID: 21300000, guid: da05efcdbfebba2459c6a33b9c3604e2, type: 3}
+  - {fileID: 21300000, guid: 530da72210b423c43a7d9db48bc93cf4, type: 3}
+  - {fileID: 21300000, guid: e2a686b3bfb5b0e4594f58e8f4c792e5, type: 3}
   Wall: {fileID: 21300000, guid: 91412b53df4339e42bf34edbbae2298f, type: 3}
   DoorShadow: {fileID: 21300000, guid: fcb0ed92d05f4af4cba749448c5d6fc7, type: 3}
   Player: {fileID: 1580321972}
+  _mapPosition: {x: 0, y: 0}
 --- !u!1 &1580321969
 GameObject:
   m_ObjectHideFlags: 0

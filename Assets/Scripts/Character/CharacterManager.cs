@@ -14,9 +14,7 @@ public class CharacterManager : MonoBehaviour {
         get
         {
             if (instance == null)
-            {
                 instance = FindObjectOfType<CharacterManager>();
-            }
             return instance;
         }
     }

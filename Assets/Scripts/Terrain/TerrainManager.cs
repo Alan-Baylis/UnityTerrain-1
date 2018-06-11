@@ -6,34 +6,33 @@ using UnityEngine;
 
 public class TerrainManager : MonoBehaviour {
 
-    public float BuildingChance = 0.70f;
-    public float SpecialChance = 0.01f;
+    public float EllementChance = 0.70f;
     public static int SceneIdForInsideBuilding = 1;
     public static int Key = 1;
     public Transform Player;
     public float MaxDistanceFromCenter = 7;
     public Vector2 MapOffset ;
     public TerrainType[] TerrainTypes;
-    public BuildingType[] BuildingTypes;
-    public SpecialBuildingType[] SpecialBuildingTypes;
+    public EllementType[] EllementTypes;
 
     private int _horizontalTiles = 25;
+    public List<EllementType> _availableEllementTypes = new List<EllementType>();
+    public List<TerrainType> _availableTerrainTypes = new List<TerrainType>();
     private int _verticalTiles = 25;
     private SpriteRenderer[,] _renderers;
     private IEnumerable<Marker> _markers;
-    private List<ActiveBuildingType> _buildings = new List<ActiveBuildingType>();
-    private List<ActiveSpecialBuildingType> _specialBuildings = new List<ActiveSpecialBuildingType>();
+    private List<ActiveEllementType> _Ellements = new List<ActiveEllementType>();
     private Cache _cache;
     
-    public ActiveBuildingType GetBuilding(Vector2 mapPos)
+    public ActiveEllementType GetEllement(Vector2 mapPos)
     {
         //max will be 9  or at most 100 
-        foreach (var building in _buildings)
+        foreach (var ellement in _Ellements)
         {
-            var bLoc = building.transform.position;
-            //Mappos inbetween the building 
+            var bLoc = ellement.transform.position;
+            //Mappos inbetween the ellement 
             if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
-                return building;
+                return ellement;
 
             //if (mapPos.x >= bLoc.x - 1
             //    && mapPos.x < bLoc.x
@@ -43,20 +42,6 @@ public class TerrainManager : MonoBehaviour {
         }
         return null;
     }
-
-    public ActiveSpecialBuildingType GetSpecialBuilding(Vector2 mapPos)
-    {
-        //max will be 9  or at most 100 
-        foreach (var building in _specialBuildings)
-        {
-            var bLoc = building.transform.position;
-            if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
-                return building;
-        }
-        return null;
-    }
-
-
 
 
     public Vector2 WorldToMapPosition(Vector3 worldPosition)
@@ -73,52 +58,35 @@ public class TerrainManager : MonoBehaviour {
     }
 
 
-    void LoadBuildings(char[,] charMap, Vector2 location)
+    void LoadEllements(char[,] charMap, Vector2 location)
     {
-        int buildingMass = RandomHelper.Range(location.x, location.y, Key, 14* 14) /5; 
-        for (int i = 0; i < buildingMass; i++)
+        int ellementMass = RandomHelper.Range(location.x, location.y, Key, 14* 14) /5; 
+        for (int i = 0; i < ellementMass; i++)
         {
-            //make x,y between 1-15 leave the boundres clear 
+            //make x,y between 2-14 leave the boundres clear 
             int x = RandomHelper.Range(
                         location.x + i,
                         location.y,
                         Key,
-                        14
-                    ) + 1;
+                        12
+                    ) + 2;
             int y = RandomHelper.Range(
                         location.x,
                         location.y + i,
                         Key,
-                        14
-                    ) + 1;
+                        12
+                    ) + 2;
             charMap[x, y] = 'B';
         }
     }
-    void LoadSpecialBuildings(char[,] charMap,Vector2 location)
-    {
-        int x = RandomHelper.Range(
-                    location.x,
-                    location.y,
-                    Key,
-                    14
-                ) + 1;
-        int y = RandomHelper.Range(
-                    location.x,
-                    location.y,
-                    Key,
-                    14
-                ) + 1;
-        charMap[x, y] = 'S';
-    }
+
 
     void LoadAddOns(Marker marker)
     {
         Vector2 rightCornerLocation = new Vector2(marker.Location.x - 8, marker.Location.y - 8);
 
-        if (marker.HasBuilding) 
-            LoadBuildings(marker.CharMap, marker.Location);
-        if (marker.HasSpecial)
-            LoadSpecialBuildings(marker.CharMap, marker.Location);
+        if (marker.HasEllement) 
+            LoadEllements(marker.CharMap, marker.Location);
         //Set up the map based on marker.CharMap
 
         for (int x = 0; x < 16 ; x++)
@@ -132,45 +100,26 @@ public class TerrainManager : MonoBehaviour {
                     rightCornerLocation.x + x,
                     rightCornerLocation.y + y,
                     0.01f);
-                //So player doesn't land on a building
+                //So player doesn't land on a ellement
                 if (bLoc.x == 0 && bLoc.y == 0) continue;
                 if (marker.CharMap[x, y] == 'B')
-                    CreateBuilding(bLoc);
-                if (marker.CharMap[x, y] == 'S')
-                    //Todo: clear surrondings ??
-                    CreateSpecial(bLoc);
+                    CreateEllements(bLoc);
             }
         }
     }
-
-    public ActiveSpecialBuildingType CreateSpecial(Vector3 location)
+    public ActiveEllementType CreateEllements(Vector3 location)
     {
-        var specialBuilding = new GameObject();
-        var active = specialBuilding.AddComponent<ActiveSpecialBuildingType>();
-        _specialBuildings.Add(active);
-        specialBuilding.transform.position = location;
-        var renderer = specialBuilding.AddComponent<SpriteRenderer>();
-        var specialBuildingInfo = SpecialBuildingTypes[RandomHelper.Range(specialBuilding.transform.position, Key, SpecialBuildingTypes.Length)];
-        renderer.sprite = specialBuildingInfo.Tile;
-        active.SpecialBuildingTypeInUse = specialBuildingInfo;
+        var Ellement = new GameObject();
+        var active = Ellement.AddComponent<ActiveEllementType>();
+        _Ellements.Add(active);
+        Ellement.transform.position = location;
+        var renderer = Ellement.AddComponent<SpriteRenderer>();
+        var ellementInfo = _availableEllementTypes[RandomHelper.Range(Ellement.transform.position, Key, _availableEllementTypes.Count)];
+        renderer.sprite = ellementInfo.Tile;
+        active.EllementTypeInUse = ellementInfo;
 
-        specialBuilding.name = "BUILDING " + specialBuilding.transform.position;
-        specialBuilding.transform.parent = transform;
-        return active;
-    }
-    public ActiveBuildingType CreateBuilding(Vector3 location)
-    {
-        var building = new GameObject();
-        var active = building.AddComponent<ActiveBuildingType>();
-        _buildings.Add(active);
-        building.transform.position = location;
-        var renderer = building.AddComponent<SpriteRenderer>();
-        var buildingInfo = BuildingTypes[RandomHelper.Range(building.transform.position, Key, BuildingTypes.Length)];
-        renderer.sprite = buildingInfo.Tile;
-        active.BuildingTypeInUse = buildingInfo;
-
-        building.name = "Building " + building.transform.position;
-        building.transform.parent = transform;
+        Ellement.name = "Ellement " + Ellement.transform.position;
+        Ellement.transform.parent = transform;
         return active;
 
     }
@@ -178,9 +127,9 @@ public class TerrainManager : MonoBehaviour {
     void RedrawMap()
     {
         transform.position = new Vector3( (int)Player.position.x, (int)Player.position.y,Player.position.z);
+        _markers = Marker.GetMarkers(transform.position.x, transform.position.y, Key, _availableTerrainTypes, EllementChance);
 
-        _markers = Marker.GetMarkers(transform.position.x, transform.position.y, Key,TerrainTypes,BuildingChance, SpecialChance);
-
+        print("Inside Terrain manager AvailableMarketTerrains : " + _availableTerrainTypes.Count);
         var offset = new Vector3(
                 transform.position.x - _horizontalTiles / 2, 
                 transform.position.y - _verticalTiles / 2, 
@@ -214,19 +163,30 @@ public class TerrainManager : MonoBehaviour {
             }
         }
         //Destruction happen at the end of the frame not immediately 
-        _buildings.ForEach(x => Destroy(x.gameObject));
-        _buildings.Clear();
-        _specialBuildings.ForEach(x => Destroy(x.gameObject));
-        _specialBuildings.Clear();
-
+        _Ellements.ForEach(x => Destroy(x.gameObject));
+        _Ellements.Clear();
         foreach (var marker in _markers)
         {
+            SetAvailableMarketEllements(marker.Terrain.Id);
             LoadAddOns(marker);
         }
-        foreach (var item in _cache.Find("Building", transform.position, _horizontalTiles / 2))
-            CreateBuilding(item.Location);
-        foreach (var item in _cache.Find("SpecialBuilding", transform.position, _horizontalTiles / 2))
-            CreateSpecial(item.Location);
+    }
+
+    private void SetAvailableMarketTerrains()
+    {
+        _availableTerrainTypes.Clear();
+        for (int i = 0; i < TerrainTypes.Length; i++)
+            if ( TerrainTypes[i].IsActive)
+                _availableTerrainTypes.Add(TerrainTypes[i]);
+    }
+
+
+    private void SetAvailableMarketEllements(int terrainIndex)
+    {
+        _availableEllementTypes.Clear();
+        for (int i = 0; i < EllementTypes.Length; i++)
+            if (EllementTypes[i].FavouriteTerrain.Contains(terrainIndex) && EllementTypes[i].IsActive)
+                _availableEllementTypes.Add(EllementTypes[i]);
     }
 
     void Start() {
@@ -253,6 +213,10 @@ public class TerrainManager : MonoBehaviour {
                 tile.transform.parent = transform;
             }
         }
+
+
+        SetAvailableMarketTerrains();
+
         RedrawMap();
         var starter = GameObject.FindObjectOfType<TerrainStarter>();
         if (starter != null)
@@ -262,7 +226,6 @@ public class TerrainManager : MonoBehaviour {
         }
         else
             SetPlayerlocation();
-        print("Trainmanager Starter Player Position:"+Player.position.ToString());
     }
 
     private void SetPlayerlocation()
@@ -281,7 +244,7 @@ public class TerrainManager : MonoBehaviour {
                         Player.position = new Vector3(
                             rightCornerLocation.x + x,
                             rightCornerLocation.y + y,
-                            0.04f);
+                            0);
                         return;
                     }
 
@@ -295,86 +258,5 @@ public class TerrainManager : MonoBehaviour {
             RedrawMap();
         }
 	}
-
-
-
-
-
-    void LoadCity(Marker marker)
-    {
-        if (!marker.HasBuilding)
-            return;
-
-        int cityMass = 10;// (int)marker.BuildingMass;
-
-        bool[,] addAt = new bool[cityMass * 2, cityMass * 2];
-        for (int iArea = 0; iArea < cityMass; iArea++)
-        {
-            int x1 = RandomHelper.Range(
-                marker.Location.x + iArea,
-                marker.Location.y,
-                Key,
-                cityMass
-                );
-            int y1 = RandomHelper.Range(
-                marker.Location.x,
-                marker.Location.y + iArea,
-                Key,
-                cityMass
-                );
-            int x2 = RandomHelper.Range(
-                marker.Location.x + iArea,
-                marker.Location.y - iArea,
-                Key,
-                cityMass
-                ) + cityMass;
-            int y2 = RandomHelper.Range(
-                marker.Location.x - iArea,
-                marker.Location.y + iArea,
-                Key,
-                cityMass
-                ) + cityMass;
-            for (int x = x1; x < x2; x++)
-            {
-                addAt[x, y1] = true;
-                addAt[x, y2] = true;
-            }
-            for (int y = y1; y < y2; y++)
-            {
-                addAt[x1, y] = true;
-                addAt[x2, y] = true;
-            }
-            if (RandomHelper.TrueFalse(marker.Location, Key + iArea))
-            {
-                int removeX = RandomHelper.Range(marker.Location, iArea - Key, x2 - x1) + x1;
-                for (int y = 0; y < cityMass * 2; y++)
-                    addAt[removeX, y] = false;
-            }
-            else
-            {
-
-                int removeY = RandomHelper.Range(marker.Location, iArea + Key, y2 - y1) + y1;
-                for (int x = 0; x < cityMass * 2; x++)
-                    addAt[x, removeY] = false;
-            }
-        }
-        for (int x = 0; x < cityMass * 2; x++)
-        {
-            for (int y = 0; y < cityMass * 2; y++)
-            {
-                //Skipp some of the cityies
-                if (!addAt[x, y])
-                    continue;
-                var bLoc = new Vector3(
-                                    marker.Location.x + cityMass - x,
-                                    marker.Location.y + cityMass - y,
-                                    0.01f);
-                CreateBuilding(bLoc);
-
-
-            }
-        }
-    }
-
 
 }

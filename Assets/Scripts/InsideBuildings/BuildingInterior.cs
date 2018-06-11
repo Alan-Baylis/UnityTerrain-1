@@ -7,7 +7,6 @@ using UnityEngine;
 public class BuildingInterior : MonoBehaviour {
 
     public Vector3 PreviousPosition = Vector3.zero;
-    public Vector2 MapPosition = Vector2.zero;
     public int Key = 0;
     //public Sprite Floor;
     public Sprite[] FloorTiles;
@@ -16,6 +15,7 @@ public class BuildingInterior : MonoBehaviour {
     public Transform Player;
     public static int SceneIdForTerrainView = 0;
 
+    public Vector2 _mapPosition = Vector2.zero;
     private int _maxWidth;
     private int _maxHeight;
     private Sprite _floor;
@@ -42,7 +42,7 @@ public class BuildingInterior : MonoBehaviour {
 
     private int Range(int max)
     {
-        return RandomHelper.Range(MapPosition, Key + _randomIndex++, max);
+        return RandomHelper.Range(_mapPosition, Key + _randomIndex++, max);
     }
 
     private Rect RandomRoom()
@@ -58,11 +58,12 @@ public class BuildingInterior : MonoBehaviour {
         var starter = GameObject.FindObjectOfType<InsideBuildingStarter>();
         if (starter == null)
             starter = new GameObject().AddComponent<InsideBuildingStarter>();
-        MapPosition = starter.MapPosition;
+        _mapPosition = starter.MapPosition;
         Key = starter.Key;
         PreviousPosition = starter.PreviousPosition;
-        print("Building Interior Map POS: "+ MapPosition);
-        _floor = FloorTiles[RandomHelper.Range(MapPosition, Key, FloorTiles.Length)];
+        //for some reason when it is not float it only return 0
+        _floor = FloorTiles[RandomHelper.Range(new Vector2(_mapPosition.x + 0.01f, _mapPosition.y + 0.01f) , Key, FloorTiles.Length)];
+        //print("Building Interior _floor: "  +"  " + _floor.name);
         Destroy(starter.gameObject);
         GenerateInterior();
 	}
