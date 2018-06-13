@@ -1,3 +1,60 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <ArrayOfItemContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ItemContainer>
+    <Consumable>
+      <Id>0</Id>
+      <Name>Berry</Name>
+      <Description>Apple Consumable</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>0</IconId>
+      <Cost>2</Cost>
+      <MaxStackCnt>10</MaxStackCnt>
+      <StackCnt>9</StackCnt>
+      <Type>Consumable</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Berry</Slug>
+      <Health>11</Health>
+      <Mana>12</Mana>
+      <Vitality>0</Vitality>
+    </Consumable>
+  </ItemContainer>
+  <ItemContainer>
+    <Consumable>
+      <Id>1</Id>
+      <Name>Grape</Name>
+      <Description>Grape Consumable Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable  Grape Consumable </Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>1</IconId>
+      <Cost>1</Cost>
+      <MaxStackCnt>10</MaxStackCnt>
+      <StackCnt>8</StackCnt>
+      <Type>Consumable</Type>
+      <Rarity>Rare</Rarity>
+      <Slug>Grape</Slug>
+      <Health>14</Health>
+      <Mana>0</Mana>
+      <Vitality>0</Vitality>
+    </Consumable>
+  </ItemContainer>
+  <ItemContainer>
+    <Equipment>
+      <Id>2</Id>
+      <Name>Sowrd</Name>
+      <Description>Sowrd Weapon</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>2</IconId>
+      <Cost>10</Cost>
+      <MaxStackCnt>1</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Equipment</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Sowrd</Slug>
+      <Intellect>0</Intellect>
+      <Agility>0</Agility>
+      <Stemina>0</Stemina>
+      <Strength>0</Strength>
+      <Power>0</Power>
+      <Speed>0</Speed>
+    </Equipment>
+  </ItemContainer>
 </ArrayOfItemContainer>

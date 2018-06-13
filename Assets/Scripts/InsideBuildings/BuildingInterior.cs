@@ -77,7 +77,7 @@ public class BuildingInterior : MonoBehaviour {
         Vector3 lowestFloor = new Vector3(0, int.MaxValue, 0); 
         //Whole area of the inside buildings 
         _maxWidth = _maxHeight = Range(12) + 8; //Range 8-20
-        int roomCount = Range(4) + 2; //1-5
+        int roomCount = Range(6) + 2; //1-5
 
         var prevRoom = RandomRoom();
 

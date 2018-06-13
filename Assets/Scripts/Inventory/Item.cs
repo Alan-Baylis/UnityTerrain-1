@@ -54,7 +54,7 @@ public abstract class Item
 
         Name = name;
         Description = desc;
-        IconPath = "Inventory/34x34Icons";
+        IconPath = "Inventory/InventorySet1";
         IconId = id;
         Cost = cost;
         Type = type;

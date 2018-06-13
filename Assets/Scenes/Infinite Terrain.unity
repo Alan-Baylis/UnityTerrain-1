@@ -113,6 +113,90 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &323374601
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 6.7000785
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0.9488205
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.57292557
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708423066758656, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 9e021f20fee712d449f1f173050e7be1, type: 2}
+  m_IsPrefabParent: 0
+--- !u!1001 &716277780
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 8.986827
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.9817551
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.55217034
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4789884746550728, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 7b52dc25cadf1764fb14bf99e623cc0c, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &929507438
 GameObject:
   m_ObjectHideFlags: 0
@@ -153,195 +237,216 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec3c6f6cd6d93dc4b84f85ad57e4ef5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EllementChance: 0.7
+  EllementChance: 0.4
   Player: {fileID: 1954072673}
   MaxDistanceFromCenter: 7
   MapOffset: {x: 0.5, y: 0.5}
   TerrainTypes:
   - Name: Grass
-    Id: 0
     IsActive: 0
+    IsDiggable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
+    Type: 0
     Tiles:
     - {fileID: 21300000, guid: c49cb5e2ea05459489ae3c005dd1a359, type: 3}
     - {fileID: 21300000, guid: 609426a2a537a114bb470189dcd2b264, type: 3}
     - {fileID: 21300000, guid: c2d461a52a03f6a4696a188d4ab5b2fe, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Water
-    Id: 1
-    IsActive: 0
+    IsActive: 1
+    IsDiggable: 0
     Walkable: 0
     Flyable: 1
     Swimable: 1
+    Type: 3
     Tiles:
     - {fileID: 21300000, guid: 83d38a75f29480c4eac844189bfd4e47, type: 3}
     IsAnimated: 1
-    AnimationControler: {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38,
-      type: 2}
+    AnimationControler:
+    - {fileID: 9100000, guid: 4ec6ac363dd9d71428fd1e380e3c2d38, type: 2}
   - Name: Rocky
-    Id: 2
-    IsActive: 1
+    IsActive: 0
+    IsDiggable: 0
     Walkable: 1
     Flyable: 1
     Swimable: 0
+    Type: 2
     Tiles:
     - {fileID: 21300000, guid: e08436deb44026d48b3684b0a68b1ec3, type: 3}
     - {fileID: 21300000, guid: 692ace9e19f422744bc5c5a356b463c5, type: 3}
     - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
     - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Desert2
-    Id: 3
     IsActive: 0
+    IsDiggable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
+    Type: 1
     Tiles:
     - {fileID: 21300000, guid: 6f7493252e1f4ea49816805940d29682, type: 3}
     - {fileID: 21300000, guid: 1c1d55c27ba0d73499e30f981c2fb1f5, type: 3}
     - {fileID: 21300000, guid: 94fb3b64d39db0b4599b878c973670ec, type: 3}
     - {fileID: 21300000, guid: 38efcca106a88fa4a97e9515a876f2e6, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Desert
-    Id: 4
-    IsActive: 0
+    IsActive: 1
+    IsDiggable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
+    Type: 1
     Tiles:
     - {fileID: 21300000, guid: 14535a9051987ca43b2048da9134aac6, type: 3}
     - {fileID: 21300000, guid: c0f30d0042fa6344c96c8532c1a7e087, type: 3}
     - {fileID: 21300000, guid: 8d00f8b01d139da4abb13eebf452b982, type: 3}
     - {fileID: 21300000, guid: e3118d6eb23c18d4ab6447b215da4f01, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Cliff
-    Id: 5
     IsActive: 0
+    IsDiggable: 0
     Walkable: 1
     Flyable: 1
     Swimable: 1
+    Type: 2
     Tiles:
     - {fileID: 21300000, guid: 701457e418393704594f3a29a448bb17, type: 3}
     - {fileID: 21300000, guid: 6db4c53804be68343b081e6528568035, type: 3}
     - {fileID: 21300000, guid: 98735565a2ed5584db7604b5baf86331, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Cliff2
-    Id: 6
     IsActive: 0
+    IsDiggable: 0
     Walkable: 1
     Flyable: 1
     Swimable: 1
+    Type: 2
     Tiles:
     - {fileID: 21300000, guid: f5f45e6d660746e4a88003593c958c58, type: 3}
     - {fileID: 21300000, guid: 2d525f01d790733418026b952723f1eb, type: 3}
     - {fileID: 21300000, guid: 448a9f31ab1192649821457513624bdb, type: 3}
     - {fileID: 21300000, guid: 478ba7e7f68cf9c499b511d2dc7b425e, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
-  - Name: GrasSand
-    Id: 7
+    AnimationControler: []
+  - Name: GrassLand
     IsActive: 1
+    IsDiggable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
+    Type: 0
     Tiles:
-    - {fileID: 21300000, guid: 4d3bbb45926639647b9aa4004af4da42, type: 3}
-    - {fileID: 21300000, guid: 3bb44488b2b5f5842a03d0cd915e229b, type: 3}
-    - {fileID: 21300000, guid: c9ca7a81ddf0fbd4585be662945d873a, type: 3}
-    - {fileID: 21300000, guid: b0cb9ba7edb5c8c40bbf14037101422b, type: 3}
-    - {fileID: 21300000, guid: 2547025e25adf5f4990883735b69948f, type: 3}
-    - {fileID: 21300000, guid: dd71bb728c1b1a34c86792220f8177ce, type: 3}
+    - {fileID: 21300000, guid: c73b5c4ed02c71347812b362410ff59d, type: 3}
+    - {fileID: 21300000, guid: e2d6c9afb1ccf15428ce3ac965cf424a, type: 3}
+    - {fileID: 21300000, guid: ca139711e710ce8408a147596d67c994, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Grassninja
-    Id: 8
-    IsActive: 1
+    IsActive: 0
+    IsDiggable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
+    Type: 0
     Tiles:
-    - {fileID: 21300000, guid: 771cdfe0834bbb3458202a2416960f05, type: 3}
-    - {fileID: 21300000, guid: 2547025e25adf5f4990883735b69948f, type: 3}
+    - {fileID: 21300000, guid: a1e37b80dcd6dab47b54f219ddeda7c5, type: 3}
+    - {fileID: 21300000, guid: 928ddf75ae4775f448a786814f051059, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
-  - Name: ROCKS
-    Id: 8
-    IsActive: 0
+    AnimationControler: []
+  - Name: Land
+    IsActive: 1
+    IsDiggable: 1
     Walkable: 1
     Flyable: 1
-    Swimable: 1
+    Swimable: 0
+    Type: 0
     Tiles:
-    - {fileID: 21300000, guid: e08436deb44026d48b3684b0a68b1ec3, type: 3}
-    - {fileID: 21300000, guid: 692ace9e19f422744bc5c5a356b463c5, type: 3}
-    - {fileID: 21300000, guid: 2a4e537044de7ca40bbaf555aae91219, type: 3}
-    - {fileID: 21300000, guid: 9c45d4930a170e546bd7101ed7ab8d3a, type: 3}
-    - {fileID: 21300000, guid: 701457e418393704594f3a29a448bb17, type: 3}
-    - {fileID: 21300000, guid: 6db4c53804be68343b081e6528568035, type: 3}
-    - {fileID: 21300000, guid: 98735565a2ed5584db7604b5baf86331, type: 3}
-    - {fileID: 21300000, guid: f5f45e6d660746e4a88003593c958c58, type: 3}
-    - {fileID: 21300000, guid: 2d525f01d790733418026b952723f1eb, type: 3}
-    - {fileID: 21300000, guid: 448a9f31ab1192649821457513624bdb, type: 3}
-    - {fileID: 21300000, guid: 478ba7e7f68cf9c499b511d2dc7b425e, type: 3}
+    - {fileID: 21300000, guid: 5aa17c9a9aac31b4b9dd6aeeecb6b926, type: 3}
+    - {fileID: 21300000, guid: 7fc4841d117c8b647a3316b2c9b6853b, type: 3}
+    - {fileID: 21300000, guid: a8efcb506e255da459c812c9b7d6a25c, type: 3}
+    - {fileID: 21300000, guid: 6b37ff7c1612a8b42b934c55a9d2b118, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
   - Name: Lava
-    Id: 10
     IsActive: 0
+    IsDiggable: 0
     Walkable: 0
     Flyable: 1
     Swimable: 0
+    Type: 6
     Tiles:
     - {fileID: 21300000, guid: f268e31d2b96079418d263e03a514691, type: 3}
     IsAnimated: 0
-    AnimationControler: {fileID: 0}
+    AnimationControler: []
+  - Name: LandGrass
+    IsActive: 1
+    IsDiggable: 1
+    Walkable: 1
+    Flyable: 1
+    Swimable: 0
+    Type: 0
+    Tiles:
+    - {fileID: 21300000, guid: 1c2416787b566804d9b86b39c151798d, type: 3}
+    - {fileID: 21300000, guid: f17cbe3e996ad9e47b80e8eb1c1aa3fd, type: 3}
+    - {fileID: 21300000, guid: 35d86898234495f4ba49852e67e836f1, type: 3}
+    - {fileID: 21300000, guid: bd2770009a3b0a841bb99c77df8a4d59, type: 3}
+    IsAnimated: 0
+    AnimationControler: []
   EllementTypes:
   - Name: Anim Inn
     IsActive: 1
     IsEnterable: 1
+    IsDistroyable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 1
-    FavouriteTerrain: 0000000005000000060000000700000008000000090000000a000000000000000000000000000000
+    FavouriteTerrainTypes: 0
     Tile: {fileID: 21300000, guid: 749bce67809520a4c8a9b4f5f3327f67, type: 3}
   - Name: Old inn
     IsActive: 1
-    IsEnterable: 1
+    IsEnterable: 0
+    IsDistroyable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
-    FavouriteTerrain: 03000000020000000300000004000000
+    FavouriteTerrainTypes: 0
     Tile: {fileID: 21300000, guid: af10415190d06e64793d014cfb7043cf, type: 3}
   - Name: house
     IsActive: 1
     IsEnterable: 0
+    IsDistroyable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
-    FavouriteTerrain: 03000000020000000300000004000000
+    FavouriteTerrainTypes: 0
     Tile: {fileID: 21300000, guid: 23655f894b7a94745be08285ee0803ea, type: 3}
   - Name: Castle
     IsActive: 1
     IsEnterable: 0
+    IsDistroyable: 1
     Walkable: 1
     Flyable: 1
     Swimable: 0
-    FavouriteTerrain: 05000000
+    FavouriteTerrainTypes: 1
     Tile: {fileID: 21300000, guid: 21d8057bd3374fc4ebd1f71bb102f7d4, type: 3}
   - Name: Tree
     IsActive: 1
     IsEnterable: 0
+    IsDistroyable: 1
     Walkable: 1
     Flyable: 0
     Swimable: 0
-    FavouriteTerrain: 00000000020000000300000004000000
+    FavouriteTerrainTypes: 2
     Tile: {fileID: 21300010, guid: 508cac3d482d79c45b7c4d7460ecb031, type: 3}
+  Dig: {fileID: 21300000, guid: f1f9523f062dd1b46bb3d47186f303c5, type: 3}
   _availableEllementTypes: []
   _availableTerrainTypes: []
 --- !u!1 &1120850917
@@ -430,67 +535,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Terrain_Manager: {fileID: 929507440}
-  KeyToDig: 98
---- !u!1 &1219221729
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1219221732}
-  - component: {fileID: 1219221731}
-  - component: {fileID: 1219221730}
-  m_Layer: 0
-  m_Name: CharacterDB
-  m_TagString: Character Database
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1219221730
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1219221729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5b1f3d4401f77a4d8cc0e66e50e6288, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Characters: []
-  Id: 0
-  Name: 
-  Description: 
-  Type: 0
-  Attack: 0
-  Defence: 0
-  Speed: 0
---- !u!114 &1219221731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1219221729}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f59d63158066e5e4ebb1ff9c81260afd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1219221732
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1219221729}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.986827, y: 1.9817551, z: -0.55217034}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  KeyToConsume: 99
 --- !u!1 &1580306287
 GameObject:
   m_ObjectHideFlags: 0
@@ -666,3 +711,45 @@ MonoBehaviour:
   EnableFastSpeedWithKey: 304
   TurnWithMovement: {fileID: 0}
   DoAnimation: 1
+--- !u!1001 &2122801818
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 8.986827
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.9817551
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -0.55217034
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4409007085404458, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 3f5c37224fa6e3b4cb16a7699d0e0934, type: 2}
+  m_IsPrefabParent: 0

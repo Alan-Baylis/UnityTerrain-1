@@ -8,9 +8,10 @@ public class EllementType {
     public string Name;
     public bool IsActive;
     public bool IsEnterable;
+    public bool IsDistroyable;
     public bool Walkable;
     public bool Flyable;
     public bool Swimable;
-    public int[] FavouriteTerrain;
+    public TerrainIns.TerrainType FavouriteTerrainTypes;
     public Sprite Tile;
 }

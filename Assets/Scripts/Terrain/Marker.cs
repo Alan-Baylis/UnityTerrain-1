@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Marker  {
 
-    public TerrainType Terrain { get; set; }
+    public TerrainIns Terrain { get; set; }
     public Vector2 Location { get; set; }
     public bool HasEllement { get; set; }
     //public float EllementMass { get; set; }
     public char[,] CharMap { get; set; }
 
-    protected Marker(TerrainType terrain, bool hasEllement, Vector2 location)
+    protected Marker(TerrainIns terrain, bool hasEllement, Vector2 location)
     {
         Terrain = terrain;
         HasEllement = hasEllement;
@@ -22,7 +22,7 @@ public class Marker  {
                 CharMap[x, y] = 'E';
     }
 
-    public static IEnumerable<Marker> GetMarkers(float x, float y,int key, List<TerrainType> activeTerrains, float ellementChance)
+    public static IEnumerable<Marker> GetMarkers(float x, float y,int key, List<TerrainIns> activeTerrains, float ellementChance)
     {
         var markers = new Marker[9];
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : Equipment
+public class Weapon : Item
 {
 
     public int Attack { get; set; }
@@ -23,6 +23,9 @@ public class Weapon : Equipment
         DefenceSpeed = 0;
     }
 
+    public override void Usage()
+    {
+    }
 
     public override string GetTooltip()
     {

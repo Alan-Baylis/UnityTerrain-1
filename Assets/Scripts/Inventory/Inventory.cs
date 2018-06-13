@@ -13,10 +13,12 @@ public class Inventory : MonoBehaviour {
     public int SlotSize = 50;
     public GUISkin Skin;
     public Vector2 InvLocation = Vector2.zero;
+    public KeyCode KeyToShowInventory = KeyCode.I;
+    public bool ShowInvButton = false;
 
 
 
-    public List<ItemContainer> Inv = new List<ItemContainer>();
+    private List<ItemContainer> _inv = new List<ItemContainer>();
 
 
     private int _slotsX = 0;
@@ -45,14 +47,18 @@ public class Inventory : MonoBehaviour {
 
         //Added to InitInventory 
         //for (int i = 0; i < _slotsX * _slotsY; i++) Inv.Add(new ItemContainer());  
-        InventoryManager.Instance.InitInventory(Inv,5, _slotsX * _slotsY);
+        InventoryManager.Instance.InitInventory(_inv, 5, _slotsX * _slotsY);
+        foreach (var VARIABLE in _inv)
+        {
+            VARIABLE.Print();
+        }
     }
 
 
     void Update()
     {
         //if (Input.GetButtonDown("Inventory"))
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyToShowInventory))
         {
             _showInventory = !_showInventory;
             if (_dragging)
@@ -78,15 +84,14 @@ public class Inventory : MonoBehaviour {
         // You can only call GUI ellements only in the OnGUI
         if (_showInventory)
         {
-            if (GUI.Button(new Rect(300, 50, 100, 40), "Save"))
+            if (ShowInvButton)
             {
-                print("SaveInventory");
-                InventoryManager.Instance.SaveInventory(Inv, true);
-            }
-            if (GUI.Button(new Rect(300, 100, 100, 40), "Load"))
-            {
-                print("LoadInventory");
-                InventoryManager.Instance.LoadInventory(Inv, true);
+                //Save Inventory to cache Button
+                if (GUI.Button(new Rect(300, 50, 100, 40), "Save"))
+                    InventoryManager.Instance.SaveInventory(_inv, true);
+                //Load Inventory from cache Button
+                if (GUI.Button(new Rect(300, 100, 100, 40), "Load"))
+                    InventoryManager.Instance.LoadInventory(_inv, true);
             }
 
             //print(Slots.Count);
@@ -136,35 +141,35 @@ public class Inventory : MonoBehaviour {
                                   Skin.GetStyle("slotBroken") 
                                 : Skin.GetStyle("slotDamaged")
                     );
-                if (Inv[invIndex].Name != null)
+                if (_inv[invIndex].Id != -1)
                 {
                     //Draw the item sprite in the slot 
-                    InventoryManager.Instance.DrawSprite(slotRect, Inv[invIndex]);
+                    InventoryManager.Instance.DrawSprite(slotRect, _inv[invIndex]);
                     //Draw mouse hover
                     if (slotRect.Contains(currentEvent.mousePosition))
                     {
                         _showTooltip = true;
-                        _tooltip = Inv[invIndex].GetTooltip();
+                        _tooltip = _inv[invIndex].GetTooltip();
                         if (currentEvent.button == 0 && currentEvent.type == EventType.MouseDrag && !_dragging) //Right click and drag
                         {
                             _dragging = true;
-                            _draggedItem = Inv[invIndex];
+                            _draggedItem = _inv[invIndex];
                             _draggedIndex = invIndex;
-                            Inv[invIndex] = new ItemContainer();
+                            _inv[invIndex] = new ItemContainer();
                         }
                         if (currentEvent.type == EventType.MouseUp && _dragging)
                         {
                             _dragging = false;
                             //Drag&Drop #1/3: on filled Item
                             //Same items Stack them together 
-                            if (_draggedItem.Id == Inv[invIndex].Id)
+                            if (_draggedItem.Id == _inv[invIndex].Id)
                             {
                                 //Todo: if higher than MaxStackCnt don't let them do it 
-                                Inv[invIndex].StackCnt += _draggedItem.StackCnt;
-                                if (Inv[invIndex].StackCnt > Inv[invIndex].MaxStackCnt)
+                                _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt + _draggedItem.StackCnt);
+                                if (_inv[invIndex].StackCnt > _inv[invIndex].MaxStackCnt)
                                 {
-                                    _draggedItem.StackCnt = Inv[invIndex].StackCnt - Inv[invIndex].MaxStackCnt;
-                                    Inv[invIndex].StackCnt = Inv[invIndex].MaxStackCnt;
+                                    _draggedItem.setStackCnt(_inv[invIndex].StackCnt - _inv[invIndex].MaxStackCnt);
+                                    _inv[invIndex].setStackCnt(_inv[invIndex].MaxStackCnt);
                                     PutItemBack();
                                 }
                             }
@@ -177,15 +182,15 @@ public class Inventory : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    Inv[_draggedIndex] = Inv[invIndex];
-                                    Inv[invIndex] = _draggedItem;
+                                    _inv[_draggedIndex] = _inv[invIndex];
+                                    _inv[invIndex] = _draggedItem;
                                 }
                             }
                         }
                         //Right clicked 
                         if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 1)
                         {
-                            if (Inv[invIndex].Type == Item.ItemType.Consumable)
+                            if (_inv[invIndex].Type == Item.ItemType.Consumable)
                             {
                                 //Use Consumable
                                 //UseConsumable(Inv[invIndex], invIndex, true);
@@ -197,11 +202,11 @@ public class Inventory : MonoBehaviour {
                 {
                     //Drag&Drop #2/3: on empty slot
                     if (invIndex > PlayerSlots)
-                        Inv[_draggedIndex] = _draggedItem;
+                        _inv[_draggedIndex] = _draggedItem;
                     else
                     {
-                        Inv[_draggedIndex] = Inv[invIndex];
-                        Inv[invIndex] = _draggedItem;
+                        _inv[_draggedIndex] = _inv[invIndex];
+                        _inv[invIndex] = _draggedItem;
                     }
                     _dragging = false;
                 }
@@ -213,7 +218,7 @@ public class Inventory : MonoBehaviour {
     private void PutItemBack()
     {
         //Drag&Drop #3/3: on clear inventory
-        Inv[_draggedIndex] = _draggedItem;
+        _inv[_draggedIndex] = _draggedItem;
         _dragging = false;
     }
 

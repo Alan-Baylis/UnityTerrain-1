@@ -28,7 +28,7 @@ public class InventoryManager : MonoBehaviour
     {
         //print("Inv.Count =" + Inv.Count + InvLocation.ToString());
         _availableItems = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
-        print("_availableItems.Count =" + _availableItems.Items.Count);
+        //print("_availableItems.Count =" + _availableItems.Items.Count);
     }
     
     public bool MixAbleItems()
@@ -53,7 +53,7 @@ public class InventoryManager : MonoBehaviour
             if (invList[i].Id == id)
             {
                 if (invList[i].StackCnt > 1)
-                    invList[i].StackCnt--;
+                    invList[i].setStackCnt(invList[i].StackCnt -1 );
                 else
                     invList[i] = new ItemContainer();
                 return true;
@@ -130,6 +130,7 @@ public class InventoryManager : MonoBehaviour
 
     public void SaveInventory(List<ItemContainer> invList,bool invSave)
     {
+        //Todo: shouldbe limited to only active invs
         if (invSave)
             for (int i = 0; i < invList.Count; i++)
             {
@@ -146,17 +147,18 @@ public class InventoryManager : MonoBehaviour
 
     public void LoadInventory(List<ItemContainer> invList, bool invSave)
     {
+        //Todo: shouldbe limited to only active invs
         if (invSave)
             for (int i = 0; i < invList.Count; i++)
             {
                 invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("Inventory_" + i, -1));
-                invList[i].StackCnt = PlayerPrefs.GetInt("InventoryCnt_" + i, 1);
+                invList[i].setStackCnt(PlayerPrefs.GetInt("InventoryCnt_" + i, 1)); 
             }
         else
             for (int i = 0; i < invList.Count; i++)
             {
                 invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("InvBank_" + i, -1));
-                invList[i].StackCnt = PlayerPrefs.GetInt("InvBankCnt_" + i, 1);
+                invList[i].setStackCnt(PlayerPrefs.GetInt("InvBankCnt_" + i, 1));
             }
     }
 

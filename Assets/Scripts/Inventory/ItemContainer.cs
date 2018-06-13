@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -67,6 +68,8 @@ public class ItemContainer {
             return "";
         }
     }
+
+
     //public string IconPath { get; set; }
     //public int IconId { get; set; }
     public int Cost
@@ -95,6 +98,9 @@ public class ItemContainer {
             return 0;
         }
     }
+
+
+
     public int StackCnt
     {
         get
@@ -106,15 +112,6 @@ public class ItemContainer {
             if (Weapon != null)
                 return Weapon.StackCnt;
             return 0;
-        }
-        set
-        {
-            if (Consumable != null)
-                Consumable.StackCnt = value;
-            if (Equipment != null)
-                Equipment.StackCnt = value;
-            if (Weapon != null)
-                Weapon.StackCnt = value;
         }
     }
     public Item.ItemType Type
@@ -189,7 +186,7 @@ public class ItemContainer {
 
     public ItemContainer()
     {
-        Consumable = new Consumable();
+        Consumable = null;
         Equipment = null;
         Weapon = null;
     }
@@ -225,4 +222,42 @@ public class ItemContainer {
         }
     }
 
+    public bool Exist(List<ItemContainer> Items)
+    {
+        //Debug.Log("inside Exist " + Items.Count + " " + this.Id);
+        //Debug.Log("inside Exist loop" + item.Id);
+        for (int i = 0; i < Items.Count; i++)
+            if (Items[i].Id == this.Id)
+                return true;
+        return false;
+    }
+
+
+    public void setStackCnt(int value)
+    {
+        switch (Type)
+        {
+            case Item.ItemType.Consumable:
+                Consumable.StackCnt = value;
+                break;
+            case Item.ItemType.Equipment:
+                Equipment.StackCnt = value;
+                break;
+            case Item.ItemType.Weapon:
+                Weapon.StackCnt = value;
+                break;
+        }
+    }
+
+
+    internal void Print()
+    {
+        if (Id == -1)
+        {
+            Debug.Log("Id:" + Id);
+            return;
+        }
+        Sprite Sprite = this.GetSprite();
+        Debug.Log("Id:" + Id + " Name:" + Name + " Sprite:" + Sprite.name + " Type:" + Type + "StackCnt:" + StackCnt + " Rarity:" + Rarity );
+    }
 }

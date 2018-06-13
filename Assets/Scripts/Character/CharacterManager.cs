@@ -23,7 +23,7 @@ public class CharacterManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         _availableCharacters = GameObject.FindGameObjectWithTag("Character Database").GetComponent<CharacterDatabase>();
-        print("_availableCharacters.Count =" + _availableCharacters.Characters.Count);
+        //print("_availableCharacters.Count =" + _availableCharacters.Characters.Count);
     }
 
 

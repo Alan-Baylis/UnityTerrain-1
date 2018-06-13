@@ -30,8 +30,11 @@ public class Cache : MonoBehaviour {
     public IEnumerable<CacheContent> Find(
                         string objectType, 
                         Vector3 near, // Location
-                        float radius) //in what range we need to look for the object 
+                        float radius, //in what range we need to look for the object 
+                        bool destroy //distroy the rest if true
+                            ) 
     {
+        List<CacheContent> toDelete = new List<CacheContent>();
         foreach (var c in _content)
         {
             if (c.ObjectType != objectType)
@@ -39,6 +42,22 @@ public class Cache : MonoBehaviour {
             if (Vector3.Distance(near, c.Location) < radius)
                 //lets the loop continue and return all the objects in that radius
                 yield return c;
+            else if (destroy)
+                toDelete.Add(c);
+        }
+        if (destroy)
+            foreach (var c in toDelete)
+                _content.Remove(c);
+    }
+
+
+    public IEnumerable<CacheContent> Find(string objectType)
+    {
+        foreach (var c in _content)
+        {
+            if (c.ObjectType != objectType)
+                continue;
+            yield return c;
         }
     }
 
