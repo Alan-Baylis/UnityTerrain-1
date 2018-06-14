@@ -88,7 +88,7 @@ public class InventoryManager : MonoBehaviour
             if (i < count)
             {
                 ItemContainer ni = GetItemFromDatabase((int) UnityEngine.Random.Range(0, _availableItems.Items.Count));
-                invList.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.Cost, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, ni.Values));
+                invList.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.IconPath, ni.IconId, ni.Cost, ni.Weight, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), ni.Values));
             }
             else
                 invList.Add(new ItemContainer());

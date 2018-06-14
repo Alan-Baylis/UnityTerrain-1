@@ -1,29 +1,52 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Equipment : Item {
 
+    public enum PlaceType
+    {
+        Head,   // Hat, Crown
+        Face,   // Mask, Helmet
+        Neck,
+        Chest,
+        Arms,
+        Hands,
+        Waist,
+        Tail,
+        Legs,
+        Feet,
+        Shadow
+    }
+
+    public PlaceType PlaceHolder { get; set; }
     public int Intellect { get; set; }
     public int Agility { get; set; }
-    public int Stemina { get; set; }
     public int Strength { get; set; }
-    public int Power { get; set; }
+    public int Stemina { get; set; }
     public int Speed { get; set; }
+    public int Krafting { get; set; }
+    public int Bravery { get; set; }
+    public int Confidence { get; set; }
+    
 
     public Equipment() : base()
     {
     }
 
-    public Equipment(int id, string name, string desc, int cost, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity)
-        : base(id, name, desc, cost, maxStackCnt, stackCnt, type, rarity)
+    public Equipment(int id, string name, string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, DateTime expirationTime, int[] values)
+        : base(id, name, desc, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime)
     {
-        Intellect = 0;
-        Agility = 0;
-        Stemina = 0;
-        Strength = 0;
-        Power = 0;
-        Speed = 0;
+        PlaceHolder = (PlaceType) values[0];
+        Intellect = values[1];
+        Agility = values[2];
+        Strength = values[3];
+        Stemina = values[4];
+        Speed = values[5];
+        Krafting = values[6];
+        Bravery = 0;
+        Confidence = 0;
     }
 
     public override void Usage()

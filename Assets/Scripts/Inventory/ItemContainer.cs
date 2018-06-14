@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class ItemContainer {
 
+    private Consumable _consumable = new Consumable();
     private Weapon _weapon = new Weapon();
     private Equipment _equipment = new Equipment();
-    private Consumable _consumable = new Consumable();
+    private Substance _substance = new Substance();
 
+    public Consumable Consumable
+    {
+        get { return _consumable; }
+        set { _consumable = value; }
+    }
     public Weapon Weapon
     {
         get { return _weapon; }
@@ -21,10 +27,10 @@ public class ItemContainer {
         set { _equipment = value; }
     }
 
-    public Consumable Consumable
+    public Substance Substance
     {
-        get { return _consumable; }
-        set { _consumable = value; }
+        get { return _substance; }
+        set { _substance = value; }
     }
 
 
@@ -34,10 +40,12 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.Id;
-            if (Equipment != null)
-                return Equipment.Id;
             if (Weapon != null)
                 return Weapon.Id;
+            if (Equipment != null)
+                return Equipment.Id;
+            if (Substance != null)
+                return Substance.Id;
             return -1;
         }
     }
@@ -48,10 +56,12 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.Name;
-            if (Equipment != null)
-                return Equipment.Name;
             if (Weapon != null)
                 return Weapon.Name;
+            if (Equipment != null)
+                return Equipment.Name;
+            if (Substance != null)
+                return Substance.Name;
             return "";
         }
     }
@@ -61,27 +71,59 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.Description;
-            if (Equipment != null)
-                return Equipment.Description;
             if (Weapon != null)
                 return Weapon.Description;
+            if (Equipment != null)
+                return Equipment.Description;
+            if (Substance != null)
+                return Substance.Description;
             return "";
         }
     }
 
+    public string IconPath 
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.IconPath;
+            if (Weapon != null)
+                return Weapon.IconPath;
+            if (Equipment != null)
+                return Equipment.IconPath;
+            if (Substance != null)
+                return Substance.IconPath;
+            return "";
+        }
+    }
 
-    //public string IconPath { get; set; }
-    //public int IconId { get; set; }
+    public int IconId
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.IconId;
+            if (Weapon != null)
+                return Weapon.IconId;
+            if (Equipment != null)
+                return Equipment.IconId;
+            if (Substance != null)
+                return Substance.IconId;
+            return -1;
+        }
+    }
     public int Cost
     {
         get
         {
             if (Consumable != null)
                 return Consumable.Cost;
-            if (Equipment != null)
-                return Equipment.Cost;
             if (Weapon != null)
                 return Weapon.Cost;
+            if (Equipment != null)
+                return Equipment.Cost;
+            if (Substance != null)
+                return Substance.Cost;
             return 0;
         }
     }
@@ -91,15 +133,15 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.MaxStackCnt;
-            if (Equipment != null)
-                return Equipment.MaxStackCnt;
             if (Weapon != null)
                 return Weapon.MaxStackCnt;
+            if (Equipment != null)
+                return Equipment.MaxStackCnt;
+            if (Substance != null)
+                return Substance.MaxStackCnt;
             return 0;
         }
     }
-
-
 
     public int StackCnt
     {
@@ -107,10 +149,12 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.StackCnt;
-            if (Equipment != null)
-                return Equipment.StackCnt;
             if (Weapon != null)
                 return Weapon.StackCnt;
+            if (Equipment != null)
+                return Equipment.StackCnt;
+            if (Substance != null)
+                return Substance.StackCnt;
             return 0;
         }
     }
@@ -120,10 +164,12 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.Type;
-            if (Equipment != null)
-                return Equipment.Type;
             if (Weapon != null)
                 return Weapon.Type;
+            if (Equipment != null)
+                return Equipment.Type;
+            if (Substance != null)
+                return Substance.Type;
             return 0;
         }
     }
@@ -133,53 +179,131 @@ public class ItemContainer {
         {
             if (Consumable != null)
                 return Consumable.Rarity;
-            if (Equipment != null)
-                return Equipment.Rarity;
             if (Weapon != null)
                 return Weapon.Rarity;
+            if (Equipment != null)
+                return Equipment.Rarity;
+            if (Substance != null)
+                return Substance.Rarity;
             return 0;
         }
     }
     //public string Slug { get; set; }
+    public DateTime ExpirationTime
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.ExpirationTime;
+            if (Weapon != null)
+                return Weapon.ExpirationTime;
+            if (Equipment != null)
+                return Equipment.ExpirationTime;
+            if (Substance != null)
+                return Substance.ExpirationTime;
+            return DateTime.MinValue;
+        }
+    }
+
+
+    public int Weight
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.Weight;
+            if (Weapon != null)
+                return Weapon.Weight;
+            if (Equipment != null)
+                return Equipment.Weight;
+            if (Substance != null)
+                return Substance.Weight;
+            return 0;
+        }
+    }
+
+    public bool IsEnable
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.IsEnable;
+            if (Weapon != null)
+                return Weapon.IsEnable;
+            if (Equipment != null)
+                return Equipment.IsEnable;
+            if (Substance != null)
+                return Substance.IsEnable;
+            return false;
+        }
+    }
 
     public int[] Values
     {
         get
         {
             if (Consumable != null)
-                return new int[3] { Consumable.Health, Consumable.Mana, Consumable.Vitality};
-            if (Equipment != null)
-                return null;
+                return new int[3]
+                {
+                    Consumable.Health, Consumable.Mana, Consumable.Energy
+                };
             if (Weapon != null)
+                return new int[8] {
+                    Weapon.AttackSpeed, Weapon.DefenceSpeed,
+                    Weapon.AbilityAttack, Weapon.AbilityDefence,
+                    Weapon.MagicAttack, Weapon.MagicDefence,
+                    Weapon.PoisonAttack, Weapon.PoisonDefence
+                };
+            if (Equipment != null)
+                return new int[7]
+                {
+                    (int)Equipment.PlaceHolder,
+                    Equipment.Intellect, Equipment.Agility,
+                    Equipment.Strength, Equipment.Stemina,
+                    Equipment.Speed, Equipment.Krafting
+                };
+            if (Equipment != null)
                 return null;
             return null;
         }
     }
 
 
-    public ItemContainer(int id,string name,string description,
-                        //string iconPath,int iconId,
-                        int cost,int maxStackCnt,int stackCnt,
-                        Item.ItemType type,Item.ItemRarity rarity,
-                        int[] values = null )
+    public ItemContainer(
+        int id,string name,string description,
+        string iconPath,int iconId,
+        int cost, int weight, 
+        int maxStackCnt,int stackCnt,
+        Item.ItemType type,Item.ItemRarity rarity,
+        DateTime expirationTime,
+        int[] values = null )
     {
 
         switch (type)
         {
             case Item.ItemType.Consumable:
-                Consumable = new Consumable(id, name, description, cost, maxStackCnt, stackCnt, type, rarity, values);
+                Consumable = new Consumable(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime, values);
                 Equipment = null;
                 Weapon = null;
-                break;
-            case Item.ItemType.Equipment:
-                Consumable = null;
-                Equipment = new Equipment(id, name, description, cost, maxStackCnt, stackCnt, type, rarity);
-                Weapon = null;
+                Substance = null;
                 break;
             case Item.ItemType.Weapon:
                 Consumable = null;
                 Equipment = null;
-                Weapon = new Weapon(id, name, description, cost, maxStackCnt, stackCnt, type, rarity);
+                Weapon = new Weapon(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime, values);
+                Substance = null;
+                break;
+            case Item.ItemType.Equipment:
+                Consumable = null;
+                Equipment = new Equipment(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type,  rarity, expirationTime, values);
+                Weapon = null;
+                Substance = null;
+                break;
+            case Item.ItemType.Substance:
+                Consumable = null;
+                Equipment = null;
+                Weapon = null;
+                Substance = new Substance(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime, values);
                 break;
         }
     }
@@ -187,8 +311,9 @@ public class ItemContainer {
     public ItemContainer()
     {
         Consumable = null;
-        Equipment = null;
         Weapon = null;
+        Equipment = null;
+        Substance = null;
     }
 
 
@@ -198,10 +323,12 @@ public class ItemContainer {
         {
             case Item.ItemType.Consumable:
                 return Consumable.GetTooltip();
-            case Item.ItemType.Equipment:
-                return Equipment.GetTooltip();
             case Item.ItemType.Weapon:
                 return Weapon.GetTooltip();
+            case Item.ItemType.Equipment:
+                return Equipment.GetTooltip();
+            case Item.ItemType.Substance:
+                return Substance.GetTooltip();
             default:
                 return "";
         }
@@ -213,21 +340,23 @@ public class ItemContainer {
         {
             case Item.ItemType.Consumable:
                 return Consumable.GetSprite();
-            case Item.ItemType.Equipment:
-                return Equipment.GetSprite();
             case Item.ItemType.Weapon:
                 return Weapon.GetSprite();
+            case Item.ItemType.Equipment:
+                return Equipment.GetSprite();
+            case Item.ItemType.Substance:
+                return Substance.GetSprite();
             default:
                 return new Sprite();
         }
     }
 
-    public bool Exist(List<ItemContainer> Items)
+    public bool Exist(List<ItemContainer> items)
     {
         //Debug.Log("inside Exist " + Items.Count + " " + this.Id);
         //Debug.Log("inside Exist loop" + item.Id);
-        for (int i = 0; i < Items.Count; i++)
-            if (Items[i].Id == this.Id)
+        for (int i = 0; i < items.Count; i++)
+            if (items[i].Name == this.Name)
                 return true;
         return false;
     }
@@ -240,11 +369,14 @@ public class ItemContainer {
             case Item.ItemType.Consumable:
                 Consumable.StackCnt = value;
                 break;
+            case Item.ItemType.Weapon:
+                Weapon.StackCnt = value;
+                break;
             case Item.ItemType.Equipment:
                 Equipment.StackCnt = value;
                 break;
-            case Item.ItemType.Weapon:
-                Weapon.StackCnt = value;
+            case Item.ItemType.Substance:
+                Substance.StackCnt = value;
                 break;
         }
     }

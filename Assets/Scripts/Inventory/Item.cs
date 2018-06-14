@@ -11,15 +11,11 @@ public abstract class Item
 
     public enum ItemType
     {
-        Weapon,
         Consumable,
-        Useable,
+        Weapon,
         Equipment,
-        Chest,
-        Head,
-        Hands,
-        Legs,
-        Feet,
+        Substance,
+        Element,
         Quest
     }
 
@@ -39,29 +35,33 @@ public abstract class Item
     public string Description { get; set; }
     public string IconPath { get; set; }
     public int IconId { get; set; }
-    //public Sprite Icon { get; set; }
     public int Cost { get; set; }
+    public int Weight { get; set; }
     public int MaxStackCnt { get; set; }
     public int StackCnt { get; set; }
     public ItemType Type { get; set; }
     public ItemRarity Rarity { get; set; }
     public string Slug { get; set; }
+    public DateTime ExpirationTime { get; set; }
+    public bool IsEnable { get; set; }
 
 
-    protected Item(int id, string name,string desc,int cost, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity)
+    protected Item(int id, string name,string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity,DateTime expirationTime)
     {
         Id = id;
-
         Name = name;
         Description = desc;
-        IconPath = "Inventory/InventorySet1";
-        IconId = id;
+        IconPath = iconPath; 
+        IconId = iconId;
         Cost = cost;
+        Weight = weight;
         Type = type;
         MaxStackCnt = maxStackCnt;
         StackCnt = stackCnt;
         Rarity = rarity;
-        Slug = name.Replace(" ", "_"); 
+        Slug = name.Replace(" ", "_");
+        ExpirationTime = expirationTime;
+        IsEnable = true;
     }
 
 
@@ -75,13 +75,11 @@ public abstract class Item
         string color;
         switch (this.Type)
         {
-            case Item.ItemType.Weapon:
-                color = "Blue";
-                break;
             case Item.ItemType.Consumable:
-                color = "Blue";
+                color = "Green";
                 break;
-            case Item.ItemType.Useable:
+            case Item.ItemType.Weapon:
+            case Item.ItemType.Equipment:
                 color = "Blue";
                 break;
             default:
