@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ActiveEllementType : MonoBehaviour
-{
-    public EllementType EllementTypeInUse;
+public class ActiveItemType : MonoBehaviour {
+
+    public ItemContainer ItemTypeInUse;
     public Vector3 Location;
 }

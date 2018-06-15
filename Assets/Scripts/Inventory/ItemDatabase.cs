@@ -240,4 +240,14 @@ public class ItemDatabase : MonoBehaviour {
     }
 
 
+
+    public ItemContainer FindItem(int id)
+    {
+        for (int i = 0; i < Items.Count; i++)
+            if (Items[i].Id == id)
+                return Items[i];
+        return null;
+    }
+
+
 }

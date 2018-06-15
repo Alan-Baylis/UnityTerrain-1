@@ -9,6 +9,7 @@ public class ItemContainer {
     private Weapon _weapon = new Weapon();
     private Equipment _equipment = new Equipment();
     private Substance _substance = new Substance();
+    private ItemContainer item;
 
     public Consumable Consumable
     {
@@ -308,6 +309,19 @@ public class ItemContainer {
         }
     }
 
+    public ItemContainer(ItemContainer item)
+    {
+        new ItemContainer(
+            item.Id, item.Name, item.Description,
+            item.IconPath, item.IconId,
+            item.Cost, item.Weight,
+            item.MaxStackCnt, item.StackCnt,
+            item.Type, item.Rarity,
+            item.ExpirationTime,
+            item.Values);
+    }
+
+
     public ItemContainer()
     {
         Consumable = null;
@@ -315,7 +329,6 @@ public class ItemContainer {
         Equipment = null;
         Substance = null;
     }
-
 
     public string GetTooltip()
     {
@@ -353,8 +366,6 @@ public class ItemContainer {
 
     public bool Exist(List<ItemContainer> items)
     {
-        //Debug.Log("inside Exist " + Items.Count + " " + this.Id);
-        //Debug.Log("inside Exist loop" + item.Id);
         for (int i = 0; i < items.Count; i++)
             if (items[i].Name == this.Name)
                 return true;

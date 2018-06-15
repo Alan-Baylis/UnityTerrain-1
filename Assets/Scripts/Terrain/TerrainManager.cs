@@ -10,6 +10,7 @@ public class TerrainManager : MonoBehaviour {
     public static int SceneIdForInsideBuilding = 1;
     public static int Key = 1;
     public Transform Player;
+    public ItemDatabase ItemDb;
     public float MaxDistanceFromCenter = 7;
     public Vector2 MapOffset ;
     public TerrainIns[] TerrainTypes;
@@ -22,36 +23,12 @@ public class TerrainManager : MonoBehaviour {
     private int _verticalTiles = 25;
     private SpriteRenderer[,] _renderers;
     private IEnumerable<Marker> _markers;
-    private List<ActiveEllementType> _Ellements = new List<ActiveEllementType>();
+    private List<ActiveEllementType> _ellements = new List<ActiveEllementType>();
+    private List<ActiveItemType> _items = new List<ActiveItemType>();
+    private List<GameObject> _digs = new List<GameObject>();
 
     private Cache _cache;
     
-    public ActiveEllementType GetEllement(Vector2 mapPos)
-    {
-        foreach (var ellement in _Ellements)
-        {
-            var bLoc = ellement.transform.position;
-            //Mappos inbetween the ellement 
-            if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
-                return ellement;
-        }
-        return null;
-    }
-
-    public ActiveEllementType GetEllement(float x, float y)
-    {
-        foreach (var ellement in _Ellements)
-        {
-            var bLoc = ellement.transform.position;
-            //Mappos inbetween the ellement 
-            if (Math.Abs(bLoc.x - x) < 1 && Math.Abs(bLoc.y - y) < 1)
-                return ellement;
-
-        }
-        return null;
-    }
-
-
     public Vector2 WorldToMapPosition(Vector3 worldPosition)
     {
         if (worldPosition.x < 0) worldPosition.x--;
@@ -135,22 +112,39 @@ public class TerrainManager : MonoBehaviour {
             }
         }
         //Destruction happen at the end of the frame not immediately 
-        _Ellements.ForEach(x => Destroy(x.gameObject));
-        _Ellements.Clear();
+        _ellements.ForEach(x => Destroy(x.gameObject));
+        _ellements.Clear();
+        _cache.SyncItems("Item", _items);
+        _items.ForEach(x => Destroy(x.gameObject));
+        _items.Clear();
+        _digs.ForEach(x => Destroy(x.gameObject));
+        _digs.Clear();
         foreach (var marker in _markers)
         {
             SetAvailableMarketEllements(marker.Terrain.Type);
             LoadEllements(marker);
         }
-        LoadDiggings();
+        //If it has been consumed recently delete them
+        foreach (var element in _cache.Find("VacantElement", transform.position, _horizontalTiles / 2, true))
+        {
+            var currentElement = GetEllement(element.Location.x, element.Location.y);
+            DistroyEllement(currentElement);
+        }
+        LoadCaches();
     }
 
-    private void LoadDiggings()
+    private void LoadCaches()
     {
         _cache = Cache.Get();
+        //print("###Inside LoadCaches: " + transform.position);
         foreach (var item in _cache.Find("Digging", transform.position, _horizontalTiles / 2,true))
         {
             CreateDigging(item.Location);
+        }
+        foreach (var item in _cache.Find("Item", transform.position, _horizontalTiles / 2, true))
+        {
+            //print("###Inside LoadCaches: item: " + item.ObjectType + item.Location+ item.Content );
+            CreateItem(item.Location, Int32.Parse(item.Content));
         }
     }
 
@@ -198,38 +192,96 @@ public class TerrainManager : MonoBehaviour {
         }
 	}
 
-
     public ActiveEllementType CreateEllements(Vector3 location)
     {
-        var Ellement = new GameObject();
-        var active = Ellement.AddComponent<ActiveEllementType>();
-        _Ellements.Add(active);
-        Ellement.transform.position = location;
-        var renderer = Ellement.AddComponent<SpriteRenderer>();
-        var ellementInfo = _availableEllementTypes[RandomHelper.Range(Ellement.transform.position, Key, _availableEllementTypes.Count)];
+        var ellement = new GameObject();
+        var active = ellement.AddComponent<ActiveEllementType>();
+        _ellements.Add(active);
+        ellement.transform.position = location;
+        var renderer = ellement.AddComponent<SpriteRenderer>();
+        var ellementInfo = _availableEllementTypes[RandomHelper.Range(ellement.transform.position, Key, _availableEllementTypes.Count)];
         renderer.sprite = ellementInfo.Tile;
         active.EllementTypeInUse = ellementInfo;
 
-        Ellement.name = "Ellement " + Ellement.transform.position;
-        Ellement.transform.parent = transform;
+        ellement.name = "Ellement " + ellement.transform.position;
+        ellement.transform.parent = transform;
         return active;
 
     }
     public void CreateDigging(Vector3 location)
     {
         GameObject dig = new GameObject();
+        _digs.Add(dig);
         dig.transform.position = location;
         var renderer = dig.AddComponent<SpriteRenderer>();
         renderer.sprite = Dig;
         dig.name = "Dig " + dig.transform.position;
         dig.transform.parent = transform;
     }
-    internal void DistroyEllement(Vector3 location)
+
+    public void CreateItem(Vector3 location, int itemId)
     {
-        var currentElement = GetEllement(location.x,location.y);
-        _Ellements.Remove(currentElement);
-        Destroy(currentElement.gameObject);
+        GameObject Item = new GameObject();
+        var active = Item.AddComponent<ActiveItemType>();
+        active.ItemTypeInUse = ItemDb.FindItem(itemId);
+        active.Location = location;
+        _items.Add(active);
+        Item.transform.position = location;
+        var renderer = Item.AddComponent<SpriteRenderer>();
+        renderer.sprite = active.ItemTypeInUse.GetSprite();
+        Item.name = "Item " + Item.transform.position;
+        Item.transform.parent = transform;
     }
+    
+    public ActiveEllementType GetEllement(Vector2 mapPos)
+    {
+        foreach (var ellement in _ellements)
+        {
+            var bLoc = ellement.transform.position;
+            //Mappos inbetween the ellement 
+            if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
+                return ellement;
+        }
+        return null;
+    }
+
+    public ActiveEllementType GetEllement(float x, float y)
+    {
+        foreach (var ellement in _ellements)
+        {
+            var bLoc = ellement.transform.position;
+            //Mappos inbetween the ellement 
+            if (Math.Abs(bLoc.x - x) < 1 && Math.Abs(bLoc.y - y) < 1)
+                return ellement;
+
+        }
+        return null;
+    }
+    
+    public ActiveItemType GetDropItem(float x, float y)
+    {
+        foreach (var item in _items)
+        {
+            var bLoc = item.transform.position;
+            //Mappos inbetween the ellement 
+            if (Math.Abs(bLoc.x - x) < 1 && Math.Abs(bLoc.y - y) < 1)
+                return item;
+        }
+        return null;
+    }
+
+    internal void DistroyItem(ActiveItemType item)
+    {
+        _items.Remove(item);
+        Destroy(item.gameObject);
+    }
+
+    internal void DistroyEllement(ActiveEllementType element)
+    {
+        _ellements.Remove(element);
+        Destroy(element.gameObject);
+    }
+
 
     //Start up sets ups
     void SetEllements(char[,] charMap, Vector2 location)
@@ -286,7 +338,6 @@ public class TerrainManager : MonoBehaviour {
                     0);
                 return;
             }
-
     }
 
 

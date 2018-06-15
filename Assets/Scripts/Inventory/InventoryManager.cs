@@ -87,7 +87,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (i < count)
             {
-                ItemContainer ni = GetItemFromDatabase((int) UnityEngine.Random.Range(0, _availableItems.Items.Count));
+                ItemContainer ni = GetItemFromDatabase((int) Random.Range(0, _availableItems.Items.Count));
                 invList.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.IconPath, ni.IconId, ni.Cost, ni.Weight, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), ni.Values));
             }
             else
@@ -95,10 +95,9 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-
+    
     public bool AddItemToInventory(int id, List<ItemContainer> invList)
     {
-
         for (int i = 0; i < invList.Count; i++)
         {
             if (invList[i].Name == null) //empty Slot

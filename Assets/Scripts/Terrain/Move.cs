@@ -16,7 +16,7 @@ public class Move : MonoBehaviour {
     void Start () {
         _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(0);
         _cache = Cache.Get();
-        foreach (var item in _cache.Find("Player"))
+        foreach (var item in _cache.Find("Player",true))
         {
             if (IsBlocked(item.Location))
                 continue;

@@ -239,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EllementChance: 0.4
   Player: {fileID: 1954072673}
+  ItemDb: {fileID: 1755846910}
   MaxDistanceFromCenter: 7
   MapOffset: {x: 0.5, y: 0.5}
   TerrainTypes:
@@ -535,7 +536,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Terrain_Manager: {fileID: 929507440}
+  Inventory_Manager: {fileID: 2072346719}
   KeyToConsume: 99
+  KeyToDrop: 100
+  KeyToPick: 112
 --- !u!1 &1580306287
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +629,12 @@ Transform:
   m_Father: {fileID: 1954072673}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1755846910 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114986867765330782, guid: 3f5c37224fa6e3b4cb16a7699d0e0934,
+    type: 2}
+  m_PrefabInternal: {fileID: 2122801818}
+  m_Script: {fileID: 11500000, guid: 6b039d0447371f0468561e1e18ba49ca, type: 3}
 --- !u!1 &1954072671
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +721,12 @@ MonoBehaviour:
   EnableFastSpeedWithKey: 304
   TurnWithMovement: {fileID: 0}
   DoAnimation: 1
+--- !u!114 &2072346719 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114527168771953788, guid: 9e021f20fee712d449f1f173050e7be1,
+    type: 2}
+  m_PrefabInternal: {fileID: 323374601}
+  m_Script: {fileID: 11500000, guid: 6d5cf19b85085214288027ce78763339, type: 3}
 --- !u!1001 &2122801818
 Prefab:
   m_ObjectHideFlags: 0

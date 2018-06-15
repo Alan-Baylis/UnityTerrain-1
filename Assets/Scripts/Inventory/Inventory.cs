@@ -20,7 +20,6 @@ public class Inventory : MonoBehaviour {
 
     private List<ItemContainer> _inv = new List<ItemContainer>();
 
-
     private int _slotsX = 0;
     private int _slotsY = 0;
     private bool _showInventory = false;
@@ -46,14 +45,33 @@ public class Inventory : MonoBehaviour {
         //_player = GameObject.Find(Player);
 
         //Added to InitInventory 
-        //for (int i = 0; i < _slotsX * _slotsY; i++) Inv.Add(new ItemContainer());  
         InventoryManager.Instance.InitInventory(_inv, 5, _slotsX * _slotsY);
-        foreach (var VARIABLE in _inv)
-        {
-            VARIABLE.Print();
-        }
+        //Print the inventory for debug 
+        //foreach (var VARIABLE in _inv) VARIABLE.Print();
     }
 
+    internal bool AddItemToInventory(ItemContainer item)
+    {
+        for (int i = 0; i < _inv.Count; i++)
+        {
+            //print("###Inside AddItemToInventory : "+ _inv.Count + "index"+ i + " id "+_inv[i].Id + _inv[i].Name); 
+            if (i > PlayerSlots)
+            {
+                //Rect tooltipBox = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, dynamicHeight);
+                //GUI.Box(tooltipBox, _tooltip);
+                print("Inventory is full");
+                break;
+            }
+            if (_inv[i].Id == -1) //empty Slot
+            {
+                _inv[i] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
+                    item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity,
+                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                return true;
+            }
+        }
+        return false;
+    }
 
     void Update()
     {
