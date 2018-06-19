@@ -67,6 +67,7 @@ public class Inventory : MonoBehaviour {
                 _inv[i] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                     item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity,
                     DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                //print("###inside AddItemToInventory " +i); 
                 return true;
             }
         }
@@ -80,11 +81,7 @@ public class Inventory : MonoBehaviour {
         {
             _showInventory = !_showInventory;
             if (_dragging)
-            {
                 PutItemBack();
-
-            }
-
         }
 
     }
@@ -168,6 +165,7 @@ public class Inventory : MonoBehaviour {
                     {
                         _showTooltip = true;
                         _tooltip = _inv[invIndex].GetTooltip();
+                        //todo: Garbage copllections review all the logics 1/2
                         if (currentEvent.button == 0 && currentEvent.type == EventType.MouseDrag && !_dragging) //Right click and drag
                         {
                             _dragging = true;
@@ -180,25 +178,70 @@ public class Inventory : MonoBehaviour {
                             _dragging = false;
                             //Drag&Drop #1/3: on filled Item
                             //Same items Stack them together 
-                            if (_draggedItem.Id == _inv[invIndex].Id)
-                            {
-                                //Todo: if higher than MaxStackCnt don't let them do it 
-                                _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt + _draggedItem.StackCnt);
-                                if (_inv[invIndex].StackCnt > _inv[invIndex].MaxStackCnt)
+                            if ( _inv[invIndex].Id == _draggedItem.Id)
+                            {   
+                                if (_inv[invIndex].StackCnt + _draggedItem.StackCnt > _inv[invIndex].MaxStackCnt)
                                 {
-                                    _draggedItem.setStackCnt(_inv[invIndex].StackCnt - _inv[invIndex].MaxStackCnt);
+                                    _draggedItem.setStackCnt(_draggedItem.StackCnt- (_inv[invIndex].MaxStackCnt - _inv[invIndex].StackCnt));
                                     _inv[invIndex].setStackCnt(_inv[invIndex].MaxStackCnt);
-                                    PutItemBack();
-                                }
-                            }
-                            //not Same items swap them
-                            else
-                            {
-                                if (InventoryManager.Instance.MixAbleItems())
-                                {
-                                    print("MixAbleItems");
                                 }
                                 else
+                                {
+                                    _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt + _draggedItem.StackCnt);
+                                    _draggedItem.setStackCnt(0);
+                                }
+                                PutItemBack();
+                            }
+                            else //not Same items Mix or swap them
+                            {
+                                Recipe newRecipe = InventoryManager.Instance.CheckRecipes( _inv[invIndex].Id,_draggedItem.Id);
+                                if (newRecipe!=null)
+                                {
+                                    //todo: Garbage copllections review all the logics 2/2
+                                    if (newRecipe.FirstItemCnt <= _inv[invIndex].StackCnt)
+                                        if (newRecipe.FirstItemCnt <= _draggedItem.StackCnt)
+                                        {   //Mixing items Logic
+                                            _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt - newRecipe.FirstItemCnt);
+                                            _draggedItem.setStackCnt(_draggedItem.StackCnt - newRecipe.SecondItemCnt);
+                                            ItemContainer item = InventoryManager.Instance.GetItemFromDatabase(newRecipe.FinalItemId);
+                                            if (_inv[invIndex].StackCnt == 0 )
+                                            {
+                                                
+                                                _inv[invIndex] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
+                                                    item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
+                                                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                                                print("add new item to _inv[invIndex] ");
+                                                PutItemBack();
+                                            }
+                                            else if (_draggedItem.StackCnt == 0)
+                                            {
+                                                _draggedItem = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
+                                                    item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
+                                                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                                                print("add new item to _draggedItem ");
+                                            }
+                                            else
+                                            {
+                                                //We need to put back the _draggedItem so we don't put the new item in that place
+                                                PutItemBack();
+                                                ItemContainer newItem = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
+                                                    item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
+                                                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                                                if (!AddItemToInventory(newItem))
+                                                {   //Reverce back the changes
+                                                    print("Not enough space in your inventory"); //todo: remove this because AddItemToInventory already have that print 
+                                                    _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt + newRecipe.FirstItemCnt);
+                                                    _draggedItem.setStackCnt(_draggedItem.StackCnt + newRecipe.SecondItemCnt);
+                                                }
+                                            }
+                                        }
+                                        else //Not enough materials 
+                                            print("Not enough " + _draggedItem.Name + " in the inventory, You need " + (newRecipe.FirstItemCnt - _draggedItem.StackCnt) + " more");
+                                    else //Not enough materials 
+                                        print("Not enough "+ _inv[invIndex].Name + " in the inventory, You need "+ (newRecipe.FirstItemCnt-_inv[invIndex].StackCnt) +" more");
+                                    PutItemBack();
+                                }
+                                else //Swaping items Logic
                                 {
                                     _inv[_draggedIndex] = _inv[invIndex];
                                     _inv[invIndex] = _draggedItem;
@@ -236,7 +279,10 @@ public class Inventory : MonoBehaviour {
     private void PutItemBack()
     {
         //Drag&Drop #3/3: on clear inventory
-        _inv[_draggedIndex] = _draggedItem;
+        if (_draggedItem.StackCnt == 0 )
+            _inv[_draggedIndex] = new ItemContainer();
+        else
+            _inv[_draggedIndex] = _draggedItem;
         _dragging = false;
     }
 

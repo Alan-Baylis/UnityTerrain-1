@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using NUnit.Framework;
+using System.Linq;
 using UnityEngine;
 
 public class TerrainActions : MonoBehaviour {
@@ -32,7 +32,7 @@ public class TerrainActions : MonoBehaviour {
             var currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
             if (currentItem != null)
             {
-                print("###Inside Terrrain actions : Item id =" + currentItem.ItemTypeInUse.Id);
+                //print("###Inside Terrrain actions : Item id =" + currentItem.ItemTypeInUse.Id);
                 if (Inventory_Manager.AddItemToInventory(currentItem.ItemTypeInUse))
                     Terrain_Manager.DistroyItem(currentItem);
             }
@@ -46,10 +46,11 @@ public class TerrainActions : MonoBehaviour {
             {
                 if (currentElement.EllementTypeInUse.IsDistroyable)
                 {
+                    Vector3 elementPos = currentElement.transform.position;
                     //Remember Consume elemnt to not draw them 
                     _cache.Add(new CacheContent()
                         {
-                            Location = transform.position,
+                            Location = elementPos,
                             ObjectType = "VacantElement"
                         }
                     );
@@ -61,8 +62,10 @@ public class TerrainActions : MonoBehaviour {
                             ObjectType = "Player"
                         }
                     );
-                }
+                    DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
 
+
+                }
                 return;
             }
 
@@ -71,6 +74,7 @@ public class TerrainActions : MonoBehaviour {
             {
                 if (currentTerrain.IsDiggable)
                 {
+                    pos.y -= 0.5f;
                     Terrain_Manager.CreateDigging(pos);
                     _cache.Add(new CacheContent()
                         {
@@ -78,32 +82,41 @@ public class TerrainActions : MonoBehaviour {
                             ObjectType = "Digging"
                         }
                     );
+                    DropItem(pos, currentTerrain.DropChance, currentTerrain.DropItems);
                 }
-
                 return;
             }
         }
 
         if (Input.GetKeyDown(KeyToDrop))
         {
-            int itemId = 1;
-
             //print("###inside Terrainaction: " + pos);
             TerrainIns currentTerrain = Terrain_Manager.SelectTerrain(pos.x, pos.y);
             if (currentTerrain != null)
-            {
                 if (currentTerrain.Walkable)
-                {
-                    Terrain_Manager.CreateItem(pos, itemId);
-                    _cache.Add(new CacheContent()
-                        {
-                            Location = pos,
-                            Content = itemId.ToString(),
-                            ObjectType = "Item"
+                    DropItem(pos, 1, "0,1,2,3,4");
+        }
+    }
+
+    private void DropItem(Vector3 pos, float chance, string dropItems)
+    {
+        if (chance == 1 || chance > RandomHelper.Percent(pos, 1))
+        {
+            List<int> items = dropItems.Split(',').Select(int.Parse).ToList();
+            //print("###Inside KeyToConsume : (" + items.Count + ")" + dropItems + "=>" + RandomHelper.Range(pos, 1, items.Count));
+            if (items.Count > 0)
+            {
+                //todo: item based on rarity of item 
+                int itemId = items[RandomHelper.Range(pos, 1, items.Count)];
+                pos.z -= 0.01f;
+                Terrain_Manager.CreateItem(pos, itemId);
+                _cache.Add(new CacheContent()
+                    {
+                        Location = pos,
+                        Content = itemId.ToString(),
+                        ObjectType = "Item"
                     }
-                    );
-                }
-                return;
+                );
             }
         }
     }

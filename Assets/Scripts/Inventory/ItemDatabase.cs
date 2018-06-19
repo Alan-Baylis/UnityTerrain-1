@@ -9,7 +9,7 @@ public class ItemDatabase : MonoBehaviour {
 
     public List<ItemContainer> Items = new List<ItemContainer>();
 
-
+    public List<Recipe> Recipes = new List<Recipe>();  
 
     public int Id;
     public string Name ;
@@ -193,6 +193,23 @@ public class ItemDatabase : MonoBehaviour {
             Items.Add(tempItem);
 
         SaveItems();
+
+        LoadRecipes();
+
+        PrintRecipes();
+    }
+
+    private void PrintRecipes()
+    {
+        for (int i = 0; i < Recipes.Count; i++)
+        {
+            Recipe r = Recipes[i];
+            if (r.IsEnable)
+                print(i + "- id(" + r.Id + ") " + 
+                      r.FirstItemId + "(" + r.FirstItemCnt + ") + " + 
+                      r.SecondItemId + "(" + r.SecondItemCnt + ") = " + 
+                      r.FinalItemId + "(" + r.FinalItemCnt + ")");
+        }
     }
 
     private void LoadItems()
@@ -212,6 +229,19 @@ public class ItemDatabase : MonoBehaviour {
         fs.Close();
     }
 
+    private void LoadRecipes()
+    {
+        //Empty the Recipes DB
+        Recipes.Clear();
+        string path = Path.Combine(Application.streamingAssetsPath, "Recipe.xml");
+        //Read the Recipes from Recipe.xml file in the streamingAssets folder
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Recipe>));
+        FileStream fs = new FileStream(path, FileMode.Open);
+        Recipes = (List<Recipe>)serializer.Deserialize(fs);
+        fs.Close();
+    }
+
+
     private void SaveItems()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "Item.xml");
@@ -221,11 +251,15 @@ public class ItemDatabase : MonoBehaviour {
         fs.Close();
     }
 
+
+
+
+
+
     //Add item button call this function 
     public void CreateItem()
     {
         LoadItems();
-
         //Add item through the public properties 
         Items.Add(new ItemContainer(Id, Name, Description,
             IconPath, IconId, 
@@ -234,7 +268,6 @@ public class ItemDatabase : MonoBehaviour {
             Type, Rarity,
             DateTime.Now.Add(new TimeSpan(14, 0, 0, 0, 0)),
             Values));
-
         //Save the new list back in Item.xml file in the streamingAssets folder
         SaveItems();
     }

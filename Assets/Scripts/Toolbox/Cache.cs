@@ -63,6 +63,7 @@ public class Cache : MonoBehaviour {
     {
         _content.Add(item);
     }
+
     public void Print()
     {
         print("Cache count: "+_content.Count);

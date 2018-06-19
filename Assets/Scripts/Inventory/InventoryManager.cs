@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
 {
     private static InventoryManager instance;
 
-    private ItemDatabase _availableItems;
+    private ItemDatabase _itemDb;
 
     public static InventoryManager Instance
     {
@@ -27,7 +27,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         //print("Inv.Count =" + Inv.Count + InvLocation.ToString());
-        _availableItems = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
+        _itemDb = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
         //print("_availableItems.Count =" + _availableItems.Items.Count);
     }
     
@@ -36,15 +36,6 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
-    public bool CheckItemInInventory(int id, List<ItemContainer> invList)
-    {
-        for (int i = 0; i < invList.Count; i++)
-        {
-            if (invList[i].Id == id)
-                return true;
-        }
-        return false;
-    }
 
     public bool RemoveItemFromInventory(int id, List<ItemContainer> invList)
     {
@@ -75,7 +66,7 @@ public class InventoryManager : MonoBehaviour
         spriteRec.yMin /= spriteTexture.height;
         spriteRec.yMax /= spriteTexture.height;
         GUI.DrawTextureWithTexCoords(rect, spriteTexture, spriteRec);
-        if (item.StackCnt > 1)
+        //if (item.StackCnt > 1) //Todo : uncomment this
             GUI.Label(rect, "<color=black> " + item.StackCnt + "</color>");
     }
 
@@ -87,7 +78,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (i < count)
             {
-                ItemContainer ni = GetItemFromDatabase((int) Random.Range(0, _availableItems.Items.Count));
+                ItemContainer ni = GetItemFromDatabase((int) Random.Range(0, _itemDb.Items.Count));
                 invList.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.IconPath, ni.IconId, ni.Cost, ni.Weight, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), ni.Values));
             }
             else
@@ -102,11 +93,11 @@ public class InventoryManager : MonoBehaviour
         {
             if (invList[i].Name == null) //empty Slot
             {
-                for (int j = 0; j < _availableItems.Items.Count; j++)
+                for (int j = 0; j < _itemDb.Items.Count; j++)
                 {
-                    if (_availableItems.Items[j].Id == id)
+                    if (_itemDb.Items[j].Id == id)
                     {
-                        invList[i] = _availableItems.Items[j];
+                        invList[i] = _itemDb.Items[j];
                         return true;
                     }
                 }
@@ -118,14 +109,39 @@ public class InventoryManager : MonoBehaviour
 
     public ItemContainer GetItemFromDatabase(int id)
     {
-        for (int i = 0; i < _availableItems.Items.Count; i++)
+        for (int i = 0; i < _itemDb.Items.Count; i++)
         {
-            if (_availableItems.Items[i].Id == id)
-                return _availableItems.Items[i];
+            if (_itemDb.Items[i].Id == id)
+                return _itemDb.Items[i];
         }
         return new ItemContainer();
     }
 
+
+
+    public Recipe CheckRecipes(int first, int second)
+    {
+        for (int i = 0; i < _itemDb.Recipes.Count; i++)
+        {
+            Recipe r = _itemDb.Recipes[i];
+            if (r.IsEnable && first == r.FirstItemId && second == r.SecondItemId)
+                return r;
+            if (r.IsEnable && first == r.SecondItemId && second == r.FirstItemId)
+                return Reverce(r);
+        }
+        return null;
+    }
+
+    private Recipe Reverce(Recipe r)
+    {
+        int temp = r.FirstItemId;
+        r.FirstItemId = r.SecondItemId;
+        r.SecondItemId = temp;
+        temp = r.FirstItemCnt;
+        r.FirstItemCnt = r.SecondItemCnt;
+        r.SecondItemCnt = temp;
+        return r;
+    }
 
     public void SaveInventory(List<ItemContainer> invList,bool invSave)
     {
@@ -150,13 +166,13 @@ public class InventoryManager : MonoBehaviour
         if (invSave)
             for (int i = 0; i < invList.Count; i++)
             {
-                invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("Inventory_" + i, -1));
+                invList[i] = Instance.GetItemFromDatabase(PlayerPrefs.GetInt("Inventory_" + i, -1));
                 invList[i].setStackCnt(PlayerPrefs.GetInt("InventoryCnt_" + i, 1)); 
             }
         else
             for (int i = 0; i < invList.Count; i++)
             {
-                invList[i] = InventoryManager.Instance.GetItemFromDatabase(PlayerPrefs.GetInt("InvBank_" + i, -1));
+                invList[i] = Instance.GetItemFromDatabase(PlayerPrefs.GetInt("InvBank_" + i, -1));
                 invList[i].setStackCnt(PlayerPrefs.GetInt("InvBankCnt_" + i, 1));
             }
     }

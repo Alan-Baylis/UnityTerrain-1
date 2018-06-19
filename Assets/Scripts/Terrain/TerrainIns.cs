@@ -26,6 +26,9 @@ public class TerrainIns
     public bool Walkable;
     public bool Flyable;
     public bool Swimable;
+    public bool HasElement;
+    public string DropItems;
+    public float DropChance;
     public TerrainType Type;
     public Sprite[] Tiles;
     public bool IsAnimated;

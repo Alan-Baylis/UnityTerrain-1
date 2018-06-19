@@ -35,10 +35,8 @@ public class Marker  {
             {
                 var terrain = activeTerrains[RandomHelper.Range(x + iX, y + iY, key, activeTerrains.Count)];
                 //it will be a city if the terrain is walkable && a small chance to be city 
-                bool hasBuilings = (terrain.Walkable) && (ellementChance > RandomHelper.Percent(x + iX , y + iY , key));
-
                 Vector2 location = new Vector2((int) (x + iX) << 4, (int) (y + iY) << 4);
-                markers[markerIndex] = new Marker(terrain, hasBuilings, location);
+                markers[markerIndex] = new Marker(terrain, terrain.HasElement, location);
                 //Debug.Log(markerIndex + "-" + markers[markerIndex].Terrain.Name +" " + markers[markerIndex].Location);
                 markerIndex++;
             }

@@ -12,6 +12,8 @@ public class EllementType {
     public bool Walkable;
     public bool Flyable;
     public bool Swimable;
+    public string DropItems;
+    public float DropChance;
     public TerrainIns.TerrainType FavouriteTerrainTypes;
     public Sprite Tile;
 }

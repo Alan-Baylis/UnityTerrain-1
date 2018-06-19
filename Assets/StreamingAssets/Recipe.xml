@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfRecipe xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Recipe>
+    <Id>0</Id>
+    <FirstItemId>1</FirstItemId>
+    <FirstItemCnt>1</FirstItemCnt>
+    <SecondItemId>2</SecondItemId>
+    <SecondItemCnt>1</SecondItemCnt>
+    <FinalItemId>4</FinalItemId>
+    <FinalItemCnt>1</FinalItemCnt>
+    <IsEnable>true</IsEnable>
+  </Recipe>
+  <Recipe>
+    <Id>1</Id>
+    <FirstItemId>1</FirstItemId>
+    <FirstItemCnt>3</FirstItemCnt>
+    <SecondItemId>3</SecondItemId>
+    <SecondItemCnt>1</SecondItemCnt>
+    <FinalItemId>3</FinalItemId>
+    <FinalItemCnt>1</FinalItemCnt>
+    <IsEnable>true</IsEnable>
+  </Recipe>
+  <Recipe>
+    <Id>2</Id>
+    <FirstItemId>0</FirstItemId>
+    <FirstItemCnt>5</FirstItemCnt>
+    <SecondItemId>1</SecondItemId>
+    <SecondItemCnt>5</SecondItemCnt>
+    <FinalItemId>4</FinalItemId>
+    <FinalItemCnt>2</FinalItemCnt>
+    <IsEnable>true</IsEnable>
+  </Recipe>
+  <Recipe>
+    <Id>3</Id>
+    <FirstItemId>4</FirstItemId>
+    <FirstItemCnt>2</FirstItemCnt>
+    <SecondItemId>3</SecondItemId>
+    <SecondItemCnt>1</SecondItemCnt>
+    <FinalItemId>0</FinalItemId>
+    <FinalItemCnt>2</FinalItemCnt>
+    <IsEnable>true</IsEnable>
+  </Recipe>
+</ArrayOfRecipe>
