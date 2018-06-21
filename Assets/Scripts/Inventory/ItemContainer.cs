@@ -256,12 +256,19 @@ public class ItemContainer {
                     Weapon.PoisonAttack, Weapon.PoisonDefence
                 };
             if (Equipment != null)
-                return new int[7]
+                return new int[11]
                 {
-                    (int)Equipment.PlaceHolder,
-                    Equipment.Intellect, Equipment.Agility,
-                    Equipment.Strength, Equipment.Stemina,
-                    Equipment.Speed, Equipment.Krafting
+                    (int)Equipment.PlaceHolder
+                    ,Equipment.Agility 
+                    ,Equipment.Bravery 
+                    ,Equipment.Carry 
+                    ,Equipment.Confidence
+                    ,Equipment.Intellect 
+                    ,Equipment.Krafting 
+                    ,Equipment.Researching 
+                    ,Equipment.Speed
+                    ,Equipment.Stemina
+                    ,Equipment.Strength 
                 };
             if (Equipment != null)
                 return null;

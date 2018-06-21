@@ -95,16 +95,18 @@ public class ItemDatabase : MonoBehaviour {
             //ExpirationTime
             ExpirationTime,
             //###Extras
-            new int[7] {
-                9,//PlaceHolder
-                0,//Intellect
-                1,//Agility
-                0,//Strength
-                0,//Stemina
-                0,//Speed
-                0//Krafting
-                //Bravery = 0;
-                //Confidence = 0;
+            new int[11] {
+                9,//PlaceHolder = (PlaceType) values[0];
+                0,//Agility = values[1];
+                0,//Bravery = values[2];
+                0,//Carry = values[3];
+                0,//Confidence = values[4];
+                0,//Intellect = values[5];
+                0,//Krafting = values[6];
+                0,//Researching = values[7];
+                0,//Speed = values[8];
+                0,//Stemina = values[9];
+                0//Strength = values[10];
             }
         );
         if (!tempItem.Exist(Items))
@@ -196,7 +198,7 @@ public class ItemDatabase : MonoBehaviour {
 
         LoadRecipes();
 
-        PrintRecipes();
+        //PrintRecipes();
     }
 
     private void PrintRecipes()

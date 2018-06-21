@@ -10,11 +10,14 @@ public class Move : MonoBehaviour {
     private Vector3 previousPosition = Vector3.zero;
 
     private Character _playerCharacter;
+    private CharacterSetting _playerSettings;
     private Cache _cache;
 
     // Use this for initialization
     void Start () {
-        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(0);
+        _playerSettings = CharacterManager.Instance.GetPlayerSettings();
+        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(_playerSettings.CharacterId);
+        CharacterManager.Instance.SavePlayerSettings();
         _cache = Cache.Get();
         foreach (var item in _cache.Find("Player",true))
         {

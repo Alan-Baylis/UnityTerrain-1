@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<CharacterSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>0</Id>
+  <CharacterId>0</CharacterId>
+  <Name>Avid</Name>
+  <Description>Werewolf</Description>
+  <IconPath>Somewhere</IconPath>
+  <IconId>0</IconId>
+  <Level>0</Level>
+  <Experience>0</Experience>
+  <MaxHealth>1000</MaxHealth>
+  <Health>1000</Health>
+  <MaxMana>1000</MaxMana>
+  <Mana>1000</Mana>
+  <MaxEnergy>1000</MaxEnergy>
+  <Energy>1000</Energy>
+  <AttackSpeed>3</AttackSpeed>
+  <DefenceSpeed>3</DefenceSpeed>
+  <AbilityAttack>0</AbilityAttack>
+  <AbilityDefence>0</AbilityDefence>
+  <MagicAttack>0</MagicAttack>
+  <MagicDefence>0</MagicDefence>
+  <PoisonAttack>0</PoisonAttack>
+  <PoisonDefence>0</PoisonDefence>
+  <Carry>110</Carry>
+  <Speed>3</Speed>
+  <Intellect>0</Intellect>
+  <Agility>0</Agility>
+  <Strength>0</Strength>
+  <Stemina>0</Stemina>
+  <Krafting>0</Krafting>
+  <Researching>0</Researching>
+  <Bravery>0</Bravery>
+  <Confidence>0</Confidence>
+  <Equipments />
+</CharacterSetting>

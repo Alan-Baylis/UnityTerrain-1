@@ -10,6 +10,8 @@ public class CharacterDatabase : MonoBehaviour {
 
     public List<Character> Characters = new List<Character>();
 
+    public CharacterSetting PlayerSetting = new CharacterSetting();
+
     public int Id;
     public string Name;
     public string Description;
@@ -19,6 +21,8 @@ public class CharacterDatabase : MonoBehaviour {
     public Character.AttackType Attack;
     public Character.DefenceType Defence;
     public Character.SpeedType Speed;
+    public Character.BodyType Body;
+    public Character.CarryType Carry;
 
 
     //Add Charcter button call this function 
@@ -36,7 +40,7 @@ public class CharacterDatabase : MonoBehaviour {
         Characters.Add(new Character(Id, Name, Description,
             //IconPath, IconId, 
             Type, Attack, Defence,
-            Speed));
+            Speed, Body, Carry));
 
         //Save the new list back in Character.xml file in the streamingAssets folder
         fs = new FileStream(Path.Combine(Application.streamingAssetsPath, "Character.xml"), FileMode.Create);
@@ -46,9 +50,34 @@ public class CharacterDatabase : MonoBehaviour {
 
     void Start()
     {
-        Characters.Add(new Character(0, "Phoenix", "Phoenix Flyer", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Range, Character.SpeedType.Fast));
+
+        LoadCharacterSetting();
+
+        Characters.Add(new Character(0, "Phoenix", "Phoenix Flyer", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Range, 
+            Character.SpeedType.Fast, Character.BodyType.Tiny, Character.CarryType.Light
+            ));
         
-        Characters.Add(new Character(1, "Phoenix2", "Phoenix walker", Character.CharacterType.Fly, Character.AttackType.Close, Character.DefenceType.Range, Character.SpeedType.Fast));
+        Characters.Add(new Character(1, "Phoenix2", "Phoenix walker", Character.CharacterType.Fly, Character.AttackType.Close, Character.DefenceType.Range, 
+            Character.SpeedType.Fast, Character.BodyType.Tiny, Character.CarryType.Light
+            ));
     }
 
+    private void LoadCharacterSetting()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "CharacterSetting.xml");
+        //Read the CharacterSetting from CharacterSetting.xml file in the streamingAssets folder
+        XmlSerializer serializer = new XmlSerializer(typeof(CharacterSetting));
+        FileStream fs = new FileStream(path, FileMode.Open);
+        PlayerSetting = (CharacterSetting)serializer.Deserialize(fs);
+        fs.Close();
+    }
+
+    public void SaveCharacterSetting()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "CharacterSetting.xml");
+        XmlSerializer serializer = new XmlSerializer(typeof(CharacterSetting));
+        FileStream fs = new FileStream(path, FileMode.Create);
+        serializer.Serialize(fs, PlayerSetting);
+        fs.Close();
+    }
 }

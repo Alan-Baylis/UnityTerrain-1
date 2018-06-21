@@ -210,7 +210,6 @@ public class Inventory : MonoBehaviour {
                                                 _inv[invIndex] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                                                     item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
                                                     DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
-                                                print("add new item to _inv[invIndex] ");
                                                 PutItemBack();
                                             }
                                             else if (_draggedItem.StackCnt == 0)
@@ -218,7 +217,6 @@ public class Inventory : MonoBehaviour {
                                                 _draggedItem = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                                                     item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
                                                     DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
-                                                print("add new item to _draggedItem ");
                                             }
                                             else
                                             {
@@ -229,7 +227,6 @@ public class Inventory : MonoBehaviour {
                                                     DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
                                                 if (!AddItemToInventory(newItem))
                                                 {   //Reverce back the changes
-                                                    print("Not enough space in your inventory"); //todo: remove this because AddItemToInventory already have that print 
                                                     _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt + newRecipe.FirstItemCnt);
                                                     _draggedItem.setStackCnt(_draggedItem.StackCnt + newRecipe.SecondItemCnt);
                                                 }
