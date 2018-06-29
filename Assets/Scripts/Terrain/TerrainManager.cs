@@ -125,10 +125,13 @@ public class TerrainManager : MonoBehaviour {
             LoadEllements(marker);
         }
         //If it has been consumed recently delete them
+
+        //print("###Inside RedrawMap Player pos " +  transform.position+ _horizontalTiles / 2);
         foreach (var element in _cache.Find("VacantElement", transform.position, _horizontalTiles / 2, true))
         {
             var currentElement = GetEllement(element.Location.x, element.Location.y);
             DistroyEllement(currentElement);
+            //print("###Inside RedrawMap currentElement Remove"+ currentElement.name+ transform.position);
         }
         LoadCaches();
     }
@@ -171,15 +174,15 @@ public class TerrainManager : MonoBehaviour {
             }
         }
         SetAvailableMarketTerrains();
-
-        RedrawMap();
         var starter = GameObject.FindObjectOfType<TerrainStarter>();
         if (starter != null)
         {
             Player.position = starter.PreviousPosition;
             Destroy(starter.gameObject);
         }
-        else
+        RedrawMap();
+
+        if (starter == null)
             SetPlayerlocation();
     }
     
@@ -319,25 +322,36 @@ public class TerrainManager : MonoBehaviour {
             if (EllementTypes[i].FavouriteTerrainTypes == type && EllementTypes[i].IsActive)
                 _availableEllementTypes.Add(EllementTypes[i]);
     }
+
     private void SetPlayerlocation()
     {
-        Marker marker = _markers.ElementAtOrDefault(4);
+        Marker marker = Marker.Closest(_markers, new Vector2(Player.position.x, Player.position.y), Key);
+
+        //print("###Inside SetPlayerlocation: " + Player.position + marker.Terrain.Name);
+        //int i = 0;
         if (!marker.Terrain.Walkable)
             foreach (var newMarker in _markers)
-                if (newMarker.Terrain.Walkable)
-                    marker = newMarker;
-        for (int r = 0; r < 8; r++) //Radiate from the center to find closest empty open space in the middle 
-        for (int x = 8 - r; x < 8 + r; x++)
-        for (int y = 8 - r; y < 8 + r; y++)
-            if (marker.CharMap[x, y] == 'E')
             {
-                Vector2 rightCornerLocation = new Vector2(marker.Location.x - 8, marker.Location.y - 8);
-                Player.position = new Vector3(
-                    rightCornerLocation.x + x,
-                    rightCornerLocation.y + y,
-                    0);
-                return;
+                //print("###Inside SetPlayerlocation(for"+ i++ + "): " + newMarker.Terrain.Name);
+                if (newMarker.Terrain.Walkable)
+                {
+                    marker = newMarker;
+                    break;
+                }
             }
+        for (int r = 0; r < 8; r++) //Radiate from the center to find closest empty open space in the middle 
+            for (int x = 8 - r; x < 8 + r; x++)
+                for (int y = 8 - r; y < 8 + r; y++)
+                    if (marker.CharMap[x, y] == 'E')
+                    {
+                        Vector2 rightCornerLocation = new Vector2(marker.Location.x - 8, marker.Location.y - 8);
+                        Player.position = new Vector3(
+                            rightCornerLocation.x + x,
+                            rightCornerLocation.y + y,
+                            0);
+                        //print("###Inside SetPlayerlocation: " + Player.position + marker.Terrain.Name);
+                        return;
+                    }
     }
 
 

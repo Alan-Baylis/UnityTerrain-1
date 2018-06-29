@@ -256,12 +256,13 @@ public class ItemContainer {
                     Weapon.PoisonAttack, Weapon.PoisonDefence
                 };
             if (Equipment != null)
-                return new int[11]
+                return new int[12]
                 {
                     (int)Equipment.PlaceHolder
                     ,Equipment.Agility 
                     ,Equipment.Bravery 
-                    ,Equipment.Carry 
+                    ,Equipment.Carry
+                    ,Equipment.CarryCnt
                     ,Equipment.Confidence
                     ,Equipment.Intellect 
                     ,Equipment.Krafting 
@@ -276,7 +277,13 @@ public class ItemContainer {
         }
     }
 
-
+    public Equipment.PlaceType PlaceHolder
+    {
+        get
+        {
+            return Equipment.PlaceHolder;
+        }
+    }
     public ItemContainer(
         int id,string name,string description,
         string iconPath,int iconId,

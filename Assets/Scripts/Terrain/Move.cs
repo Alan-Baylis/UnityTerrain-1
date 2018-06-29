@@ -19,13 +19,13 @@ public class Move : MonoBehaviour {
         _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(_playerSettings.CharacterId);
         CharacterManager.Instance.SavePlayerSettings();
         _cache = Cache.Get();
-        foreach (var item in _cache.Find("Player",true))
+        /*foreach (var item in _cache.Find("Player",true))
         {
             if (IsBlocked(item.Location))
                 continue;
             else
                 previousPosition = item.Location;
-        }
+        }*/
     }
 
     private bool IsBlocked(Vector3 itemLocation)
@@ -40,8 +40,8 @@ public class Move : MonoBehaviour {
             (!terrain.Flyable && _playerCharacter.MoveType == Character.CharacterType.Fly) ||
             (!terrain.Swimable && _playerCharacter.MoveType == Character.CharacterType.Swim) ||
             //ellement + character
-            (ellement != null && !ellement.EllementTypeInUse.IsEnterable &&
-             _playerCharacter.MoveType != Character.CharacterType.Fly))
+            (ellement != null && !ellement.EllementTypeInUse.IsEnterable &&_playerCharacter.MoveType != Character.CharacterType.Fly)
+            )
         {
             return true;
         }
@@ -54,7 +54,7 @@ public class Move : MonoBehaviour {
 	    Vector3 currentPos = transform.position;
 	    Vector2 mapPos = Terrain_Manager.WorldToMapPosition(currentPos);
 	    var ellement = Terrain_Manager.GetEllement(mapPos);
-
+        //print("###Inside Move Update: "+ currentPos+ previousPosition+ mapPos);
         if (IsBlocked(currentPos))
         { 
             transform.position = currentPos = previousPosition;

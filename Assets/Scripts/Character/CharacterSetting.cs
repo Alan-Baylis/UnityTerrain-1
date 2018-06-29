@@ -31,6 +31,7 @@ public class CharacterSetting {
     public int PoisonAttack { get; set; }
     public int PoisonDefence { get; set; }
     public float Carry { get; set; }
+    public int CarryCnt { get; set; }
     public float Speed { get; set; }
     public float Intellect { get; set; }
     public float Agility { get; set; }
@@ -47,7 +48,7 @@ public class CharacterSetting {
          string description = null, string iconPath = null, int iconId = 0, int level = 0,
         int experience = 0, int maxHealth = 0, int health = 0, int maxMana = 0, int mana = 0, int maxEnergy = 0,
         int energy = 0, int attackSpeed = 0, int defenceSpeed = 0, int abilityAttack = 0, int abilityDefence = 0,
-        int magicAttack = 0, int magicDefence = 0, int poisonAttack = 0, int poisonDefence = 0, float carry = 0,
+        int magicAttack = 0, int magicDefence = 0, int poisonAttack = 0, int poisonDefence = 0, float carry = 0, int carryCnt = 0,
         float speed = 0, float intellect = 0, float agility = 0, float strength = 0, float stemina = 0,
         float krafting = 0, float researching = 0, float bravery = 0, float confidence = 0, List<int> equipments = null)
     {
@@ -76,6 +77,7 @@ public class CharacterSetting {
         Agility = agility;
         Bravery = bravery;
         Carry = carry;
+        CarryCnt = carryCnt;
         Confidence = confidence;
         Intellect = intellect;
         Krafting = krafting;
@@ -85,9 +87,9 @@ public class CharacterSetting {
         Strength = strength;
         if (equipments ==null)
         {
-            equipments = new List<int>();
+            Equipments = new List<int>();
             for (int i = 0; i < 10; i++)
-                equipments.Add(-1);
+                Equipments.Add(-1);
         }
         else
             Equipments = equipments;
@@ -100,17 +102,19 @@ public class CharacterSetting {
 
 
 
-    public bool AddEquipment(int index,int id)
+    public int AddEquipment(int index,int id)
     {
+        int OldItem = Equipments[index];
         Equipments[index] = id;
-        return true;
+        return OldItem;
     }
-    public bool AddEquipment(ItemContainer item)
-    {
-        if (item.Equipment == null)
-            return false;
-        Equipments[(int)item.Equipment.PlaceHolder] = item.Id;
-        return true;
-    }
+
+    //public bool AddEquipment(ItemContainer item)
+    //{
+    //    if (item.Equipment == null)
+    //        return false;
+    //    Equipments[(int)item.Equipment.PlaceHolder] = item.Id;
+    //    return true;
+    //}
 
 }

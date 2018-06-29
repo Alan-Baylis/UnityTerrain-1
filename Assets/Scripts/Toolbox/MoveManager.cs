@@ -11,7 +11,7 @@ public class MoveManager : MonoBehaviour {
     public float Speed = 3;
     public float MaxSpeed = 2;
     public KeyCode EnableFastSpeedWithKey = KeyCode.LeftShift;
-    public Transform TurnWithMovement;
+    //public Transform TurnWithMovement;
     public bool DoAnimation = true;
 
 

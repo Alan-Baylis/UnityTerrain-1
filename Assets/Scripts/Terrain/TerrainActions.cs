@@ -25,8 +25,7 @@ public class TerrainActions : MonoBehaviour {
     {
 
         var pos = transform.position;
-        //So the new object will be n top of terrain 
-        pos.z = 0.01f;
+        pos.z += 0.01f;
         if (Input.GetKeyDown(KeyToPick))
         {
             var currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
@@ -48,6 +47,7 @@ public class TerrainActions : MonoBehaviour {
                 {
                     Vector3 elementPos = currentElement.transform.position;
                     //Remember Consume elemnt to not draw them 
+                    //print("###Inside KeyToConsume currentElement ADD to cache" + currentElement.name);
                     _cache.Add(new CacheContent()
                         {
                             Location = elementPos,
@@ -55,16 +55,16 @@ public class TerrainActions : MonoBehaviour {
                         }
                     );
                     Terrain_Manager.DistroyEllement(currentElement);
-                    //Last relaiable location  //TODO: after adding remember consumed elememnt this might not needed and also 
-                    _cache.Add(new CacheContent()
+                    //Last relaiable location
+                    //TODO: Removed on 6/28 => after adding remember consumed elememnt this might not needed and also 
+                    /*_cache.Add(new CacheContent()
                         {
                             Location = transform.position,
                             ObjectType = "Player"
                         }
                     );
+                    */
                     DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
-
-
                 }
                 return;
             }
@@ -74,7 +74,7 @@ public class TerrainActions : MonoBehaviour {
             {
                 if (currentTerrain.IsDiggable)
                 {
-                    pos.y -= 0.5f;
+                    pos.y -= 0.2f;
                     Terrain_Manager.CreateDigging(pos);
                     _cache.Add(new CacheContent()
                         {
@@ -108,7 +108,6 @@ public class TerrainActions : MonoBehaviour {
             {
                 //todo: item based on rarity of item 
                 int itemId = items[RandomHelper.Range(pos, 1, items.Count)];
-                pos.z -= 0.01f;
                 Terrain_Manager.CreateItem(pos, itemId);
                 _cache.Add(new CacheContent()
                     {

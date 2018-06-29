@@ -73,15 +73,15 @@ public class ItemDatabase : MonoBehaviour {
             //Id
             Items.Count,
             //Name
-            "Basic Shoe",
+            "Basic Glove",
             //Desc
-            "Basic shoe from animal leather",
+            "Basic glove from animal leather",
             //IconPath
             "Inventory/InventorySet1",
             //IconID    
-            197,
+            204,
             //Coat                            
-            5,
+            3,
             //Weight                            
             1,
             //MaxStackCnt
@@ -95,18 +95,19 @@ public class ItemDatabase : MonoBehaviour {
             //ExpirationTime
             ExpirationTime,
             //###Extras
-            new int[11] {
+            new int[12] {
                 9,//PlaceHolder = (PlaceType) values[0];
                 0,//Agility = values[1];
                 0,//Bravery = values[2];
                 0,//Carry = values[3];
-                0,//Confidence = values[4];
-                0,//Intellect = values[5];
-                0,//Krafting = values[6];
-                0,//Researching = values[7];
-                0,//Speed = values[8];
-                0,//Stemina = values[9];
-                0//Strength = values[10];
+                0,//CarryCnt = values[4];
+                0,//Confidence = values[5];
+                0,//Intellect = values[6];
+                1,//Krafting = values[7];
+                0,//Researching = values[8];
+                0,//Speed = values[9];
+                0,//Stemina = values[10];
+                0//Strength = values[11];
             }
         );
         if (!tempItem.Exist(Items))
@@ -254,10 +255,6 @@ public class ItemDatabase : MonoBehaviour {
     }
 
 
-
-
-
-
     //Add item button call this function 
     public void CreateItem()
     {
@@ -273,8 +270,6 @@ public class ItemDatabase : MonoBehaviour {
         //Save the new list back in Item.xml file in the streamingAssets folder
         SaveItems();
     }
-
-
 
     public ItemContainer FindItem(int id)
     {

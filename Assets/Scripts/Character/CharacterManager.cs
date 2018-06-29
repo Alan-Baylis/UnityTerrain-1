@@ -9,7 +9,7 @@ public class CharacterManager : MonoBehaviour {
 
     private static CharacterManager _instance;
 
-    private static CharacterDatabase _characterDb;
+    private CharacterDatabase _characterDb;
     public ItemDatabase _itemDb;
 
     private int _basicHealth=1000;
@@ -48,47 +48,46 @@ public class CharacterManager : MonoBehaviour {
 
     internal CharacterSetting GetPlayerSettings()
     {
-        CharacterSetting settings;
-        if (_characterDb.PlayerSetting == null)
-            settings = new CharacterSetting(0, 0, "Avid2", "Werewolf2");
-        else
-            settings = _characterDb.PlayerSetting;
-        if (settings.Level == 0)
+        if (_characterDb.PlayerSetting.Level == 0)
         {//Basic Setting
-            print("###Inside GetPlayerSettings Basic Setting");
-            Character character = GetCharacterFromDatabase(settings.CharacterId);
-            settings.MaxHealth = ((int) character.Body/100 + 1) * _basicHealth;
-            settings.Health = settings.MaxHealth;
-            settings.MaxMana = settings.MaxHealth; //Todo: calculate basic Mana
-            settings.Mana = settings.MaxMana;
-            settings.MaxEnergy = settings.MaxHealth;//Todo: calculate basic Energy
-            settings.Energy = settings.MaxEnergy;
-            settings.AttackSpeed = (int) settings.Speed;//Todo: calculate basic AttackSpeed
-            settings.DefenceSpeed = (int) settings.Speed;//Todo: calculate basic DefenceSpeed
-            settings.Carry = _basicCarry + (int)character.Carry * 5;
-            settings.Speed = ((int)character.Speed / 100 + 1) * _basicSpeed;
+            //print("###Inside GetPlayerSettings Basic Setting");
+            Character character = GetCharacterFromDatabase(_characterDb.PlayerSetting.CharacterId);
+            _characterDb.PlayerSetting.MaxHealth = ((int) character.Body/100 + 1) * _basicHealth;
+            _characterDb.PlayerSetting.Health = _characterDb.PlayerSetting.MaxHealth;
+            _characterDb.PlayerSetting.MaxMana = _characterDb.PlayerSetting.MaxHealth; //Todo: calculate basic Mana
+            _characterDb.PlayerSetting.Mana = _characterDb.PlayerSetting.MaxMana;
+            _characterDb.PlayerSetting.MaxEnergy = _characterDb.PlayerSetting.MaxHealth;//Todo: calculate basic Energy
+            _characterDb.PlayerSetting.Energy = _characterDb.PlayerSetting.MaxEnergy;
+            _characterDb.PlayerSetting.AttackSpeed = (int)_characterDb.PlayerSetting.Speed;//Todo: calculate basic AttackSpeed
+            _characterDb.PlayerSetting.DefenceSpeed = (int)_characterDb.PlayerSetting.Speed;//Todo: calculate basic DefenceSpeed
+            _characterDb.PlayerSetting.Carry = _basicCarry + (int)character.Carry * 5;
+            _characterDb.PlayerSetting.CarryCnt = _basicCarry/20 + _characterDb.PlayerSetting.Level /5;
+            _characterDb.PlayerSetting.Speed = ((int)character.Speed / 100 + 1) * _basicSpeed;
         }
         //Equipment setting
-        if (settings.Equipments !=null)
-            foreach (var id in settings.Equipments)
+        if (_characterDb.PlayerSetting.Equipments !=null)
+            foreach (var id in _characterDb.PlayerSetting.Equipments)
             {
+                if (id == -1)
+                    continue;
                 ItemContainer item = _itemDb.FindItem(id);
                 if (item.Equipment !=null)
                 {
-                    settings.Agility += item.Equipment.Agility;
-                    settings.Bravery += item.Equipment.Bravery;
-                    settings.Carry += item.Equipment.Carry;
-                    settings.Confidence += item.Equipment.Confidence;
-                    settings.Intellect += item.Equipment.Intellect;
-                    settings.Krafting += item.Equipment.Krafting;
-                    settings.Researching += item.Equipment.Researching;
-                    settings.Speed += item.Equipment.Speed;
-                    settings.Stemina += item.Equipment.Stemina;
-                    settings.Strength += item.Equipment.Strength;
+                    _characterDb.PlayerSetting.Agility += item.Equipment.Agility;
+                    _characterDb.PlayerSetting.Bravery += item.Equipment.Bravery;
+                    _characterDb.PlayerSetting.Carry += item.Equipment.Carry;
+                    _characterDb.PlayerSetting.CarryCnt += item.Equipment.CarryCnt;
+                    _characterDb.PlayerSetting.Confidence += item.Equipment.Confidence;
+                    _characterDb.PlayerSetting.Intellect += item.Equipment.Intellect;
+                    _characterDb.PlayerSetting.Krafting += item.Equipment.Krafting;
+                    _characterDb.PlayerSetting.Researching += item.Equipment.Researching;
+                    _characterDb.PlayerSetting.Speed += item.Equipment.Speed;
+                    _characterDb.PlayerSetting.Stemina += item.Equipment.Stemina;
+                    _characterDb.PlayerSetting.Strength += item.Equipment.Strength;
                 }
                 print("###Inside GetPlayerSettings Equipment = " + id);
             }
-        return settings;
+        return _characterDb.PlayerSetting;
         //todo: if not saved return new CharacterSetting();
     }
 
@@ -97,16 +96,17 @@ public class CharacterManager : MonoBehaviour {
         _characterDb.SaveCharacterSetting();
     }
 
-    public bool AddEquipment(ItemContainer item)
-    {
-        if (item.Equipment != null)
-            return _characterDb.PlayerSetting.AddEquipment((int) item.Equipment.PlaceHolder, item.Id);
-        return false;
-    }
+    //public int AddEquipment(ItemContainer item)
+    //{
+    //    int OldItem=-1;
+    //    if (item.Equipment != null)
+    //        OldItem = _characterDb.PlayerSetting.AddEquipment((int) item.Equipment.PlaceHolder, item.Id);
+    //    return OldItem;
+    //}
 
-    public bool AddEquipment(int id)
-    {
-        return AddEquipment(_itemDb.FindItem(id));
-    }
+    //public int AddEquipment(int id)
+    //{
+    //    return AddEquipment(_itemDb.FindItem(id));
+    //}
 
 }

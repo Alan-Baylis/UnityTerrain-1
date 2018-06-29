@@ -10,7 +10,7 @@ public class CharacterDatabase : MonoBehaviour {
 
     public List<Character> Characters = new List<Character>();
 
-    public CharacterSetting PlayerSetting = new CharacterSetting();
+    public CharacterSetting PlayerSetting;
 
     public int Id;
     public string Name;
@@ -51,15 +51,16 @@ public class CharacterDatabase : MonoBehaviour {
     void Start()
     {
 
-        LoadCharacterSetting();
-
+        //LoadCharacterSetting();
+        PlayerSetting = new CharacterSetting(0, 0, "Avid2", "Werewolf2");
+        SaveCharacterSetting();
         Characters.Add(new Character(0, "Phoenix", "Phoenix Flyer", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Range, 
             Character.SpeedType.Fast, Character.BodyType.Tiny, Character.CarryType.Light
-            ));
+        ));
         
         Characters.Add(new Character(1, "Phoenix2", "Phoenix walker", Character.CharacterType.Fly, Character.AttackType.Close, Character.DefenceType.Range, 
             Character.SpeedType.Fast, Character.BodyType.Tiny, Character.CarryType.Light
-            ));
+        ));
     }
 
     private void LoadCharacterSetting()
@@ -79,5 +80,16 @@ public class CharacterDatabase : MonoBehaviour {
         FileStream fs = new FileStream(path, FileMode.Create);
         serializer.Serialize(fs, PlayerSetting);
         fs.Close();
+    }
+
+    internal void AddCharacterSetting(string field, float value)
+    {
+        switch (field)
+        {
+            case "Agility":
+                PlayerSetting.Agility += value;
+                break;
+        }
+        SaveCharacterSetting();
     }
 }

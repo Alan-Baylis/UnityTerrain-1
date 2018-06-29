@@ -76,7 +76,7 @@ public class Cache : MonoBehaviour {
                         Vector3 near, // Location
                         float radius, //in what range we need to look for the object 
                         bool destroy //distroy the rest if true
-                            ) 
+                            )
     {
         List<CacheContent> toDelete = new List<CacheContent>();
         foreach (var c in _content)
@@ -87,7 +87,10 @@ public class Cache : MonoBehaviour {
                 //lets the loop continue and return all the objects in that radius
                 yield return c;
             else if (destroy)
+            {
                 toDelete.Add(c);
+                //print("###Inside Find to delete" + c.ObjectType + c.Location+ Vector3.Distance(near, c.Location)+ near);
+            }
         }
         if (destroy)
             foreach (var c in toDelete)

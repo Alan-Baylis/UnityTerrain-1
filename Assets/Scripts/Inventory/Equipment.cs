@@ -24,6 +24,7 @@ public class Equipment : Item {
     public int Agility { get; set; }
     public int Bravery { get; set; }
     public int Carry { get; set; }
+    public int CarryCnt { get; set; }
     public int Confidence { get; set; }
     public int Intellect { get; set; }
     public int Krafting { get; set; }
@@ -45,13 +46,14 @@ public class Equipment : Item {
         Agility = values[1];
         Bravery = values[2];
         Carry = values[3];
-        Confidence = values[4];
-        Intellect = values[5];
-        Krafting = values[6];
-        Researching = values[7];
-        Speed = values[8];
-        Stemina = values[9];
-        Strength = values[10];
+        CarryCnt = values[4];
+        Confidence = values[5];
+        Intellect = values[6];
+        Krafting = values[7];
+        Researching = values[8];
+        Speed = values[9];
+        Stemina = values[10];
+        Strength = values[11];
     }
 
     public override void Usage()

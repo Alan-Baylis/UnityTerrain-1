@@ -6,29 +6,28 @@ using UnityEngine.EventSystems;
 
 public class Inventory : MonoBehaviour {
 
-    public int SlotsCount = 21;
 
-    public int PlayerSlots = 7;
-    public int SlotsPadding = 5;
-    public int SlotSize = 50;
     public GUISkin Skin;
-    public Vector2 InvLocation = Vector2.zero;
-    public KeyCode KeyToShowInventory = KeyCode.I;
-    public bool ShowInvButton = false;
 
-
-
+    private static CharacterDatabase _characterDb;
     private List<ItemContainer> _inv = new List<ItemContainer>();
-
+    
+    private Vector2 _invLocation = Vector2.zero;
+    public KeyCode _keyToShowInventory = KeyCode.I;
+    private int _slotsPadding = 5;
+    private int _slotSize = 50;
     private int _slotsX = 0;
     private int _slotsY = 0;
+    private bool _showInvButton = false;
     private bool _showInventory = false;
     private bool _showTooltip = false;
     private string _tooltip = "";
     private bool _dragging = false;
     private ItemContainer _draggedItem;
     private int _draggedIndex;
-    //private static GameObject _player;
+    
+    private int MaxSlotsCount = 21;
+    private int _playerSlots = 7;
 
 
 
@@ -37,10 +36,10 @@ public class Inventory : MonoBehaviour {
     {
         //Slot x,y number calculations 
         _slotsX = 5;
-        _slotsY = SlotsCount / _slotsX + 1;
+        _slotsY = MaxSlotsCount / _slotsX + 1;
 
         //Inv location
-        InvLocation = new Vector2(10, 10);
+        _invLocation = new Vector2(10, 10);
 
         //_player = GameObject.Find(Player);
 
@@ -48,6 +47,12 @@ public class Inventory : MonoBehaviour {
         InventoryManager.Instance.InitInventory(_inv, 5, _slotsX * _slotsY);
         //Print the inventory for debug 
         //foreach (var VARIABLE in _inv) VARIABLE.Print();
+
+        _characterDb = GameObject.FindGameObjectWithTag("Character Database").GetComponent<CharacterDatabase>();
+        CharacterSetting settings = _characterDb.PlayerSetting;
+        _playerSlots = settings.CarryCnt;
+
+
     }
 
     internal bool AddItemToInventory(ItemContainer item)
@@ -55,7 +60,7 @@ public class Inventory : MonoBehaviour {
         for (int i = 0; i < _inv.Count; i++)
         {
             //print("###Inside AddItemToInventory : "+ _inv.Count + "index"+ i + " id "+_inv[i].Id + _inv[i].Name); 
-            if (i > PlayerSlots)
+            if (i > _playerSlots)
             {
                 //Rect tooltipBox = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, dynamicHeight);
                 //GUI.Box(tooltipBox, _tooltip);
@@ -77,7 +82,7 @@ public class Inventory : MonoBehaviour {
     void Update()
     {
         //if (Input.GetButtonDown("Inventory"))
-        if (Input.GetKeyDown(KeyToShowInventory))
+        if (Input.GetKeyDown(_keyToShowInventory))
         {
             _showInventory = !_showInventory;
             if (_dragging)
@@ -99,7 +104,7 @@ public class Inventory : MonoBehaviour {
         // You can only call GUI ellements only in the OnGUI
         if (_showInventory)
         {
-            if (ShowInvButton)
+            if (_showInvButton)
             {
                 //Save Inventory to cache Button
                 if (GUI.Button(new Rect(300, 50, 100, 40), "Save"))
@@ -121,7 +126,7 @@ public class Inventory : MonoBehaviour {
         if (_dragging)
         {
             //10% bigger than normal
-            Rect dragBox = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, width: SlotSize * 11 / 10, height: SlotSize * 11 / 10);
+            Rect dragBox = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, width: _slotSize * 11 / 10, height: _slotSize * 11 / 10);
             InventoryManager.Instance.DrawSprite(dragBox, _draggedItem);
         }
         if (Event.current.type == EventType.MouseUp && _dragging)
@@ -135,7 +140,7 @@ public class Inventory : MonoBehaviour {
     {
         Event currentEvent = Event.current;
 
-        Rect invRect = new Rect(InvLocation.x - SlotsPadding, InvLocation.y - SlotsPadding, (SlotSize + SlotsPadding) * _slotsX + SlotsPadding, (SlotSize + SlotsPadding) * _slotsY + SlotsPadding);
+        Rect invRect = new Rect(_invLocation.x - _slotsPadding, _invLocation.y - _slotsPadding, (_slotSize + _slotsPadding) * _slotsX + _slotsPadding, (_slotSize + _slotsPadding) * _slotsY + _slotsPadding);
 
         //print(invRect.ToString());
 
@@ -146,13 +151,13 @@ public class Inventory : MonoBehaviour {
             for (int x = 0; x < _slotsX; x++)
             {
                 int invIndex = x + y * _slotsX;
-                if (invIndex > SlotsCount)
+                if (invIndex > MaxSlotsCount)
                     break;
-                Rect slotRect = new Rect(x * (SlotSize + SlotsPadding) + InvLocation.x, y * (SlotSize + SlotsPadding) + InvLocation.y, SlotSize, SlotSize);
+                Rect slotRect = new Rect(x * (_slotSize + _slotsPadding) + _invLocation.x, y * (_slotSize + _slotsPadding) + _invLocation.y, _slotSize, _slotSize);
                 GUI.Box(
                         slotRect, 
                         "",
-                        invIndex > PlayerSlots ? 
+                        invIndex > _playerSlots ? 
                                   Skin.GetStyle("slotBroken") 
                                 : Skin.GetStyle("slotDamaged")
                     );
@@ -248,10 +253,10 @@ public class Inventory : MonoBehaviour {
                         //Right clicked 
                         if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 1)
                         {
-                            if (_inv[invIndex].Type == Item.ItemType.Consumable)
+                            if (_inv[invIndex].Type == Item.ItemType.Consumable || _inv[invIndex].Type == Item.ItemType.Equipment)
                             {
                                 //Use Consumable
-                                //UseConsumable(Inv[invIndex], invIndex, true);
+                                UseConsumable(_inv[invIndex], invIndex);
                             }
                         }
                     }
@@ -259,7 +264,7 @@ public class Inventory : MonoBehaviour {
                 else if (slotRect.Contains(currentEvent.mousePosition) && currentEvent.type == EventType.MouseUp && _dragging)
                 {
                     //Drag&Drop #2/3: on empty slot
-                    if (invIndex > PlayerSlots)
+                    if (invIndex > _playerSlots)
                         _inv[_draggedIndex] = _draggedItem;
                     else
                     {
@@ -283,38 +288,28 @@ public class Inventory : MonoBehaviour {
         _dragging = false;
     }
 
-    //private void UseConsumable(ItemContainer item, int invIndex, bool deleteItem)
-    //{
-    //    if (InventoryManager.Instance.CheckItemInInventory(item.Id,Inv))
-    //    {
-    //        switch (item.Id)
-    //        {
-    //            case 0:
-    //                //do something;
-    //                print("Consumable " + invIndex + " " + item.Name);
-    //                break;
-    //            case 2:
-    //                //do something;
-    //                print("Consumable " + invIndex + " " + item.Name);
-    //                break;
-    //            default:
-    //                print(invIndex + " Not a Consumable ");
-    //                break;
-    //        }
-    //        if (deleteItem)
-    //            if (!InventoryManager.Instance.RemoveItemFromInventory(item.Id, Inv))
-    //                Debug.Log("Remove Item From Inventory Failed");
-    //    }
-    //    else
-    //    {
-    //        print("Not in inventory");
-    //    }
-    //}
+    private bool UseConsumable(ItemContainer item, int invIndex)
+    {
+        switch (item.Type)
+        {
+            case Item.ItemType.Consumable:
+                //do something;
+                print("Consumable " + invIndex + " " + item.Name);
+                return true;
+            case Item.ItemType.Equipment:
+                //do something;
+                print("Equipment " + invIndex + " " + item.Name);
+                _characterDb.AddCharacterSetting("Agility", 2);
 
-
-
-
-
-
-
+                print("_characterDb " + _characterDb.PlayerSetting.CarryCnt + _characterDb.PlayerSetting.Equipments.Count+" "+ (int)item.PlaceHolder);
+                
+                ItemContainer oldItem = InventoryManager.Instance.GetItemFromDatabase(_characterDb.PlayerSetting.AddEquipment((int)item.PlaceHolder, item.Id));
+                _inv[_draggedIndex] = oldItem;
+                print("Equipment " + oldItem.Name + " was there ");
+                return true;
+            default:
+                print(invIndex + " Not a Consumable ");
+                return false;
+        }
+    }
 }

@@ -31,27 +31,7 @@ public class InventoryManager : MonoBehaviour
         //print("_availableItems.Count =" + _availableItems.Items.Count);
     }
     
-    public bool MixAbleItems()
-    {
-        return false;
-    }
 
-
-    public bool RemoveItemFromInventory(int id, List<ItemContainer> invList)
-    {
-        for (int i = 0; i < invList.Count; i++)
-        {
-            if (invList[i].Id == id)
-            {
-                if (invList[i].StackCnt > 1)
-                    invList[i].setStackCnt(invList[i].StackCnt -1 );
-                else
-                    invList[i] = new ItemContainer();
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     //Draw the item sprite in the Rect 
@@ -109,6 +89,8 @@ public class InventoryManager : MonoBehaviour
 
     public ItemContainer GetItemFromDatabase(int id)
     {
+        if (id == -1)
+            return null;
         for (int i = 0; i < _itemDb.Items.Count; i++)
         {
             if (_itemDb.Items[i].Id == id)
@@ -176,5 +158,29 @@ public class InventoryManager : MonoBehaviour
                 invList[i].setStackCnt(PlayerPrefs.GetInt("InvBankCnt_" + i, 1));
             }
     }
+    
+
+    public bool MixAbleItems()
+    {
+        return false;
+    }
+
+
+    public bool RemoveItemFromInventory(int id, List<ItemContainer> invList)
+    {
+        for (int i = 0; i < invList.Count; i++)
+        {
+            if (invList[i].Id == id)
+            {
+                if (invList[i].StackCnt > 1)
+                    invList[i].setStackCnt(invList[i].StackCnt - 1);
+                else
+                    invList[i] = new ItemContainer();
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }
