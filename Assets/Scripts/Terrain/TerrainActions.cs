@@ -23,7 +23,6 @@ public class TerrainActions : MonoBehaviour {
 	// Update is called once per frame
     void Update()
     {
-
         var pos = transform.position;
         pos.z += 0.01f;
         if (Input.GetKeyDown(KeyToPick))
@@ -96,6 +95,14 @@ public class TerrainActions : MonoBehaviour {
                 if (currentTerrain.Walkable)
                     DropItem(pos, 1, "0,1,2,3,4");
         }
+    }
+
+
+    public void DropItem(int id)
+    {
+        var pos = transform.position;
+        pos.z += 0.01f;
+        DropItem(pos, 1, id.ToString());
     }
 
     private void DropItem(Vector3 pos, float chance, string dropItems)

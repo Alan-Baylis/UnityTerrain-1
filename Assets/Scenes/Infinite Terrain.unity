@@ -765,7 +765,6 @@ MonoBehaviour:
   Speed: 3
   MaxSpeed: 5
   EnableFastSpeedWithKey: 304
-  TurnWithMovement: {fileID: 0}
   DoAnimation: 1
 --- !u!114 &2072346719 stripped
 MonoBehaviour:

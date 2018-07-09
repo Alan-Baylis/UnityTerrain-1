@@ -101,14 +101,6 @@ public class CharacterSetting {
     }
 
 
-
-    public int AddEquipment(int index,int id)
-    {
-        int OldItem = Equipments[index];
-        Equipments[index] = id;
-        return OldItem;
-    }
-
     //public bool AddEquipment(ItemContainer item)
     //{
     //    if (item.Equipment == null)

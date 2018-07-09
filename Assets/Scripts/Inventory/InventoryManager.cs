@@ -90,7 +90,7 @@ public class InventoryManager : MonoBehaviour
     public ItemContainer GetItemFromDatabase(int id)
     {
         if (id == -1)
-            return null;
+            return new ItemContainer();
         for (int i = 0; i < _itemDb.Items.Count; i++)
         {
             if (_itemDb.Items[i].Id == id)

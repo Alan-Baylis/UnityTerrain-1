@@ -51,15 +51,15 @@ public class CharacterDatabase : MonoBehaviour {
     void Start()
     {
 
-        //LoadCharacterSetting();
-        PlayerSetting = new CharacterSetting(0, 0, "Avid2", "Werewolf2");
+        LoadCharacterSetting();
+        //PlayerSetting = new CharacterSetting(0, 0, "Avid2", "Werewolf2");
         SaveCharacterSetting();
         Characters.Add(new Character(0, "Phoenix", "Phoenix Flyer", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Range, 
             Character.SpeedType.Fast, Character.BodyType.Tiny, Character.CarryType.Light
         ));
         
-        Characters.Add(new Character(1, "Phoenix2", "Phoenix walker", Character.CharacterType.Fly, Character.AttackType.Close, Character.DefenceType.Range, 
-            Character.SpeedType.Fast, Character.BodyType.Tiny, Character.CarryType.Light
+        Characters.Add(new Character(1, "Sailormoon", "Sailormoon walker", Character.CharacterType.Walk, Character.AttackType.Close, Character.DefenceType.Close, 
+            Character.SpeedType.Regular, Character.BodyType.Slim, Character.CarryType.Light
         ));
     }
 
@@ -92,4 +92,13 @@ public class CharacterDatabase : MonoBehaviour {
         }
         SaveCharacterSetting();
     }
+    
+    public int AddEquipment(int index, int id)
+    {
+        int OldItem = PlayerSetting.Equipments[index];
+        PlayerSetting.Equipments[index] = id;
+        SaveCharacterSetting();
+        return OldItem;
+    }
+
 }

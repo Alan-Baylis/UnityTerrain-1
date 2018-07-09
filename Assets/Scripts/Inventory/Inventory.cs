@@ -10,6 +10,7 @@ public class Inventory : MonoBehaviour {
     public GUISkin Skin;
 
     private static CharacterDatabase _characterDb;
+    private static TerrainActions _terrainActions; 
     private List<ItemContainer> _inv = new List<ItemContainer>();
     
     private Vector2 _invLocation = Vector2.zero;
@@ -27,7 +28,7 @@ public class Inventory : MonoBehaviour {
     private int _draggedIndex;
     
     private int MaxSlotsCount = 21;
-    private int _playerSlots = 7;
+    private int _playerSlots = 0;
 
 
 
@@ -40,8 +41,8 @@ public class Inventory : MonoBehaviour {
 
         //Inv location
         _invLocation = new Vector2(10, 10);
-
-        //_player = GameObject.Find(Player);
+        
+        _terrainActions = GameObject.FindGameObjectWithTag("Player").GetComponent<TerrainActions>();
 
         //Added to InitInventory 
         InventoryManager.Instance.InitInventory(_inv, 5, _slotsX * _slotsY);
@@ -50,6 +51,7 @@ public class Inventory : MonoBehaviour {
 
         _characterDb = GameObject.FindGameObjectWithTag("Character Database").GetComponent<CharacterDatabase>();
         CharacterSetting settings = _characterDb.PlayerSetting;
+        //print("###insite Start inventory "+ settings.CarryCnt);
         _playerSlots = settings.CarryCnt;
 
 
@@ -204,7 +206,7 @@ public class Inventory : MonoBehaviour {
                                 {
                                     //todo: Garbage copllections review all the logics 2/2
                                     if (newRecipe.FirstItemCnt <= _inv[invIndex].StackCnt)
-                                        if (newRecipe.FirstItemCnt <= _draggedItem.StackCnt)
+                                        if (newRecipe.SecondItemCnt <= _draggedItem.StackCnt)
                                         {   //Mixing items Logic
                                             _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt - newRecipe.FirstItemCnt);
                                             _draggedItem.setStackCnt(_draggedItem.StackCnt - newRecipe.SecondItemCnt);
@@ -256,8 +258,14 @@ public class Inventory : MonoBehaviour {
                             if (_inv[invIndex].Type == Item.ItemType.Consumable || _inv[invIndex].Type == Item.ItemType.Equipment)
                             {
                                 //Use Consumable
-                                UseConsumable(_inv[invIndex], invIndex);
+                                if (UseItem(_inv[invIndex], invIndex))
+                                    print("Consumed successfully");
                             }
+                        }
+                        if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 2)
+                        {
+                            DiscardItem(_inv[invIndex].Id);
+                            _inv[invIndex] = new ItemContainer();
                         }
                     }
                 }
@@ -277,18 +285,23 @@ public class Inventory : MonoBehaviour {
         }
     }
 
+    private void DiscardItem(int id)
+    {
+        _terrainActions.DropItem(id);
+    }
 
     private void PutItemBack()
     {
         //Drag&Drop #3/3: on clear inventory
-        if (_draggedItem.StackCnt == 0 )
+        //TODO NOT change it to <= 
+        if (_draggedItem.StackCnt == 0 ) 
             _inv[_draggedIndex] = new ItemContainer();
         else
             _inv[_draggedIndex] = _draggedItem;
         _dragging = false;
     }
 
-    private bool UseConsumable(ItemContainer item, int invIndex)
+    private bool UseItem(ItemContainer item, int invIndex)
     {
         switch (item.Type)
         {
@@ -297,16 +310,20 @@ public class Inventory : MonoBehaviour {
                 print("Consumable " + invIndex + " " + item.Name);
                 return true;
             case Item.ItemType.Equipment:
-                //do something;
-                print("Equipment " + invIndex + " " + item.Name);
-                _characterDb.AddCharacterSetting("Agility", 2);
-
-                print("_characterDb " + _characterDb.PlayerSetting.CarryCnt + _characterDb.PlayerSetting.Equipments.Count+" "+ (int)item.PlaceHolder);
-                
-                ItemContainer oldItem = InventoryManager.Instance.GetItemFromDatabase(_characterDb.PlayerSetting.AddEquipment((int)item.PlaceHolder, item.Id));
-                _inv[_draggedIndex] = oldItem;
-                print("Equipment " + oldItem.Name + " was there ");
-                return true;
+                if (item.MaxStackCnt == item.StackCnt)
+                {
+                    //Todo Adjust character based on the new equipment 
+                    //_characterDb.AddCharacterSetting("Agility", 2);
+                    ItemContainer oldItem = InventoryManager.Instance.GetItemFromDatabase(_characterDb.AddEquipment((int)item.PlaceHolder, item.Id));
+                    //Empty or the existing item in the equipment will be replace in invenotory slot
+                    oldItem.setStackCnt(oldItem.MaxStackCnt);
+                    _inv[invIndex] = oldItem;
+                    print(item.Name + " Equipt ");
+                    return true;
+                }
+                else
+                    print(item.MaxStackCnt-item.StackCnt + " more " + item.Name +" is needed!");
+                return false;
             default:
                 print(invIndex + " Not a Consumable ");
                 return false;

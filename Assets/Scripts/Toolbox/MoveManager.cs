@@ -36,7 +36,7 @@ public class MoveManager : MonoBehaviour {
     // Use this for initialization
     private void Start ()
     {
-        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(0);
+        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(1);
 
         _renderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
 
@@ -68,7 +68,8 @@ public class MoveManager : MonoBehaviour {
 	    var movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
 
         transform.Translate(movement * currentSpeed * Time.deltaTime);
-
+        if ( movement != Vector3.zero)
+            _animator.speed = 1;
         //Change Sprite or Animation according to the direction of moving
         if (movement.x > 0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
             if(DoAnimation)
@@ -90,7 +91,11 @@ public class MoveManager : MonoBehaviour {
                 _animator.runtimeAnimatorController = _downAnime;
             else
 	            _renderer.sprite = _down;
-
+        print("###Inside move manager: " + (int) _playerCharacter.MoveType);
+        if ( _playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
+        {
+            _animator.speed = 0;
+        }
         //Rotate game object according to the direction
         //if (Mathf.Abs(movement.x) > 0.1f || Mathf.Abs(movement.y) > 0.1f)
         //    TurnWithMovement.rotation = Quaternion.LookRotation(Vector3.back, movement.normalized);
