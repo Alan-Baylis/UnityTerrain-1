@@ -36,7 +36,7 @@ public class MoveManager : MonoBehaviour {
     // Use this for initialization
     private void Start ()
     {
-        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(1);
+        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase();
 
         _renderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
 

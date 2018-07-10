@@ -9,9 +9,9 @@ public class CharacterStats : MonoBehaviour {
     public KeyCode KeyToShowStats = KeyCode.S;
     public bool ShowStatsButton = false;
 
-    private bool _showStats = false;
-    private bool _showTooltip = false;
-    private string _tooltip = "";
+    //private bool _showStats = false;
+    //private bool _showTooltip = false;
+    //private string _tooltip = "";
 
     // Use this for initialization
     void Start () {

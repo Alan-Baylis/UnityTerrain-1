@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfCharacter xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Character>
+    <Id>0</Id>
+    <Name>Phoenix</Name>
+    <Description>Phoenix Flyer</Description>
+    <IconPath>Somewhere</IconPath>
+    <IconId>0</IconId>
+    <Cost>0</Cost>
+    <Weight>0</Weight>
+    <MoveType>Fly</MoveType>
+    <Attack>Close</Attack>
+    <Defence>Range</Defence>
+    <Speed>Fast</Speed>
+    <Body>Tiny</Body>
+    <Carry>Light</Carry>
+    <Slug>Phoenix</Slug>
+  </Character>
+  <Character>
+    <Id>1</Id>
+    <Name>Sailormoon</Name>
+    <Description>Sailormoon walker</Description>
+    <IconPath>Somewhere</IconPath>
+    <IconId>1</IconId>
+    <Cost>0</Cost>
+    <Weight>0</Weight>
+    <MoveType>Walk</MoveType>
+    <Attack>Close</Attack>
+    <Defence>Close</Defence>
+    <Speed>Regular</Speed>
+    <Body>Slim</Body>
+    <Carry>Light</Carry>
+    <Slug>Sailormoon</Slug>
+  </Character>
+</ArrayOfCharacter>

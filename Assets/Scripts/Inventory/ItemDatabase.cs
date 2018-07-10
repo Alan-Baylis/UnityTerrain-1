@@ -30,6 +30,7 @@ public class ItemDatabase : MonoBehaviour {
     {
         ItemContainer tempItem =new ItemContainer();
         DateTime ExpirationTime = DateTime.Now.Add(new TimeSpan(365, 0, 0, 0, 0));
+
         LoadItems();
 
         //Consumable template
@@ -202,6 +203,14 @@ public class ItemDatabase : MonoBehaviour {
         //PrintRecipes();
     }
 
+    public ItemContainer FindItem(int id)
+    {
+        for (int i = 0; i < Items.Count; i++)
+            if (Items[i].Id == id)
+                return Items[i];
+        return null;
+    }
+
     private void PrintRecipes()
     {
         for (int i = 0; i < Recipes.Count; i++)
@@ -219,16 +228,19 @@ public class ItemDatabase : MonoBehaviour {
     {
         //Empty the Items DB
         Items.Clear();
-
         string path = Path.Combine(Application.streamingAssetsPath, "Item.xml");
-
-        //Type[] itemClassTypes = { typeof(List<ItemContainer>), typeof(ItemContainer), typeof(Equipment), typeof(Weapon), typeof(Consumable) };
-        //TODO: May need itemClassTypes to be added as a second paramet
-
         //Read the items from Item.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
         FileStream fs = new FileStream(path, FileMode.Open);
         Items = (List<ItemContainer>) serializer.Deserialize(fs);
+        fs.Close();
+    }
+    private void SaveItems()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "Item.xml");
+        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
+        FileStream fs = new FileStream(path, FileMode.Create);
+        serializer.Serialize(fs, Items);
         fs.Close();
     }
 
@@ -243,17 +255,6 @@ public class ItemDatabase : MonoBehaviour {
         Recipes = (List<Recipe>)serializer.Deserialize(fs);
         fs.Close();
     }
-
-
-    private void SaveItems()
-    {
-        string path = Path.Combine(Application.streamingAssetsPath, "Item.xml");
-        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
-        FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, Items);
-        fs.Close();
-    }
-
 
     //Add item button call this function 
     public void CreateItem()
@@ -271,13 +272,6 @@ public class ItemDatabase : MonoBehaviour {
         SaveItems();
     }
 
-    public ItemContainer FindItem(int id)
-    {
-        for (int i = 0; i < Items.Count; i++)
-            if (Items[i].Id == id)
-                return Items[i];
-        return null;
-    }
 
 
 }

@@ -109,12 +109,12 @@ public class InventoryManager : MonoBehaviour
             if (r.IsEnable && first == r.FirstItemId && second == r.SecondItemId)
                 return r;
             if (r.IsEnable && first == r.SecondItemId && second == r.FirstItemId)
-                return Reverce(r);
+                return Reverse(r);
         }
         return null;
     }
 
-    private Recipe Reverce(Recipe r)
+    private Recipe Reverse(Recipe r)
     {
         int temp = r.FirstItemId;
         r.FirstItemId = r.SecondItemId;

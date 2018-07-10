@@ -91,5 +91,13 @@ public class Character {
         Sprite[] spriteList = Resources.LoadAll<Sprite>(IconPath);
         return spriteList[IconId];
     }
-    
+
+    public bool Exist(List<Character> characters)
+    {
+        for (int i = 0; i < characters.Count; i++)
+            if (characters[i].Name == this.Name)
+                return true;
+        return false;
+    }
+
 }

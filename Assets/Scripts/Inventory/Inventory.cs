@@ -21,6 +21,7 @@ public class Inventory : MonoBehaviour {
     private int _slotsY = 0;
     private bool _showInvButton = false;
     private bool _showInventory = false;
+    private bool _updateInventory = false;
     private bool _showTooltip = false;
     private string _tooltip = "";
     private bool _dragging = false;
@@ -53,9 +54,10 @@ public class Inventory : MonoBehaviour {
         CharacterSetting settings = _characterDb.PlayerSetting;
         //print("###insite Start inventory "+ settings.CarryCnt);
         _playerSlots = settings.CarryCnt;
+        _inv = _characterDb.PlayerInventory; 
 
 
-    }
+}
 
     internal bool AddItemToInventory(ItemContainer item)
     {
@@ -89,6 +91,12 @@ public class Inventory : MonoBehaviour {
             _showInventory = !_showInventory;
             if (_dragging)
                 PutItemBack();
+        }
+
+        if (_updateInventory)
+        {
+            _characterDb.SaveCharacterInventory(_inv); 
+            _updateInventory = false;
         }
 
     }

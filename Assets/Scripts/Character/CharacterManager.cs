@@ -45,6 +45,11 @@ public class CharacterManager : MonoBehaviour {
         }
         return new Character();
     }
+    public Character GetCharacterFromDatabase()
+    {
+        return GetCharacterFromDatabase(_characterDb.PlayerSetting.CharacterId);
+    }
+
 
     internal CharacterSetting GetPlayerSettings()
     {
