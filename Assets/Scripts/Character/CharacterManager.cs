@@ -90,7 +90,7 @@ public class CharacterManager : MonoBehaviour {
                     _characterDb.PlayerSetting.Stemina += item.Equipment.Stemina;
                     _characterDb.PlayerSetting.Strength += item.Equipment.Strength;
                 }
-                print("###Inside GetPlayerSettings Equipment = " + id);
+                //print("###Inside GetPlayerSettings Equipment = " + id);
             }
         return _characterDb.PlayerSetting;
         //todo: if not saved return new CharacterSetting();

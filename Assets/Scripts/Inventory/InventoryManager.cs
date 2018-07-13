@@ -66,7 +66,27 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    
+    internal void InitInventory(List<ItemContainer> destInv, List<ItemContainer> sourceInv)
+    {
+        destInv.Clear();
+        for (int i = 0; i < sourceInv.Count; i++)
+        {
+            if (sourceInv[i].Id == -1)
+                destInv.Add(new ItemContainer());
+            else
+                destInv.Add(
+                    new ItemContainer(
+                        sourceInv[i].Id, sourceInv[i].Name, sourceInv[i].Description,
+                        sourceInv[i].IconPath, sourceInv[i].IconId,
+                        sourceInv[i].Cost, sourceInv[i].Weight,
+                        sourceInv[i].MaxStackCnt, sourceInv[i].StackCnt,
+                        sourceInv[i].Type, sourceInv[i].Rarity,
+                        sourceInv[i].ExpirationTime,
+                        sourceInv[i].Values)
+                );
+        }
+    }
+
     public bool AddItemToInventory(int id, List<ItemContainer> invList)
     {
         for (int i = 0; i < invList.Count; i++)

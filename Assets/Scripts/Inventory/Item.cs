@@ -83,7 +83,7 @@ public abstract class Item
                 color = "Blue";
                 break;
             default:
-                color = "white";
+                color = "White";
                 break;
         }
         var tooltip = "<color=" + color + ">  "+ this.Id+ "  -" + this.Name + "</color>\n\n" + this.Description + "\n<color=yellow>Cost:" + this.Cost + "</color>\n <color=green>Available:"+ this.StackCnt +" </color> ";

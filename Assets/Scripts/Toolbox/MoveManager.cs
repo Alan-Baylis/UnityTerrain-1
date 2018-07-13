@@ -91,7 +91,6 @@ public class MoveManager : MonoBehaviour {
                 _animator.runtimeAnimatorController = _downAnime;
             else
 	            _renderer.sprite = _down;
-        print("###Inside move manager: " + (int) _playerCharacter.MoveType);
         if ( _playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
         {
             _animator.speed = 0;

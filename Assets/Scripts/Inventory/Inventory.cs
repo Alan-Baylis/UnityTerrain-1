@@ -10,7 +10,8 @@ public class Inventory : MonoBehaviour {
     public GUISkin Skin;
 
     private static CharacterDatabase _characterDb;
-    private static TerrainActions _terrainActions; 
+    private static TerrainActions _terrainActions;
+    private static AlertManager _alertManager;
     private List<ItemContainer> _inv = new List<ItemContainer>();
     
     private Vector2 _invLocation = Vector2.zero;
@@ -44,6 +45,7 @@ public class Inventory : MonoBehaviour {
         _invLocation = new Vector2(10, 10);
         
         _terrainActions = GameObject.FindGameObjectWithTag("Player").GetComponent<TerrainActions>();
+        _alertManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<AlertManager>();
 
         //Added to InitInventory 
         InventoryManager.Instance.InitInventory(_inv, 5, _slotsX * _slotsY);
@@ -54,7 +56,9 @@ public class Inventory : MonoBehaviour {
         CharacterSetting settings = _characterDb.PlayerSetting;
         //print("###insite Start inventory "+ settings.CarryCnt);
         _playerSlots = settings.CarryCnt;
-        _inv = _characterDb.PlayerInventory; 
+
+        InventoryManager.Instance.InitInventory(_inv, _characterDb.PlayerInventory);
+        //TODO: delete : _inv = _characterDb.PlayerInventory; 
 
 
 }
@@ -63,12 +67,9 @@ public class Inventory : MonoBehaviour {
     {
         for (int i = 0; i < _inv.Count; i++)
         {
-            //print("###Inside AddItemToInventory : "+ _inv.Count + "index"+ i + " id "+_inv[i].Id + _inv[i].Name); 
             if (i > _playerSlots)
             {
-                //Rect tooltipBox = new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, dynamicHeight);
-                //GUI.Box(tooltipBox, _tooltip);
-                print("Inventory is full");
+                _alertManager.AddMessage("RED: Inventory is full");
                 break;
             }
             if (_inv[i].Id == -1) //empty Slot
@@ -76,7 +77,7 @@ public class Inventory : MonoBehaviour {
                 _inv[i] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                     item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity,
                     DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
-                //print("###inside AddItemToInventory " +i); 
+                _updateInventory = true;
                 return true;
             }
         }
@@ -206,6 +207,7 @@ public class Inventory : MonoBehaviour {
                                     _draggedItem.setStackCnt(0);
                                 }
                                 PutItemBack();
+                                _updateInventory = true;
                             }
                             else //not Same items Mix or swap them
                             {
@@ -246,17 +248,19 @@ public class Inventory : MonoBehaviour {
                                                     _draggedItem.setStackCnt(_draggedItem.StackCnt + newRecipe.SecondItemCnt);
                                                 }
                                             }
+                                            _updateInventory = true;
                                         }
                                         else //Not enough materials 
-                                            print("Not enough " + _draggedItem.Name + " in the inventory, You need " + (newRecipe.FirstItemCnt - _draggedItem.StackCnt) + " more");
+                                            _alertManager.AddMessage("YEL: Not enough " + _draggedItem.Name + " in the inventory, You need " + (newRecipe.FirstItemCnt - _draggedItem.StackCnt) + " more");
                                     else //Not enough materials 
-                                        print("Not enough "+ _inv[invIndex].Name + " in the inventory, You need "+ (newRecipe.FirstItemCnt-_inv[invIndex].StackCnt) +" more");
+                                        _alertManager.AddMessage("YEL: Not enough " + _inv[invIndex].Name + " in the inventory, You need "+ (newRecipe.FirstItemCnt-_inv[invIndex].StackCnt) +" more");
                                     PutItemBack();
                                 }
                                 else //Swaping items Logic
                                 {
                                     _inv[_draggedIndex] = _inv[invIndex];
                                     _inv[invIndex] = _draggedItem;
+                                    _updateInventory = true;
                                 }
                             }
                         }
@@ -267,13 +271,14 @@ public class Inventory : MonoBehaviour {
                             {
                                 //Use Consumable
                                 if (UseItem(_inv[invIndex], invIndex))
-                                    print("Consumed successfully");
+                                    _alertManager.AddMessage("GRE: Consumed successfully");
                             }
                         }
                         if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 2)
                         {
                             DiscardItem(_inv[invIndex].Id);
                             _inv[invIndex] = new ItemContainer();
+                            _updateInventory = true;
                         }
                     }
                 }
@@ -286,6 +291,7 @@ public class Inventory : MonoBehaviour {
                     {
                         _inv[_draggedIndex] = _inv[invIndex];
                         _inv[invIndex] = _draggedItem;
+                        _updateInventory = true;
                     }
                     _dragging = false;
                 }
@@ -326,14 +332,14 @@ public class Inventory : MonoBehaviour {
                     //Empty or the existing item in the equipment will be replace in invenotory slot
                     oldItem.setStackCnt(oldItem.MaxStackCnt);
                     _inv[invIndex] = oldItem;
-                    print(item.Name + " Equipt ");
+                    _alertManager.AddMessage("GRE: " + item.Name + " Equipt ");
                     return true;
                 }
                 else
-                    print(item.MaxStackCnt-item.StackCnt + " more " + item.Name +" is needed!");
+                    _alertManager.AddMessage("YEL: "+ (item.MaxStackCnt-item.StackCnt) + " more " + item.Name +" is needed!");
                 return false;
             default:
-                print(invIndex + " Not a Consumable ");
+                _alertManager.AddMessage("YEL: " + invIndex + " Not a Consumable ");
                 return false;
         }
     }

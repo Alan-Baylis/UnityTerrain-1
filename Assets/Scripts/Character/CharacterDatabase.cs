@@ -12,7 +12,7 @@ public class CharacterDatabase : MonoBehaviour {
 
     public CharacterSetting PlayerSetting;
 
-    public List<ItemContainer> PlayerInventory;
+    public List<ItemContainer> PlayerInventory = new List<ItemContainer>();
     
 
     public int Id;
@@ -134,18 +134,27 @@ public class CharacterDatabase : MonoBehaviour {
     }
     internal void SaveCharacterInventory(List<ItemContainer> inv)
     {
-        PlayerInventory.Clear();unt; i++)
-        //{
-        //    if (i < inv[i])
-        //    {
-        //        ItemContainer ni = GetItemFromDatabase((int)Random.Range(0, _itemDb.Items.Count));
-        //        PlayerInventory.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.IconPath, ni.IconId, ni.Cost, ni.Weight, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), ni.Values));
-        //    }
-        //    else
-        //        PlayerInventory.Add(new ItemContainer());
-        //}
+        //TODO: May need to clrat list
+        print("####Inside SaveCharacterInventory");
+        PlayerInventory.Clear();
+        for (int i = 0; i < inv.Count; i++)
+        {
+            if (inv[i].Id==-1)
+                PlayerInventory.Add(new ItemContainer());
+            else
+                PlayerInventory.Add(
+                    new ItemContainer(
+                        inv[i].Id, inv[i].Name, inv[i].Description,
+                        inv[i].IconPath, inv[i].IconId,
+                        inv[i].Cost, inv[i].Weight,
+                        inv[i].MaxStackCnt, inv[i].StackCnt,
+                        inv[i].Type, inv[i].Rarity,
+                        inv[i].ExpirationTime,
+                        inv[i].Values)
+                    );
+        }
         //todo: make it async
-        //SaveCharacterInventory();
+        SaveCharacterInventory();
     }
 
     private void LoadCharacters()
@@ -185,7 +194,4 @@ public class CharacterDatabase : MonoBehaviour {
         serializer.Serialize(fs, PlayerSetting);
         fs.Close();
     }
-
-
-
 }

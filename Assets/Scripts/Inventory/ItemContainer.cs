@@ -328,11 +328,11 @@ public class ItemContainer {
         new ItemContainer(
             item.Id, item.Name, item.Description,
             item.IconPath, item.IconId,
-            item.Cost, item.Weight,
-            item.MaxStackCnt, item.StackCnt,
-            item.Type, item.Rarity,
-            item.ExpirationTime,
-            item.Values);
+            cost: item.Cost, weight: item.Weight,
+            maxStackCnt: item.MaxStackCnt, stackCnt: item.StackCnt,
+            type: item.Type, rarity: item.Rarity,
+            expirationTime: item.ExpirationTime,
+            values: item.Values);
     }
 
 

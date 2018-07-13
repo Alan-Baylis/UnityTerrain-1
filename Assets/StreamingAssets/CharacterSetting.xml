@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <CharacterSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Id>0</Id>
-  <CharacterId>0</CharacterId>
+  <CharacterId>1</CharacterId>
   <Name>Avid2</Name>
   <Description>Werewolf2</Description>
   <IconPath>Somewhere</IconPath>
@@ -29,7 +29,7 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>20</Krafting>
+  <Krafting>81</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>
