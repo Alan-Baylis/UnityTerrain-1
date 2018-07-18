@@ -11,7 +11,7 @@ public class Inventory : MonoBehaviour {
 
     private static CharacterDatabase _characterDb;
     private static TerrainActions _terrainActions;
-    private static AlertManager _alertManager;
+    private static GUIManager _GUIManager;
     private List<ItemContainer> _inv = new List<ItemContainer>();
     
     private Vector2 _invLocation = Vector2.zero;
@@ -45,7 +45,7 @@ public class Inventory : MonoBehaviour {
         _invLocation = new Vector2(10, 10);
         
         _terrainActions = GameObject.FindGameObjectWithTag("Player").GetComponent<TerrainActions>();
-        _alertManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<AlertManager>();
+        _GUIManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<GUIManager>();
 
         //Added to InitInventory 
         InventoryManager.Instance.InitInventory(_inv, 5, _slotsX * _slotsY);
@@ -69,7 +69,7 @@ public class Inventory : MonoBehaviour {
         {
             if (i > _playerSlots)
             {
-                _alertManager.AddMessage("RED: Inventory is full");
+                _GUIManager.AddMessage("RED: Inventory is full");
                 break;
             }
             if (_inv[i].Id == -1) //empty Slot
@@ -251,9 +251,9 @@ public class Inventory : MonoBehaviour {
                                             _updateInventory = true;
                                         }
                                         else //Not enough materials 
-                                            _alertManager.AddMessage("YEL: Not enough " + _draggedItem.Name + " in the inventory, You need " + (newRecipe.FirstItemCnt - _draggedItem.StackCnt) + " more");
+                                            _GUIManager.AddMessage("YEL: Not enough " + _draggedItem.Name + " in the inventory, You need " + (newRecipe.FirstItemCnt - _draggedItem.StackCnt) + " more");
                                     else //Not enough materials 
-                                        _alertManager.AddMessage("YEL: Not enough " + _inv[invIndex].Name + " in the inventory, You need "+ (newRecipe.FirstItemCnt-_inv[invIndex].StackCnt) +" more");
+                                        _GUIManager.AddMessage("YEL: Not enough " + _inv[invIndex].Name + " in the inventory, You need "+ (newRecipe.FirstItemCnt-_inv[invIndex].StackCnt) +" more");
                                     PutItemBack();
                                 }
                                 else //Swaping items Logic
@@ -271,7 +271,7 @@ public class Inventory : MonoBehaviour {
                             {
                                 //Use Consumable
                                 if (UseItem(_inv[invIndex], invIndex))
-                                    _alertManager.AddMessage("GRE: Consumed successfully");
+                                    _GUIManager.AddMessage("GRE: Consumed successfully");
                             }
                         }
                         if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 2)
@@ -332,14 +332,14 @@ public class Inventory : MonoBehaviour {
                     //Empty or the existing item in the equipment will be replace in invenotory slot
                     oldItem.setStackCnt(oldItem.MaxStackCnt);
                     _inv[invIndex] = oldItem;
-                    _alertManager.AddMessage("GRE: " + item.Name + " Equipt ");
+                    _GUIManager.AddMessage("GRE: " + item.Name + " Equipt ");
                     return true;
                 }
                 else
-                    _alertManager.AddMessage("YEL: "+ (item.MaxStackCnt-item.StackCnt) + " more " + item.Name +" is needed!");
+                    _GUIManager.AddMessage("YEL: "+ (item.MaxStackCnt-item.StackCnt) + " more " + item.Name +" is needed!");
                 return false;
             default:
-                _alertManager.AddMessage("YEL: " + invIndex + " Not a Consumable ");
+                _GUIManager.AddMessage("YEL: " + invIndex + " Not a Consumable ");
                 return false;
         }
     }

@@ -15,6 +15,13 @@ public class CharacterSetting {
     public int IconId { get; set; }
     //public Sprite Icon { get; set; }
     public int Level { get; set; }
+    public float Longitude { get; set; }
+    public float Latitude { get; set; }
+    public int Rank { get; set; }
+    public int ClanId { get; set; }
+    public int Live { get; set; }
+    public int Coin { get; set; }
+    public int Gem { get; set; }
     public int Experience { get; set; }
     public int MaxHealth { get; set; }
     public int Health { get; set; }
@@ -45,7 +52,9 @@ public class CharacterSetting {
     //Todo: add the hashcode
 
     public CharacterSetting(int id = 0, int characterId = 0, string name = null,
-         string description = null, string iconPath = null, int iconId = 0, int level = 0,
+         string description = null, string iconPath = null, int iconId = 0, 
+        int level = 0, float longitude = 0, float latitude = 0,
+        int rank = 0, int clanId = 0, int live = 0, int coin = 0, int gem = 0,
         int experience = 0, int maxHealth = 0, int health = 0, int maxMana = 0, int mana = 0, int maxEnergy = 0,
         int energy = 0, int attackSpeed = 0, int defenceSpeed = 0, int abilityAttack = 0, int abilityDefence = 0,
         int magicAttack = 0, int magicDefence = 0, int poisonAttack = 0, int poisonDefence = 0, float carry = 0, int carryCnt = 0,
@@ -59,6 +68,13 @@ public class CharacterSetting {
         IconPath = "Somewhere";
         IconId = id;
         Level = level;
+        Rank = rank;
+        ClanId = clanId;
+        Live = live;
+        Longitude = longitude;
+        Latitude = latitude;
+        Coin = coin;
+        Gem = gem;
         Experience = experience;
         MaxHealth = maxHealth;
         Health = health;

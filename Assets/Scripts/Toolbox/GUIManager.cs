@@ -3,22 +3,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AlertManager : MonoBehaviour {
+public class GUIManager : MonoBehaviour {
 
     public GUISkin Skin;
-    private string _alert = "Hello Unity";
-    //private string[] _messages;
+
+    //Messaging board variables
+    private string _alert;
     private List<string> _messageBoardQueue = new List<string>();
     private float _windowWidth = 300;
     private int _messageLength = 5;
     private Rect _alertBox;
     private bool _coroutineExecuting = false;
 
+    //Todo: delete this TestPrint
     public int TestPrint;
+
+    //Stats box variables
+    private int _coin;
+    private int _gem;
+    private int _live;
+    private int _level;
+    private int _experience;
+    private int _rank;
+    private string _name;
+
 
     void Start()
     {
-        AddMessage("BLU: Welcome Back");
+        AddMessage("BLU: Welcome To AUSTIN Map");
     }
 
     void Update()
@@ -40,6 +52,8 @@ public class AlertManager : MonoBehaviour {
     {
         if (_alert != "")
             GUI.Box(_alertBox, _alert, Skin.GetStyle("box"));
+
+        //GUI.Box(_alertBox, _alert, Skin.GetStyle("box"));
     }
 
     public void AddMessage(string message)

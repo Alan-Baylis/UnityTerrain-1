@@ -61,6 +61,10 @@ public class Move : MonoBehaviour {
         }
         if (ellement != null && ellement.EllementTypeInUse.IsEnterable)
         {
+            //todo: make canvas DontDestroyOnLoad
+            //https://answers.unity.com/questions/1245665/keep-some-ui-alive-between-scenes.html
+            //https://answers.unity.com/questions/1396450/how-to-not-lose-canvas-reference-when-loading-new.html
+
             //Debug.Log("Walked in");
             //Preparing to switch the scene
             GameObject go = new GameObject();

@@ -7,6 +7,8 @@ TagManager:
   - Item Database
   - PlayerCamera
   - Character Database
+  - Health
+  - Mana
   layers:
   - Default
   - TransparentFX
