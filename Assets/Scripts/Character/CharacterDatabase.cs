@@ -100,14 +100,21 @@ public class CharacterDatabase : MonoBehaviour {
             case "Agility":
                 PlayerSetting.Agility += value;
                 break;
+            case "Health":
+                PlayerSetting.Health -= (int) value;
+                PlayerSetting.Coin += 1;
+                break;
         }
-        SaveCharacterSetting();
     }
 
     public int AddEquipment(int index, int id)
     {
         int OldItem = PlayerSetting.Equipments[index];
         PlayerSetting.Equipments[index] = id;
+        //Todo: Adjust character based on the new equipment an remove old setting
+        AddCharacterSetting("Health", 2);
+        //Todo: may need to move 
+        PlayerSetting.Updated = true;
         SaveCharacterSetting();
         return OldItem;
     }
@@ -135,7 +142,7 @@ public class CharacterDatabase : MonoBehaviour {
     internal void SaveCharacterInventory(List<ItemContainer> inv)
     {
         //TODO: May need to clrat list
-        print("####Inside SaveCharacterInventory");
+        //print("####Inside SaveCharacterInventory");
         PlayerInventory.Clear();
         for (int i = 0; i < inv.Count; i++)
         {
@@ -149,7 +156,7 @@ public class CharacterDatabase : MonoBehaviour {
                         inv[i].Cost, inv[i].Weight,
                         inv[i].MaxStackCnt, inv[i].StackCnt,
                         inv[i].Type, inv[i].Rarity,
-                        inv[i].ExpirationTime,
+                        inv[i].DurationDays,inv[i].ExpirationTime,
                         inv[i].Values)
                     );
         }

@@ -14,5 +14,7 @@ public class Recipe{
     public int SecondItemCnt { get; set; }
     public int FinalItemId { get; set; }
     public int FinalItemCnt { get; set; }
+    public int DurationMinutes { get; set; }
+    public int Energy { get; set; }
     public bool IsEnable { get; set; }
 }

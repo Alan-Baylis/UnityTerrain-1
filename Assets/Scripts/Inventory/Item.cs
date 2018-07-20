@@ -42,11 +42,17 @@ public abstract class Item
     public ItemType Type { get; set; }
     public ItemRarity Rarity { get; set; }
     public string Slug { get; set; }
+    public int DurationDays { get; set; }
     public DateTime ExpirationTime { get; set; }
     public bool IsEnable { get; set; }
 
 
-    protected Item(int id, string name,string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity,DateTime expirationTime)
+    protected Item(
+        int id, string name,string desc, 
+        string iconPath, int iconId, int cost, 
+        int weight, int maxStackCnt, int stackCnt, 
+        ItemType type, ItemRarity rarity,
+        int durationDays,DateTime expirationTime)
     {
         Id = id;
         Name = name;
@@ -60,6 +66,7 @@ public abstract class Item
         StackCnt = stackCnt;
         Rarity = rarity;
         Slug = name.Replace(" ", "_");
+        DurationDays = durationDays;
         ExpirationTime = expirationTime;
         IsEnable = true;
     }

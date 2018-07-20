@@ -53,7 +53,7 @@ public class CharacterManager : MonoBehaviour {
 
     internal CharacterSetting GetPlayerSettings()
     {
-        if (_characterDb.PlayerSetting.Level == 0)
+        if (_characterDb.PlayerSetting.Level == 0 && _characterDb.PlayerSetting.Experience == 0)
         {//Basic Setting
             //print("###Inside GetPlayerSettings Basic Setting");
             Character character = GetCharacterFromDatabase(_characterDb.PlayerSetting.CharacterId);

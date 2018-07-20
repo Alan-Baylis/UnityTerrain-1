@@ -13,8 +13,8 @@ public class Consumable : Item {
     {
     }
 
-    public Consumable(int id, string name, string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, DateTime expirationTime, int[] values =null)
-        : base(id, name, desc,  iconPath,  iconId, cost, weight, maxStackCnt, stackCnt, type, rarity,expirationTime)
+    public Consumable(int id, string name, string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, int durationDays, DateTime expirationTime, int[] values =null)
+        : base(id, name, desc,  iconPath,  iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime)
     {
         if (values == null)
         {

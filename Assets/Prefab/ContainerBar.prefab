@@ -135,6 +135,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lerpSpeed: 2
+  MaxValue: 0
+  FillAmount: 0
+  Level: 0
+  FullColor: {r: 0, g: 0, b: 0, a: 0}
+  LowColor: {r: 0, g: 0, b: 0, a: 0}
+  LerpColor: 0
 --- !u!114 &114486375708528722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,7 +198,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 1
 --- !u!114 &114646774345826722

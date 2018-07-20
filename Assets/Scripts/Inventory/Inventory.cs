@@ -14,8 +14,10 @@ public class Inventory : MonoBehaviour {
     private static GUIManager _GUIManager;
     private List<ItemContainer> _inv = new List<ItemContainer>();
     
-    private Vector2 _invLocation = Vector2.zero;
     public KeyCode _keyToShowInventory = KeyCode.I;
+    private Rect _invRect;
+    //Inv location
+    private Vector2 _invLocation = new Vector2(300, 300);
     private int _slotsPadding = 5;
     private int _slotSize = 50;
     private int _slotsX = 0;
@@ -41,9 +43,13 @@ public class Inventory : MonoBehaviour {
         _slotsX = 5;
         _slotsY = MaxSlotsCount / _slotsX + 1;
 
-        //Inv location
-        _invLocation = new Vector2(10, 10);
-        
+
+        _invRect = BuildInventoryBox();
+
+
+        //print(invRect.ToString());
+
+
         _terrainActions = GameObject.FindGameObjectWithTag("Player").GetComponent<TerrainActions>();
         _GUIManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<GUIManager>();
 
@@ -61,8 +67,16 @@ public class Inventory : MonoBehaviour {
         //TODO: delete : _inv = _characterDb.PlayerInventory; 
 
 
-}
+    }
 
+    private Rect BuildInventoryBox()
+    {
+        float invWeight = (_slotSize + _slotsPadding) * _slotsX + _slotsPadding;
+        float invHeight = (_slotSize + _slotsPadding) * _slotsY + _slotsPadding;
+        _invLocation = new Vector2((Screen.width - invWeight) / 2, (Screen.height - invHeight) / 2);
+        return new Rect(_invLocation.x - _slotsPadding, _invLocation.y - _slotsPadding, invWeight, invHeight);
+    }
+    
     internal bool AddItemToInventory(ItemContainer item)
     {
         for (int i = 0; i < _inv.Count; i++)
@@ -76,7 +90,7 @@ public class Inventory : MonoBehaviour {
             {
                 _inv[i] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                     item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity,
-                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                    item.DurationDays, item.ExpirationTime, item.Values);
                 _updateInventory = true;
                 return true;
             }
@@ -151,11 +165,7 @@ public class Inventory : MonoBehaviour {
     {
         Event currentEvent = Event.current;
 
-        Rect invRect = new Rect(_invLocation.x - _slotsPadding, _invLocation.y - _slotsPadding, (_slotSize + _slotsPadding) * _slotsX + _slotsPadding, (_slotSize + _slotsPadding) * _slotsY + _slotsPadding);
-
-        //print(invRect.ToString());
-
-        GUI.Box(invRect, "", Skin.GetStyle("slotNormal"));
+        GUI.Box(_invRect, "", Skin.GetStyle("slotNormal"));
 
         for (int y = 0; y < _slotsY; y++)
         {
@@ -182,6 +192,7 @@ public class Inventory : MonoBehaviour {
                         _showTooltip = true;
                         _tooltip = _inv[invIndex].GetTooltip();
                         //todo: Garbage copllections review all the logics 1/2
+                        //#################################### START DRAGGING
                         if (currentEvent.button == 0 && currentEvent.type == EventType.MouseDrag && !_dragging) //Right click and drag
                         {
                             _dragging = true;
@@ -189,11 +200,13 @@ public class Inventory : MonoBehaviour {
                             _draggedIndex = invIndex;
                             _inv[invIndex] = new ItemContainer();
                         }
+                        //#################################### End DRAGGING
                         if (currentEvent.type == EventType.MouseUp && _dragging)
                         {
                             _dragging = false;
                             //Drag&Drop #1/3: on filled Item
                             //Same items Stack them together 
+                            //#################################### Stacking
                             if ( _inv[invIndex].Id == _draggedItem.Id)
                             {   
                                 if (_inv[invIndex].StackCnt + _draggedItem.StackCnt > _inv[invIndex].MaxStackCnt)
@@ -212,12 +225,14 @@ public class Inventory : MonoBehaviour {
                             else //not Same items Mix or swap them
                             {
                                 Recipe newRecipe = InventoryManager.Instance.CheckRecipes( _inv[invIndex].Id,_draggedItem.Id);
+                                //#################################### Mixing
                                 if (newRecipe!=null)
                                 {
                                     //todo: Garbage copllections review all the logics 2/2
                                     if (newRecipe.FirstItemCnt <= _inv[invIndex].StackCnt)
                                         if (newRecipe.SecondItemCnt <= _draggedItem.StackCnt)
                                         {   //Mixing items Logic
+                                            //todo: use DurationMinutes and Energy in recepie to make it 
                                             _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt - newRecipe.FirstItemCnt);
                                             _draggedItem.setStackCnt(_draggedItem.StackCnt - newRecipe.SecondItemCnt);
                                             ItemContainer item = InventoryManager.Instance.GetItemFromDatabase(newRecipe.FinalItemId);
@@ -226,14 +241,14 @@ public class Inventory : MonoBehaviour {
                                                 
                                                 _inv[invIndex] = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                                                     item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
-                                                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                                                    item.DurationDays, item.ExpirationTime, item.Values);
                                                 PutItemBack();
                                             }
                                             else if (_draggedItem.StackCnt == 0)
                                             {
                                                 _draggedItem = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                                                     item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
-                                                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                                                    item.DurationDays, item.ExpirationTime, item.Values);
                                             }
                                             else
                                             {
@@ -241,7 +256,7 @@ public class Inventory : MonoBehaviour {
                                                 PutItemBack();
                                                 ItemContainer newItem = new ItemContainer(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost,
                                                     item.Weight, item.MaxStackCnt, Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt), item.Type, item.Rarity,
-                                                    DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), item.Values);
+                                                    item.DurationDays, item.ExpirationTime, item.Values);
                                                 if (!AddItemToInventory(newItem))
                                                 {   //Reverce back the changes
                                                     _inv[invIndex].setStackCnt(_inv[invIndex].StackCnt + newRecipe.FirstItemCnt);
@@ -256,6 +271,7 @@ public class Inventory : MonoBehaviour {
                                         _GUIManager.AddMessage("YEL: Not enough " + _inv[invIndex].Name + " in the inventory, You need "+ (newRecipe.FirstItemCnt-_inv[invIndex].StackCnt) +" more");
                                     PutItemBack();
                                 }
+                                //#################################### Swaping
                                 else //Swaping items Logic
                                 {
                                     _inv[_draggedIndex] = _inv[invIndex];
@@ -264,16 +280,18 @@ public class Inventory : MonoBehaviour {
                                 }
                             }
                         }
-                        //Right clicked 
-                        if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 1)
+                        //#################################### Consuming
+                        if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 1) //Right clicked 
                         {
                             if (_inv[invIndex].Type == Item.ItemType.Consumable || _inv[invIndex].Type == Item.ItemType.Equipment)
                             {
                                 //Use Consumable
                                 if (UseItem(_inv[invIndex], invIndex))
-                                    _GUIManager.AddMessage("GRE: Consumed successfully");
+                                    Debug.Log("Consumed successfully");
+                                _updateInventory = true;
                             }
                         }
+                        //#################################### Discarding
                         if (currentEvent.isMouse && currentEvent.type == EventType.MouseDown && currentEvent.button == 2)
                         {
                             DiscardItem(_inv[invIndex].Id);
@@ -326,8 +344,6 @@ public class Inventory : MonoBehaviour {
             case Item.ItemType.Equipment:
                 if (item.MaxStackCnt == item.StackCnt)
                 {
-                    //Todo Adjust character based on the new equipment 
-                    //_characterDb.AddCharacterSetting("Agility", 2);
                     ItemContainer oldItem = InventoryManager.Instance.GetItemFromDatabase(_characterDb.AddEquipment((int)item.PlaceHolder, item.Id));
                     //Empty or the existing item in the equipment will be replace in invenotory slot
                     oldItem.setStackCnt(oldItem.MaxStackCnt);

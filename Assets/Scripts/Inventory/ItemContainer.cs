@@ -190,6 +190,23 @@ public class ItemContainer {
         }
     }
     //public string Slug { get; set; }
+
+    public int DurationDays
+    {
+        get
+        {
+            if (Consumable != null)
+                return Consumable.DurationDays;
+            if (Weapon != null)
+                return Weapon.DurationDays;
+            if (Equipment != null)
+                return Equipment.DurationDays;
+            if (Substance != null)
+                return Substance.DurationDays;
+            return 0;
+        }
+    }
+
     public DateTime ExpirationTime
     {
         get
@@ -205,6 +222,8 @@ public class ItemContainer {
             return DateTime.MinValue;
         }
     }
+
+
 
 
     public int Weight
@@ -249,7 +268,8 @@ public class ItemContainer {
                     Consumable.Health, Consumable.Mana, Consumable.Energy
                 };
             if (Weapon != null)
-                return new int[8] {
+                return new int[9] {
+                    (int) Weapon.CarryType, 
                     Weapon.AttackSpeed, Weapon.DefenceSpeed,
                     Weapon.AbilityAttack, Weapon.AbilityDefence,
                     Weapon.MagicAttack, Weapon.MagicDefence,
@@ -284,20 +304,29 @@ public class ItemContainer {
             return Equipment.PlaceHolder;
         }
     }
+
+    public Weapon.Hands CarryType
+    {
+        get
+        {
+            return Weapon.CarryType;
+        }
+    }
+
     public ItemContainer(
         int id,string name,string description,
         string iconPath,int iconId,
         int cost, int weight, 
         int maxStackCnt,int stackCnt,
         Item.ItemType type,Item.ItemRarity rarity,
-        DateTime expirationTime,
+        int durationDays, DateTime expirationTime,
         int[] values = null )
     {
 
         switch (type)
         {
             case Item.ItemType.Consumable:
-                Consumable = new Consumable(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime, values);
+                Consumable = new Consumable(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime, values);
                 Equipment = null;
                 Weapon = null;
                 Substance = null;
@@ -305,12 +334,12 @@ public class ItemContainer {
             case Item.ItemType.Weapon:
                 Consumable = null;
                 Equipment = null;
-                Weapon = new Weapon(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime, values);
+                Weapon = new Weapon(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime, values);
                 Substance = null;
                 break;
             case Item.ItemType.Equipment:
                 Consumable = null;
-                Equipment = new Equipment(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type,  rarity, expirationTime, values);
+                Equipment = new Equipment(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type,  rarity, durationDays, expirationTime, values);
                 Weapon = null;
                 Substance = null;
                 break;
@@ -318,7 +347,7 @@ public class ItemContainer {
                 Consumable = null;
                 Equipment = null;
                 Weapon = null;
-                Substance = new Substance(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime, values);
+                Substance = new Substance(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime, values);
                 break;
         }
     }
@@ -331,7 +360,7 @@ public class ItemContainer {
             cost: item.Cost, weight: item.Weight,
             maxStackCnt: item.MaxStackCnt, stackCnt: item.StackCnt,
             type: item.Type, rarity: item.Rarity,
-            expirationTime: item.ExpirationTime,
+            durationDays: item.DurationDays, expirationTime: item.ExpirationTime,
             values: item.Values);
     }
 

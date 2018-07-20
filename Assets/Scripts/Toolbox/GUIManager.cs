@@ -27,7 +27,7 @@ public class GUIManager : MonoBehaviour {
     private int _rank;
     private string _name;
 
-
+    //TODO: change font for messages
     void Start()
     {
         AddMessage("BLU: Welcome To AUSTIN Map");

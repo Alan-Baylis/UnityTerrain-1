@@ -21,15 +21,17 @@ public class ItemDatabase : MonoBehaviour {
     public int MaxStackCnt;
     public int StackCnt;
     public Item.ItemType Type ;
-    public Item.ItemRarity Rarity ;
+    public Item.ItemRarity Rarity;
+    public int DurationDays;
     public int[] Values;
 
 
+    public int _defaultDurationDays = 365;
 
     void Start()
     {
         ItemContainer tempItem =new ItemContainer();
-        DateTime ExpirationTime = DateTime.Now.Add(new TimeSpan(365, 0, 0, 0, 0));
+        DateTime ExpirationTime = DateTime.Now.Add(new TimeSpan(_defaultDurationDays, 0, 0, 0, 0));
 
         LoadItems();
 
@@ -57,6 +59,8 @@ public class ItemDatabase : MonoBehaviour {
             Item.ItemType.Consumable,
             //Rarity
             Item.ItemRarity.Common,
+            //DurationDays
+            _defaultDurationDays,
             //ExpirationTime
             ExpirationTime,
             //###Extras
@@ -93,6 +97,8 @@ public class ItemDatabase : MonoBehaviour {
             Item.ItemType.Equipment,
             //Rarity
             Item.ItemRarity.Common,
+            //DurationDays
+            _defaultDurationDays,
             //ExpirationTime
             ExpirationTime,
             //###Extras
@@ -138,10 +144,13 @@ public class ItemDatabase : MonoBehaviour {
             Item.ItemType.Weapon,
             //Rarity
             Item.ItemRarity.Common,
+            //DurationDays
+            _defaultDurationDays,
             //ExpirationTime
             ExpirationTime,
             //###Extras
-            new int[8] {
+            new int[9] {
+                0,  //CarryType
                 1,  //AttackSpeed
                 0,  //DefenceSpeed
                 1,  //AbilityAttack
@@ -179,6 +188,8 @@ public class ItemDatabase : MonoBehaviour {
             Item.ItemType.Substance,
             //Rarity
             Item.ItemRarity.Common,
+            //DurationDays
+            _defaultDurationDays,
             //ExpirationTime
             ExpirationTime,
             //###Extras //todo: ignore for now 
@@ -266,7 +277,7 @@ public class ItemDatabase : MonoBehaviour {
             Cost, Weight,
             MaxStackCnt, StackCnt,
             Type, Rarity,
-            DateTime.Now.Add(new TimeSpan(14, 0, 0, 0, 0)),
+            DurationDays, DateTime.Now.Add(new TimeSpan(DurationDays, 0, 0, 0, 0)),
             Values));
         //Save the new list back in Item.xml file in the streamingAssets folder
         SaveItems();

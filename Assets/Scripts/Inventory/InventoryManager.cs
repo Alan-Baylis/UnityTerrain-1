@@ -59,7 +59,11 @@ public class InventoryManager : MonoBehaviour
             if (i < count)
             {
                 ItemContainer ni = GetItemFromDatabase((int) Random.Range(0, _itemDb.Items.Count));
-                invList.Add(new ItemContainer(ni.Id, ni.Name, ni.Description, ni.IconPath, ni.IconId, ni.Cost, ni.Weight, ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, DateTime.Now.Add(new TimeSpan(24, 0, 0, 0)), ni.Values));
+                invList.Add(new ItemContainer(
+                    ni.Id, ni.Name, ni.Description,
+                    ni.IconPath, ni.IconId, ni.Cost, ni.Weight, 
+                    ni.MaxStackCnt, Random.Range(1, ni.MaxStackCnt), ni.Type, ni.Rarity, 
+                    ni.DurationDays, ni.ExpirationTime, ni.Values));
             }
             else
                 invList.Add(new ItemContainer());
@@ -81,7 +85,7 @@ public class InventoryManager : MonoBehaviour
                         sourceInv[i].Cost, sourceInv[i].Weight,
                         sourceInv[i].MaxStackCnt, sourceInv[i].StackCnt,
                         sourceInv[i].Type, sourceInv[i].Rarity,
-                        sourceInv[i].ExpirationTime,
+                        sourceInv[i].DurationDays, sourceInv[i].ExpirationTime,
                         sourceInv[i].Values)
                 );
         }

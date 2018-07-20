@@ -5,6 +5,15 @@ using System;
 
 public class Weapon : Item
 {
+    public enum Hands
+    {
+        OneHand,  
+        TwoHands,
+        ThreeHands,
+        FourHands
+    }
+
+    public Hands CarryType { get; set; }
     public int AttackSpeed { get; set; }
     public int DefenceSpeed { get; set; }
     public int AbilityAttack { get; set; }
@@ -18,17 +27,18 @@ public class Weapon : Item
     {
     }
 
-    public Weapon(int id, string name, string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, DateTime expirationTime, int[] values)
-        : base(id, name, desc, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, expirationTime)
+    public Weapon(int id, string name, string desc, string iconPath, int iconId, int cost, int weight, int maxStackCnt, int stackCnt, ItemType type, ItemRarity rarity, int durationDays, DateTime expirationTime, int[] values)
+        : base(id, name, desc, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime)
     {
-        AttackSpeed = values[0];
-        DefenceSpeed = values[1];
-        AbilityAttack  = values[2];
-        AbilityDefence = values[3];
-        MagicAttack = values[4];
-        MagicDefence = values[5];
-        PoisonAttack = values[6];
-        PoisonDefence = values[7];
+        CarryType = (Hands)values[0];
+        AttackSpeed = values[1];
+        DefenceSpeed = values[2];
+        AbilityAttack  = values[3];
+        AbilityDefence = values[4];
+        MagicAttack = values[5];
+        MagicDefence = values[6];
+        PoisonAttack = values[7];
+        PoisonDefence = values[8];
     }
 
     public override void Usage()

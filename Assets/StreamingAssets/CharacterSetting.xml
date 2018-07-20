@@ -9,14 +9,15 @@
   <Level>0</Level>
   <Longitude>0</Longitude>
   <Latitude>0</Latitude>
+  <Updated>true</Updated>
   <Rank>0</Rank>
   <ClanId>0</ClanId>
   <Live>0</Live>
-  <Coin>0</Coin>
-  <Gem>0</Gem>
-  <Experience>0</Experience>
+  <Coin>254</Coin>
+  <Gem>2</Gem>
+  <Experience>1000</Experience>
   <MaxHealth>1000</MaxHealth>
-  <Health>1000</Health>
+  <Health>954</Health>
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
@@ -36,7 +37,7 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>82</Krafting>
+  <Krafting>103</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>
@@ -50,6 +51,6 @@
     <int>-1</int>
     <int>-1</int>
     <int>-1</int>
-    <int>4</int>
+    <int>5</int>
   </Equipments>
 </CharacterSetting>

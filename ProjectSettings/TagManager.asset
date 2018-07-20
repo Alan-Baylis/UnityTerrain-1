@@ -9,6 +9,10 @@ TagManager:
   - Character Database
   - Health
   - Mana
+  - Energy
+  - Experience
+  - Coin
+  - Gem
   layers:
   - Default
   - TransparentFX

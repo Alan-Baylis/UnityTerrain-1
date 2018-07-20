@@ -8,6 +8,8 @@
     <SecondItemCnt>1</SecondItemCnt>
     <FinalItemId>4</FinalItemId>
     <FinalItemCnt>1</FinalItemCnt>
+    <DurationMinutes>10</DurationMinutes>
+    <Energy>20</Energy>
     <IsEnable>true</IsEnable>
   </Recipe>
   <Recipe>
@@ -18,6 +20,8 @@
     <SecondItemCnt>1</SecondItemCnt>
     <FinalItemId>3</FinalItemId>
     <FinalItemCnt>1</FinalItemCnt>
+    <DurationMinutes>10</DurationMinutes>
+    <Energy>20</Energy>
     <IsEnable>true</IsEnable>
   </Recipe>
   <Recipe>
@@ -28,6 +32,8 @@
     <SecondItemCnt>5</SecondItemCnt>
     <FinalItemId>4</FinalItemId>
     <FinalItemCnt>2</FinalItemCnt>
+    <DurationMinutes>10</DurationMinutes>
+    <Energy>20</Energy>
     <IsEnable>true</IsEnable>
   </Recipe>
   <Recipe>
@@ -38,6 +44,8 @@
     <SecondItemCnt>1</SecondItemCnt>
     <FinalItemId>0</FinalItemId>
     <FinalItemCnt>2</FinalItemCnt>
+    <DurationMinutes>10</DurationMinutes>
+    <Energy>20</Energy>
     <IsEnable>true</IsEnable>
   </Recipe>
 </ArrayOfRecipe>

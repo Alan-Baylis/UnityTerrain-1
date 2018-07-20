@@ -14,6 +14,7 @@
       <Type>Consumable</Type>
       <Rarity>Common</Rarity>
       <Slug>Black_Berry</Slug>
+      <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
       <IsEnable>false</IsEnable>
       <Health>1</Health>
@@ -35,6 +36,7 @@
       <Type>Consumable</Type>
       <Rarity>Common</Rarity>
       <Slug>Cherry</Slug>
+      <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
       <Health>1</Health>
@@ -56,8 +58,10 @@
       <Type>Weapon</Type>
       <Rarity>Common</Rarity>
       <Slug>Small_Sword</Slug>
+      <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-14T15:17:24.2938024-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
+      <CarryType>OneHand</CarryType>
       <AttackSpeed>1</AttackSpeed>
       <DefenceSpeed>0</DefenceSpeed>
       <AbilityAttack>1</AbilityAttack>
@@ -82,6 +86,7 @@
       <Type>Substance</Type>
       <Rarity>Common</Rarity>
       <Slug>Round_Rock</Slug>
+      <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-14T17:06:57.5051813-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
     </Substance>
@@ -100,6 +105,7 @@
       <Type>Equipment</Type>
       <Rarity>Common</Rarity>
       <Slug>Basic_Shoe</Slug>
+      <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-21T11:37:40.2849039-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
       <PlaceHolder>Feet</PlaceHolder>
@@ -130,6 +136,7 @@
       <Type>Equipment</Type>
       <Rarity>Common</Rarity>
       <Slug>Basic_Glove</Slug>
+      <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-28T18:35:01.5138436-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
       <PlaceHolder>Feet</PlaceHolder>
