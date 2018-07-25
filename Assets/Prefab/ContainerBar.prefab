@@ -162,7 +162,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 597254933ff55c149a15bd2280899490, type: 3}
-    m_FontSize: 10
+    m_FontSize: 16
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 1

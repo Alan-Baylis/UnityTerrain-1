@@ -76,7 +76,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fd98882334e1d46ab2d59e3e6d5845, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _lerpSpeed: 2
   FillAmount: 0
 --- !u!114 &114405561152356254
 MonoBehaviour:
@@ -99,7 +98,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 597254933ff55c149a15bd2280899490, type: 3}
-    m_FontSize: 10
+    m_FontSize: 20
     m_FontStyle: 2
     m_BestFit: 1
     m_MinSize: 1

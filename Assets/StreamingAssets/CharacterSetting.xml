@@ -13,11 +13,12 @@
   <Rank>0</Rank>
   <ClanId>0</ClanId>
   <Live>0</Live>
-  <Coin>254</Coin>
+  <Coin>256</Coin>
   <Gem>2</Gem>
   <Experience>1000</Experience>
+  <HandsCnt>2</HandsCnt>
   <MaxHealth>1000</MaxHealth>
-  <Health>954</Health>
+  <Health>950</Health>
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
@@ -37,7 +38,7 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>103</Krafting>
+  <Krafting>180</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>

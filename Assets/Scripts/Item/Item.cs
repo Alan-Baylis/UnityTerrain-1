@@ -15,8 +15,10 @@ public abstract class Item
         Weapon,
         Equipment,
         Substance,
+        Tool,
         Element,
-        Quest
+        Quest,
+        Empty
     }
 
     public enum ItemRarity

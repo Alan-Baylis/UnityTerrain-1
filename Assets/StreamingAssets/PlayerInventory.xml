@@ -32,37 +32,6 @@
     </Equipment>
   </ItemContainer>
   <ItemContainer>
-    <Equipment>
-      <Id>4</Id>
-      <Name>Basic Shoe</Name>
-      <Description>Basic shoe from animal leather</Description>
-      <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>197</IconId>
-      <Cost>5</Cost>
-      <Weight>1</Weight>
-      <MaxStackCnt>2</MaxStackCnt>
-      <StackCnt>2</StackCnt>
-      <Type>Equipment</Type>
-      <Rarity>Common</Rarity>
-      <Slug>Basic_Shoe</Slug>
-      <DurationDays>0</DurationDays>
-      <ExpirationTime>2019-06-21T11:37:40.2849039-05:00</ExpirationTime>
-      <IsEnable>true</IsEnable>
-      <PlaceHolder>Feet</PlaceHolder>
-      <Agility>0</Agility>
-      <Bravery>0</Bravery>
-      <Carry>0</Carry>
-      <CarryCnt>0</CarryCnt>
-      <Confidence>0</Confidence>
-      <Intellect>0</Intellect>
-      <Krafting>0</Krafting>
-      <Researching>0</Researching>
-      <Speed>0</Speed>
-      <Stemina>0</Stemina>
-      <Strength>0</Strength>
-    </Equipment>
-  </ItemContainer>
-  <ItemContainer>
     <Consumable>
       <Id>0</Id>
       <Name>Black Berry</Name>
@@ -84,7 +53,37 @@
       <Energy>0</Energy>
     </Consumable>
   </ItemContainer>
-  <ItemContainer />
+  <ItemContainer>
+    <Equipment>
+      <Id>4</Id>
+      <Name>Basic Shoe</Name>
+      <Description>Basic shoe from animal leather</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>197</IconId>
+      <Cost>5</Cost>
+      <Weight>1</Weight>
+      <MaxStackCnt>2</MaxStackCnt>
+      <StackCnt>2</StackCnt>
+      <Type>Equipment</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Basic_Shoe</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-06-21T11:37:40.2849039-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+      <PlaceHolder>Feet</PlaceHolder>
+      <Agility>0</Agility>
+      <Bravery>0</Bravery>
+      <Carry>0</Carry>
+      <CarryCnt>0</CarryCnt>
+      <Confidence>0</Confidence>
+      <Intellect>0</Intellect>
+      <Krafting>0</Krafting>
+      <Researching>0</Researching>
+      <Speed>0</Speed>
+      <Stemina>0</Stemina>
+      <Strength>0</Strength>
+    </Equipment>
+  </ItemContainer>
   <ItemContainer />
   <ItemContainer>
     <Substance>
@@ -105,6 +104,12 @@
       <IsEnable>true</IsEnable>
     </Substance>
   </ItemContainer>
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
   <ItemContainer />
   <ItemContainer />
   <ItemContainer />

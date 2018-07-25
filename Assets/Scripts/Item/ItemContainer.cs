@@ -9,6 +9,7 @@ public class ItemContainer {
     private Weapon _weapon = new Weapon();
     private Equipment _equipment = new Equipment();
     private Substance _substance = new Substance();
+    private Tool _tool = new Tool();
     private ItemContainer item;
 
     public Consumable Consumable
@@ -33,7 +34,11 @@ public class ItemContainer {
         get { return _substance; }
         set { _substance = value; }
     }
-
+    public Tool Tool
+    {
+        get { return _tool; }
+        set { _tool = value; }
+    }
 
     public int Id
     {
@@ -47,6 +52,8 @@ public class ItemContainer {
                 return Equipment.Id;
             if (Substance != null)
                 return Substance.Id;
+            if (Tool != null)
+                return Tool.Id;
             return -1;
         }
     }
@@ -63,7 +70,9 @@ public class ItemContainer {
                 return Equipment.Name;
             if (Substance != null)
                 return Substance.Name;
-            return "";
+            if (Tool != null)
+                return Tool.Name;
+            return "Empty";
         }
     }
     public string Description
@@ -78,6 +87,8 @@ public class ItemContainer {
                 return Equipment.Description;
             if (Substance != null)
                 return Substance.Description;
+            if (Tool != null)
+                return Tool.Description;
             return "";
         }
     }
@@ -94,6 +105,8 @@ public class ItemContainer {
                 return Equipment.IconPath;
             if (Substance != null)
                 return Substance.IconPath;
+            if (Tool != null)
+                return Tool.IconPath;
             return "";
         }
     }
@@ -110,6 +123,8 @@ public class ItemContainer {
                 return Equipment.IconId;
             if (Substance != null)
                 return Substance.IconId;
+            if (Tool != null)
+                return Tool.IconId;
             return -1;
         }
     }
@@ -125,6 +140,8 @@ public class ItemContainer {
                 return Equipment.Cost;
             if (Substance != null)
                 return Substance.Cost;
+            if (Tool != null)
+                return Tool.Cost;
             return 0;
         }
     }
@@ -140,6 +157,8 @@ public class ItemContainer {
                 return Equipment.MaxStackCnt;
             if (Substance != null)
                 return Substance.MaxStackCnt;
+            if (Tool != null)
+                return Tool.MaxStackCnt;
             return 0;
         }
     }
@@ -156,6 +175,8 @@ public class ItemContainer {
                 return Equipment.StackCnt;
             if (Substance != null)
                 return Substance.StackCnt;
+            if (Tool != null)
+                return Tool.StackCnt;
             return 0;
         }
     }
@@ -171,7 +192,9 @@ public class ItemContainer {
                 return Equipment.Type;
             if (Substance != null)
                 return Substance.Type;
-            return 0;
+            if (Tool != null)
+                return Tool.Type;
+            return Item.ItemType.Empty;
         }
     }
     public Item.ItemRarity Rarity
@@ -186,6 +209,8 @@ public class ItemContainer {
                 return Equipment.Rarity;
             if (Substance != null)
                 return Substance.Rarity;
+            if (Tool != null)
+                return Tool.Rarity;
             return 0;
         }
     }
@@ -203,6 +228,8 @@ public class ItemContainer {
                 return Equipment.DurationDays;
             if (Substance != null)
                 return Substance.DurationDays;
+            if (Tool != null)
+                return Tool.DurationDays;
             return 0;
         }
     }
@@ -219,6 +246,8 @@ public class ItemContainer {
                 return Equipment.ExpirationTime;
             if (Substance != null)
                 return Substance.ExpirationTime;
+            if (Tool != null)
+                return Tool.ExpirationTime;
             return DateTime.MinValue;
         }
     }
@@ -238,6 +267,8 @@ public class ItemContainer {
                 return Equipment.Weight;
             if (Substance != null)
                 return Substance.Weight;
+            if (Tool != null)
+                return Tool.Weight;
             return 0;
         }
     }
@@ -254,6 +285,8 @@ public class ItemContainer {
                 return Equipment.IsEnable;
             if (Substance != null)
                 return Substance.IsEnable;
+            if (Tool != null)
+                return Tool.IsEnable;
             return false;
         }
     }
@@ -330,24 +363,35 @@ public class ItemContainer {
                 Equipment = null;
                 Weapon = null;
                 Substance = null;
+                Tool = null;
                 break;
             case Item.ItemType.Weapon:
                 Consumable = null;
                 Equipment = null;
                 Weapon = new Weapon(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime, values);
                 Substance = null;
+                Tool = null;
                 break;
             case Item.ItemType.Equipment:
                 Consumable = null;
                 Equipment = new Equipment(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type,  rarity, durationDays, expirationTime, values);
                 Weapon = null;
                 Substance = null;
+                Tool = null;
                 break;
             case Item.ItemType.Substance:
                 Consumable = null;
                 Equipment = null;
                 Weapon = null;
                 Substance = new Substance(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime, values);
+                Tool = null;
+                break;
+            case Item.ItemType.Tool:
+                Consumable = null;
+                Equipment = null;
+                Weapon = null;
+                Substance = null;
+                Tool = new Tool(id, name, description, iconPath, iconId, cost, weight, maxStackCnt, stackCnt, type, rarity, durationDays, expirationTime, values);
                 break;
         }
     }
@@ -371,6 +415,7 @@ public class ItemContainer {
         Weapon = null;
         Equipment = null;
         Substance = null;
+        Tool = null;
     }
 
     public string GetTooltip()
@@ -385,6 +430,8 @@ public class ItemContainer {
                 return Equipment.GetTooltip();
             case Item.ItemType.Substance:
                 return Substance.GetTooltip();
+            case Item.ItemType.Tool:
+                return Tool.GetTooltip();
             default:
                 return "";
         }
@@ -402,8 +449,10 @@ public class ItemContainer {
                 return Equipment.GetSprite();
             case Item.ItemType.Substance:
                 return Substance.GetSprite();
+            case Item.ItemType.Tool:
+                return Tool.GetSprite();
             default:
-                return new Sprite();
+                return null;
         }
     }
 
@@ -431,6 +480,9 @@ public class ItemContainer {
                 break;
             case Item.ItemType.Substance:
                 Substance.StackCnt = value;
+                break;
+            case Item.ItemType.Tool:
+                Tool.StackCnt = value;
                 break;
         }
     }

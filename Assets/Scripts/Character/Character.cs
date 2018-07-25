@@ -49,7 +49,8 @@ public class Character {
         Hefty
     }
 
-    public int Id { get; set; }
+    //todo: make all set private to nost screw db ?? 
+    public int Id { get; private set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string IconPath { get; set; }
