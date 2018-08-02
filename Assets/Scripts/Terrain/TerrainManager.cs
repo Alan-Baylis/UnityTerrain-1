@@ -10,12 +10,14 @@ public class TerrainManager : MonoBehaviour {
     public static int SceneIdForInsideBuilding = 1;
     public static int Key = 1;
     public Transform Player;
-    public ItemDatabase ItemDb;
     public float MaxDistanceFromCenter = 7;
     public Vector2 MapOffset ;
     public TerrainIns[] TerrainTypes;
     public EllementType[] EllementTypes;
     public Sprite Dig;
+
+
+    private ItemDatabase _itemDatabase;
 
     private int _horizontalTiles = 25;
     public List<EllementType> _availableEllementTypes = new List<EllementType>();
@@ -153,6 +155,8 @@ public class TerrainManager : MonoBehaviour {
 
 
     void Start() {
+
+        _itemDatabase = ItemDatabase.Instance();
         _cache = Cache.Get();
         //todo: make the player private
         //Player = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
@@ -226,7 +230,7 @@ public class TerrainManager : MonoBehaviour {
     {
         GameObject Item = new GameObject();
         var active = Item.AddComponent<ActiveItemType>();
-        active.ItemTypeInUse = ItemDb.FindItem(itemId);
+        active.ItemTypeInUse = _itemDatabase.FindItem(itemId);
         active.Location = location;
         _items.Add(active);
         Item.transform.position = location;

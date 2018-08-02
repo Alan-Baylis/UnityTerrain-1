@@ -12,6 +12,8 @@ public class CharacterDatabase : MonoBehaviour {
 
     public CharacterSetting PlayerSetting;
 
+    public CharacterMixture PlayerMixture;
+
     public List<ItemContainer> PlayerInventory = new List<ItemContainer>();
     
 
@@ -57,8 +59,11 @@ public class CharacterDatabase : MonoBehaviour {
         LoadCharacterSetting();
         //PlayerSetting = new CharacterSetting(0, 0, "Avid2", "Werewolf2");
         //SaveCharacterSetting();
-
         LoadCharacterInventory();
+
+
+        LoadCharacterMixture();
+
 
         LoadCharacters();
         tempCharacter = new Character(
@@ -93,7 +98,7 @@ public class CharacterDatabase : MonoBehaviour {
         SaveCharacters();
     }
 
-    internal void AddCharacterSetting(string field, float value)
+    public void AddCharacterSetting(string field, float value)
     {
         switch (field)
         {
@@ -104,7 +109,12 @@ public class CharacterDatabase : MonoBehaviour {
                 PlayerSetting.Health -= (int) value;
                 PlayerSetting.Coin += 1;
                 break;
+            case "Energy":
+                PlayerSetting.Energy += (int)value;
+                break;
         }
+        PlayerSetting.Updated = true;
+        SaveCharacterSetting();
     }
 
     public int AddEquipment(int index, int id)
@@ -201,4 +211,25 @@ public class CharacterDatabase : MonoBehaviour {
         serializer.Serialize(fs, PlayerSetting);
         fs.Close();
     }
+
+    private void LoadCharacterMixture()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "CharacterMixture.xml");
+        //Read the CharacterMixture from CharacterMixture.xml file in the streamingAssets folder
+        XmlSerializer serializer = new XmlSerializer(typeof(CharacterMixture));
+        FileStream fs = new FileStream(path, FileMode.Open);
+        PlayerMixture = (CharacterMixture)serializer.Deserialize(fs);
+        fs.Close();
+    }
+    public void SaveCharacterMixture(ItemContainer item, DateTime durationMinutes)
+    {
+        CharacterMixture characterMixture = new CharacterMixture(item, durationMinutes);
+
+        string path = Path.Combine(Application.streamingAssetsPath, "CharacterMixture.xml");
+        XmlSerializer serializer = new XmlSerializer(typeof(CharacterMixture));
+        FileStream fs = new FileStream(path, FileMode.Create);
+        serializer.Serialize(fs, characterMixture);
+        fs.Close();
+    }
+
 }

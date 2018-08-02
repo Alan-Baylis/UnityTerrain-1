@@ -1,0 +1,87 @@
+try clearing the whole %LocalAppData%\JetBrains\Transient 
+
+Inventory Phase:
+
+Redo inventory to make it faster 
+
+Delete box in inventory 
+X button in inventory 
+inventory button in the page
+removing old invenotry 
+shop button and about
+
+Equip Item
+	use energy to do stuff 	
+
+Todo: layout element might help the style of inv in diffrent sizes 
+
+
+Consume phase
+1- Consume items let harvest
+2- Consume items
+	use Shovel for digging 
+	use Mattock for destustion
+	use Saw for trees	
+4- Digg bug item doesn't appear 
+
+Recepie scene
+Recepie page list founded Recepie 
+
+
+Research scene
+Research page list founded Researchs 
+
+loading page phase (menu)
+https://www.youtube.com/watch?v=zc8ac_qUXQY
+
+
+Mobile phase 
+	ellemnt be button that let harvest destroy .. 
+
+Game over  Phase	
+	game over scene  
+	
+Shop Phase	
+	Shoping scene to buy shovel 
+	
+Research Phase	
+	should be similar to mixture 
+	
+Fight Phase	
+Scene for fight (fight logic  Att aganst Shields if more shield then get att)
+	https://www.youtube.com/watch?v=W8ielU8iURI
+damage puop up 
+	https://www.youtube.com/watch?v=fbUOG7f3jq8
+	
+Research phase
+
+Map Mobile Phase
+	Generate map based on the key
+	location of the user 
+	rigen of the user 
+	
+ 
+
+Phase 
+	Add live container
+
+
+
+Phase 
+Base location should get saved in the user 
+Set up a tent that have the Bank Inventory 
+	
+number of ellements be better 
+Make more the animations  for movings
+Make more the animations  for water
+Make more the animations  for lava
+	
+
+buy these ??
+https://shop.bitgem3d.com/products/cracked-earth-brown-dirt-floor-hand-painted-texture
+
+1 $ 1 mile 
+
+2000 
+
+20

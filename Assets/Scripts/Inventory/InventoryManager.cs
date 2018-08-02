@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
 {
     private static InventoryManager instance;
 
-    private ItemDatabase _itemDb;
+    private ItemDatabase _itemDatabase;
 
     public static InventoryManager Instance
     {
@@ -27,7 +27,7 @@ public class InventoryManager : MonoBehaviour
     void Start()
     {
         //print("Inv.Count =" + Inv.Count + InvLocation.ToString());
-        _itemDb = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
+        _itemDatabase = ItemDatabase.Instance();
         //print("_availableItems.Count =" + _availableItems.Items.Count);
     }
     
@@ -58,7 +58,7 @@ public class InventoryManager : MonoBehaviour
         {
             if (i < count)
             {
-                ItemContainer ni = GetItemFromDatabase((int) Random.Range(0, _itemDb.Items.Count));
+                ItemContainer ni = GetItemFromDatabase((int) Random.Range(0, _itemDatabase.Items.Count));
                 invList.Add(new ItemContainer(
                     ni.Id, ni.Name, ni.Description,
                     ni.IconPath, ni.IconId, ni.Cost, ni.Weight, 
@@ -97,11 +97,11 @@ public class InventoryManager : MonoBehaviour
         {
             if (invList[i].Name == null) //empty Slot
             {
-                for (int j = 0; j < _itemDb.Items.Count; j++)
+                for (int j = 0; j < _itemDatabase.Items.Count; j++)
                 {
-                    if (_itemDb.Items[j].Id == id)
+                    if (_itemDatabase.Items[j].Id == id)
                     {
-                        invList[i] = _itemDb.Items[j];
+                        invList[i] = _itemDatabase.Items[j];
                         return true;
                     }
                 }
@@ -115,10 +115,10 @@ public class InventoryManager : MonoBehaviour
     {
         if (id == -1)
             return new ItemContainer();
-        for (int i = 0; i < _itemDb.Items.Count; i++)
+        for (int i = 0; i < _itemDatabase.Items.Count; i++)
         {
-            if (_itemDb.Items[i].Id == id)
-                return _itemDb.Items[i];
+            if (_itemDatabase.Items[i].Id == id)
+                return _itemDatabase.Items[i];
         }
         return new ItemContainer();
     }
@@ -127,9 +127,9 @@ public class InventoryManager : MonoBehaviour
 
     public Recipe CheckRecipes(int first, int second)
     {
-        for (int i = 0; i < _itemDb.Recipes.Count; i++)
+        for (int i = 0; i < _itemDatabase.Recipes.Count; i++)
         {
-            Recipe r = _itemDb.Recipes[i];
+            Recipe r = _itemDatabase.Recipes[i];
             if (r.IsEnable && first == r.FirstItemId && second == r.SecondItemId)
                 return r;
             if (r.IsEnable && first == r.SecondItemId && second == r.FirstItemId)

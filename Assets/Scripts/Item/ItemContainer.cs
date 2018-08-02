@@ -10,7 +10,7 @@ public class ItemContainer {
     private Equipment _equipment = new Equipment();
     private Substance _substance = new Substance();
     private Tool _tool = new Tool();
-    private ItemContainer item;
+    //private ItemContainer item;
 
     public Consumable Consumable
     {

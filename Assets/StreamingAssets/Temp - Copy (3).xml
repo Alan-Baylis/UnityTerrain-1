@@ -22,7 +22,7 @@
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
-  <Energy>979</Energy>
+  <Energy>1000</Energy>
   <AttackSpeed>3</AttackSpeed>
   <DefenceSpeed>3</DefenceSpeed>
   <AbilityAttack>0</AbilityAttack>
@@ -38,7 +38,7 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>334</Krafting>
+  <Krafting>230</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>

@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SlotIndex: 0
+  EmptySprite: {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
 --- !u!114 &114569076022140748
 MonoBehaviour:
   m_ObjectHideFlags: 1

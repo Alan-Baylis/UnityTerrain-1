@@ -10,7 +10,7 @@ public class CharacterManager : MonoBehaviour {
     private static CharacterManager _instance;
 
     private CharacterDatabase _characterDb;
-    public ItemDatabase _itemDb;
+    public ItemDatabase _itemDatabase;
 
     private int _basicHealth=1000;
     private int _basicSpeed = 3;
@@ -27,8 +27,9 @@ public class CharacterManager : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
-        _itemDb = GameObject.FindGameObjectWithTag("Item Database").GetComponent<ItemDatabase>();
+    void Start ()
+    {
+        _itemDatabase = ItemDatabase.Instance();
 
         _characterDb = GameObject.FindGameObjectWithTag("Character Database").GetComponent<CharacterDatabase>();
         //print("_availableCharacters.Count =" + _availableCharacters.Characters.Count);
@@ -75,7 +76,7 @@ public class CharacterManager : MonoBehaviour {
             {
                 if (id == -1)
                     continue;
-                ItemContainer item = _itemDb.FindItem(id);
+                ItemContainer item = _itemDatabase.FindItem(id);
                 if (item.Equipment !=null)
                 {
                     _characterDb.PlayerSetting.Agility += item.Equipment.Agility;

@@ -7,6 +7,8 @@ using System.Xml.Serialization;
 
 public class ItemDatabase : MonoBehaviour {
 
+    private static ItemDatabase _itemDatabase;
+
     public List<ItemContainer> Items = new List<ItemContainer>();
 
     public List<Recipe> Recipes = new List<Recipe>();  
@@ -27,6 +29,22 @@ public class ItemDatabase : MonoBehaviour {
 
 
     public int _defaultDurationDays = 365;
+
+    public static ItemDatabase Instance()
+    {
+        if (!_itemDatabase)
+        {
+            _itemDatabase = FindObjectOfType(typeof(ItemDatabase)) as ItemDatabase;
+            if (!_itemDatabase)
+                Debug.LogError("There needs to be one active ItemDatabase script on a GameObject in your scene.");
+        }
+        return _itemDatabase;
+    }
+
+    void Awake()
+    {
+        _itemDatabase = ItemDatabase.Instance();
+    }
 
     void Start()
     {

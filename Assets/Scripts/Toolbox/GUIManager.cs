@@ -28,6 +28,20 @@ public class GUIManager : MonoBehaviour {
     private string _name;
 
     //TODO: change font for messages
+
+    private static GUIManager _GUIManager;
+
+    public static GUIManager Instance()
+    {
+        if (!_GUIManager)
+        {
+            _GUIManager = FindObjectOfType(typeof(GUIManager)) as GUIManager;
+            if (!_GUIManager)
+                Debug.LogError("There needs to be one active GUIManager script on a GameObject in your scene.");
+        }
+        return _GUIManager;
+    }
+
     void Start()
     {
         AddMessage("BLU: Welcome To AUSTIN Map");
@@ -122,4 +136,7 @@ public class GUIManager : MonoBehaviour {
         return alert.Trim();
     }
 
+
+
+    //todo look at Displaymanager at the buttom https://unity3d.com/learn/tutorials/modules/intermediate/live-training-archive/modal-window
 }

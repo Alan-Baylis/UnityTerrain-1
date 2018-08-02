@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<CharacterMixture xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Id>0</Id>
+  <Item>
+    <Consumable>
+      <Id>1</Id>
+      <Name>Cherry</Name>
+      <Description>One Cherry</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>1</IconId>
+      <Cost>0</Cost>
+      <Weight>0</Weight>
+      <MaxStackCnt>20</MaxStackCnt>
+      <StackCnt>5</StackCnt>
+      <Type>Consumable</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Cherry</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+      <Health>1</Health>
+      <Mana>0</Mana>
+      <Energy>0</Energy>
+    </Consumable>
+  </Item>
+  <Time>2018-08-02T16:21:25.7166129-05:00</Time>
+</CharacterMixture>
