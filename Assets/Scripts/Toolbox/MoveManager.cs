@@ -15,6 +15,7 @@ public class MoveManager : MonoBehaviour {
     public bool DoAnimation = true;
 
 
+    private CharacterManager _characterManager;
     private Character _playerCharacter;
 
     private Sprite _up;
@@ -36,7 +37,8 @@ public class MoveManager : MonoBehaviour {
     // Use this for initialization
     private void Start ()
     {
-        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase();
+        _characterManager = CharacterManager.Instance();
+        _playerCharacter = _characterManager.Character;
 
         _renderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
 

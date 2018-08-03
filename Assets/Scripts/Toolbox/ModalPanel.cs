@@ -25,7 +25,7 @@ public class ModalPanel : MonoBehaviour
     private static ModalPanel _modalPanel;
 
 
-    //Todo: https://unity3d.com/learn/tutorials/modules/intermediate/live-training-archive/modal-window
+    //Todo: add icon to the dialog  https://unity3d.com/learn/tutorials/modules/intermediate/live-training-archive/modal-windowhttps://unity3d.com/learn/tutorials/modules/intermediate/live-training-archive/modal-window-pt3?playlist=17111
 
     void Awake()
     {

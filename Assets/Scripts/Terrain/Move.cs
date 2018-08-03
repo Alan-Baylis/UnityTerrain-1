@@ -8,17 +8,21 @@ public class Move : MonoBehaviour {
     public TerrainManager Terrain_Manager;
 
     private Vector3 previousPosition = Vector3.zero;
+    
+    private CharacterManager _characterManager;
 
-    private Character _playerCharacter;
-    private CharacterSetting _playerSettings;
     private Cache _cache;
+
+
+
+    void Awake()
+    {
+        _characterManager = CharacterManager.Instance();
+        _cache = Cache.Get();
+    }
 
     // Use this for initialization
     void Start () {
-        _playerSettings = CharacterManager.Instance.GetPlayerSettings();
-        _playerCharacter = CharacterManager.Instance.GetCharacterFromDatabase(_playerSettings.CharacterId);
-        CharacterManager.Instance.SavePlayerSettings();
-        _cache = Cache.Get();
         /*foreach (var item in _cache.Find("Player",true))
         {
             if (IsBlocked(item.Location))
@@ -36,11 +40,11 @@ public class Move : MonoBehaviour {
         var ellement = Terrain_Manager.GetEllement(mapPos);
         if (
             //Terrain Types and charcter type 
-            (!terrain.Walkable && _playerCharacter.MoveType == Character.CharacterType.Walk) ||
-            (!terrain.Flyable && _playerCharacter.MoveType == Character.CharacterType.Fly) ||
-            (!terrain.Swimable && _playerCharacter.MoveType == Character.CharacterType.Swim) ||
+            (!terrain.Walkable && _characterManager.Character.MoveType == Character.CharacterType.Walk) ||
+            (!terrain.Flyable && _characterManager.Character.MoveType == Character.CharacterType.Fly) ||
+            (!terrain.Swimable && _characterManager.Character.MoveType == Character.CharacterType.Swim) ||
             //ellement + character
-            (ellement != null && !ellement.EllementTypeInUse.IsEnterable &&_playerCharacter.MoveType != Character.CharacterType.Fly)
+            (ellement != null && !ellement.EllementTypeInUse.IsEnterable && _characterManager.Character.MoveType != Character.CharacterType.Fly)
             )
         {
             return true;

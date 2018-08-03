@@ -35,14 +35,14 @@ public class Recipe{
                    _itemDatabase.FindItem(FinalItemId).Name +
                    " for " + Energy + " energy ? ";
             //todo: current font doesn't support ( ) 
-            return "Ready to mix " +
-                   _itemDatabase.FindItem(FirstItemId).Name
-                   + "(" + FirstItemCnt + ") +" +
-                   _itemDatabase.FindItem(SecondItemId).Name
-                   + "(" + SecondItemCnt + ") and make " +
-                   _itemDatabase.FindItem(FinalItemId).Name
-                   + "(" + FinalItemCnt + ") for " +
-                   Energy + " energy ? ";
+            //return "Ready to mix " +
+            //       _itemDatabase.FindItem(FirstItemId).Name
+            //       + "(" + FirstItemCnt + ") +" +
+            //       _itemDatabase.FindItem(SecondItemId).Name
+            //       + "(" + SecondItemCnt + ") and make " +
+            //       _itemDatabase.FindItem(FinalItemId).Name
+            //       + "(" + FinalItemCnt + ") for " +
+            //       Energy + " energy ? ";
         }
         catch (Exception e)
         {

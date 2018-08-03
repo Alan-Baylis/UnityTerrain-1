@@ -14,11 +14,10 @@ public class SlotData : MonoBehaviour,IDropHandler{
     private ItemMixture _itemMixture;
     private static ModalPanel _modalPanel;
 
-    public Sprite DefaultSprite;
     void Start()
     {
         _inv = GameObject.Find("Inventory").GetComponent<InventoryHandler>();
-        _itemMixture = GameObject.Find("Item Mixture").GetComponent<ItemMixture>();
+        _itemMixture = ItemMixture.Instance();
         _modalPanel = ModalPanel.Instance();
     }
 
@@ -68,10 +67,9 @@ public class SlotData : MonoBehaviour,IDropHandler{
                     existingItem.Item = mixedItem.Item;
                     _inv.InvSlots[SlotIndex].name = existingItem.name;
                     //Delete mixure Item
-                    mixedItem.GetComponent<Image>().sprite = DefaultSprite;
-                    mixedItem.Item = new ItemContainer();
+                    _itemMixture.LoadEmpty();
 
-                    _inv.UpdateInventory = true;
+                    _inv.UpdateInventory(true);
                 }
                 return;
             }
@@ -99,7 +97,7 @@ public class SlotData : MonoBehaviour,IDropHandler{
                 Text stackCntText = existingItem.transform.GetChild(0).GetComponent<Text>();
                 if (existingItem.Item.StackCnt > 1)
                     stackCntText.text = existingItem.Item.StackCnt.ToString();
-                _inv.UpdateInventory = true;
+                _inv.UpdateInventory(true);
             }
             else
             {
@@ -133,7 +131,7 @@ public class SlotData : MonoBehaviour,IDropHandler{
                     existingItem.transform.position = _inv.InvSlots[draggedItem.SlotIndex].transform.position;
                     existingItem.SlotIndex = draggedItem.SlotIndex;
                     draggedItem.SlotIndex = SlotIndex;
-                    _inv.UpdateInventory = true;
+                    _inv.UpdateInventory(true);
                 }
             }
         }
@@ -180,7 +178,7 @@ public class SlotData : MonoBehaviour,IDropHandler{
             existingItem.GetComponent<Image>().sprite = EmptySprite;
             _inv.InvSlots[SlotIndex].name = existingItem.name;
         }
-        _inv.UpdateInventory = true;
+        _inv.UpdateInventory(true);
     }
 }
 

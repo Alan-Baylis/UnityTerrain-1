@@ -8,24 +8,24 @@ using UnityEngine;
 public class ItemMixture : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
 
+    private static ItemMixture _itemMixture;
+
     private InventoryHandler _inv;
     private Vector2 _offset;
     private Tooltip _tooltip;
     private DateTime _time;
     private Transform _parent;
 
+    public Sprite DefaultSprite;
     public ItemContainer Item;
     public bool ItemLocked;
 
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
+        _itemMixture = ItemMixture.Instance();
         _inv = GameObject.Find("Inventory").GetComponent<InventoryHandler>();
-
-        _tooltip = Tooltip.Instance(); 
-        //todo: set up the item
-        Item = new ItemContainer();
+        _tooltip = Tooltip.Instance();
     }
 
     // Update is called once per frame
@@ -125,4 +125,25 @@ public class ItemMixture : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
         texts[1].text = (_time - DateTime.Now).ToString();
     }
 
+    public void LoadEmpty()
+    {
+        Item = new ItemContainer();
+        GetComponent<Image>().sprite = DefaultSprite;
+        _time = DateTime.MinValue;
+        ItemLocked = false;
+        Text[] texts = this.transform.parent.GetComponentsInChildren<Text>();
+        texts[1].text = "Empty";
+    }
+
+
+    public static ItemMixture Instance()
+    {
+        if (!_itemMixture)
+        {
+            _itemMixture = FindObjectOfType(typeof(ItemMixture)) as ItemMixture;
+            if (!_itemMixture)
+                Debug.LogError("There needs to be one active ItemMixture script on a GameObject in your scene.");
+        }
+        return _itemMixture;
+    }
 }

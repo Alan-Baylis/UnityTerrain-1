@@ -2,12 +2,13 @@ try clearing the whole %LocalAppData%\JetBrains\Transient
 
 Inventory Phase:
 
-Redo inventory to make it faster 
+recepie description to have pic 
+
+
 
 Delete box in inventory 
 X button in inventory 
 inventory button in the page
-removing old invenotry 
 shop button and about
 
 Equip Item

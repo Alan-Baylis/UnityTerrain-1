@@ -8,15 +8,16 @@ using System.Xml.Serialization;
 public class CharacterDatabase : MonoBehaviour {
 
 
-    public List<Character> Characters = new List<Character>();
+    private static CharacterDatabase _characterDatabase;
 
-    public CharacterSetting PlayerSetting;
+    private List<Character> _characters = new List<Character>();
+    private List<ItemContainer> _characterInventory = new List<ItemContainer>();
+    private CharacterSetting _characterSetting;
+    private CharacterMixture _characterMixture;
 
-    public CharacterMixture PlayerMixture;
 
-    public List<ItemContainer> PlayerInventory = new List<ItemContainer>();
-    
 
+    //Add Charcter button call this function 
     public int Id;
     public string Name;
     public string Description;
@@ -28,15 +29,12 @@ public class CharacterDatabase : MonoBehaviour {
     public Character.SpeedType Speed;
     public Character.BodyType Body;
     public Character.CarryType Carry;
-
-
-    //Add Charcter button call this function 
     public void CreateCharacter()
     {
         LoadCharacters();
         //Add Character through the public properties 
         Character tempCharacter = new Character(
-            Characters.Count,
+            _characters.Count,
             Name,
             Description,
             Type,
@@ -46,14 +44,15 @@ public class CharacterDatabase : MonoBehaviour {
             Body,
             Carry
         );
-        if (!tempCharacter.Exist(Characters))
-            Characters.Add(tempCharacter);
+        if (!tempCharacter.Exist(_characters))
+            _characters.Add(tempCharacter);
         //Save the new list back in Character.xml file in the streamingAssets folder
         SaveCharacters();
     }
-
-    void Start()
+    
+    void Awake()
     {
+        _characterDatabase = CharacterDatabase.Instance();
         Character tempCharacter = new Character();
 
         LoadCharacterSetting();
@@ -61,128 +60,95 @@ public class CharacterDatabase : MonoBehaviour {
         //SaveCharacterSetting();
         LoadCharacterInventory();
 
-
         LoadCharacterMixture();
 
-
         LoadCharacters();
+
         tempCharacter = new Character(
-            Characters.Count, 
-            "Phoenix", 
-            "Phoenix Flyer", 
-            Character.CharacterType.Fly, 
-            Character.AttackType.Close, 
+            _characters.Count,
+            "Phoenix",
+            "Phoenix Flyer",
+            Character.CharacterType.Fly,
+            Character.AttackType.Close,
             Character.DefenceType.Range,
-            Character.SpeedType.Fast, 
-            Character.BodyType.Tiny, 
+            Character.SpeedType.Fast,
+            Character.BodyType.Tiny,
             Character.CarryType.Light
         );
-        if (!tempCharacter.Exist(Characters))
-            Characters.Add(tempCharacter);
-
-
-        tempCharacter = new Character(
-            Characters.Count, 
-            "Sailormoon", 
-            "Sailormoon walker", 
-            Character.CharacterType.Walk, 
-            Character.AttackType.Close, 
-            Character.DefenceType.Close,
-            Character.SpeedType.Regular, 
-            Character.BodyType.Slim, 
-            Character.CarryType.Light
-        );
-        if (!tempCharacter.Exist(Characters))
-            Characters.Add(tempCharacter);
-
-        SaveCharacters();
-    }
-
-    public void AddCharacterSetting(string field, float value)
-    {
-        switch (field)
+        if (!tempCharacter.Exist(_characters))
         {
-            case "Agility":
-                PlayerSetting.Agility += value;
-                break;
-            case "Health":
-                PlayerSetting.Health -= (int) value;
-                PlayerSetting.Coin += 1;
-                break;
-            case "Energy":
-                PlayerSetting.Energy += (int)value;
-                break;
+            _characters.Add(tempCharacter);
+            SaveCharacters();
         }
-        PlayerSetting.Updated = true;
-        SaveCharacterSetting();
     }
 
-    public int AddEquipment(int index, int id)
+    //CharacterInventory
+    public List<ItemContainer> FindCharacterInventory(int playerId)
     {
-        int OldItem = PlayerSetting.Equipments[index];
-        PlayerSetting.Equipments[index] = id;
-        //Todo: Adjust character based on the new equipment an remove old setting
-        AddCharacterSetting("Health", 2);
-        //Todo: may need to move 
-        PlayerSetting.Updated = true;
-        SaveCharacterSetting();
-        return OldItem;
+        return _characterInventory;
     }
-
-    private void LoadCharacterInventory()
-    {
-        //Empty the Items DB
-        PlayerInventory.Clear();
-        string path = Path.Combine(Application.streamingAssetsPath, "PlayerInventory.xml");
-        //Read the items from Item.xml file in the streamingAssets folder
-        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
-        FileStream fs = new FileStream(path, FileMode.Open);
-        PlayerInventory = (List<ItemContainer>)serializer.Deserialize(fs);
-        fs.Close();
-    }
-
-    private void SaveCharacterInventory()
-    {
-        string path = Path.Combine(Application.streamingAssetsPath, "PlayerInventory.xml");
-        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
-        FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, PlayerInventory);
-        fs.Close();
-    }
-    internal void SaveCharacterInventory(List<ItemContainer> inv)
+    public void SaveCharacterInventory(List<ItemContainer> inv)
     {
         //TODO: May need to clrat list
         //print("####Inside SaveCharacterInventory");
-        PlayerInventory.Clear();
+        _characterInventory.Clear();
         for (int i = 0; i < inv.Count; i++)
         {
-            if (inv[i].Id==-1)
-                PlayerInventory.Add(new ItemContainer());
+            if (inv[i].Id == -1)
+                _characterInventory.Add(new ItemContainer());
             else
-                PlayerInventory.Add(
+                _characterInventory.Add(
                     new ItemContainer(
                         inv[i].Id, inv[i].Name, inv[i].Description,
                         inv[i].IconPath, inv[i].IconId,
                         inv[i].Cost, inv[i].Weight,
                         inv[i].MaxStackCnt, inv[i].StackCnt,
                         inv[i].Type, inv[i].Rarity,
-                        inv[i].DurationDays,inv[i].ExpirationTime,
+                        inv[i].DurationDays, inv[i].ExpirationTime,
                         inv[i].Values)
-                    );
+                );
         }
-        //todo: make it async
-        SaveCharacterInventory();
+        //todo: make it async with db
+        //SaveCharacterInventory();
     }
-
+    private void LoadCharacterInventory()
+    {
+        //Empty the Items DB
+        _characterInventory.Clear();
+        string path = Path.Combine(Application.streamingAssetsPath, "CharacterInventory.xml");
+        //Read the items from Item.xml file in the streamingAssets folder
+        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
+        FileStream fs = new FileStream(path, FileMode.Open);
+        _characterInventory = (List<ItemContainer>)serializer.Deserialize(fs);
+        fs.Close();
+    }
+    private void SaveCharacterInventory()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "CharacterInventory.xml");
+        XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
+        FileStream fs = new FileStream(path, FileMode.Create);
+        serializer.Serialize(fs, _characterInventory);
+        fs.Close();
+    }
+    //Characters
+    public Character FindCharacter(int id)
+    {
+        for (int i = 0; i < _characters.Count; i++)
+        {
+            if (_characters[i].Id == id)
+                return _characters[i];
+        }
+        return null;
+    }
     private void LoadCharacters()
     {
         //Empty the Characters DB
-        Characters.Clear();
+        _characters.Clear();
         string path = Path.Combine(Application.streamingAssetsPath, "Character.xml");
         //Read the Characters from Character.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(List<Character>));
         FileStream fs = new FileStream(path, FileMode.Open);
-        Characters = (List<Character>)serializer.Deserialize(fs);
+        _characters = (List<Character>)serializer.Deserialize(fs);
         fs.Close();
     }
     private void SaveCharacters()
@@ -190,17 +156,26 @@ public class CharacterDatabase : MonoBehaviour {
         string path = Path.Combine(Application.streamingAssetsPath, "Character.xml");
         XmlSerializer serializer = new XmlSerializer(typeof(List<Character>));
         FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, Characters);
+        serializer.Serialize(fs, _characters);
         fs.Close();
     }
-
+    //CharacterSetting
+    public CharacterSetting FindCharacterSetting(int id)
+    {
+        return _characterSetting;
+    }
+    public void SaveCharacterSetting(CharacterSetting characterSetting)
+    {
+        _characterSetting = new CharacterSetting(characterSetting);
+        SaveCharacterSetting();
+    }
     private void LoadCharacterSetting()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "CharacterSetting.xml");
         //Read the CharacterSetting from CharacterSetting.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(CharacterSetting));
         FileStream fs = new FileStream(path, FileMode.Open);
-        PlayerSetting = (CharacterSetting)serializer.Deserialize(fs);
+        _characterSetting = (CharacterSetting)serializer.Deserialize(fs);
         fs.Close();
     }
     public void SaveCharacterSetting()
@@ -208,28 +183,48 @@ public class CharacterDatabase : MonoBehaviour {
         string path = Path.Combine(Application.streamingAssetsPath, "CharacterSetting.xml");
         XmlSerializer serializer = new XmlSerializer(typeof(CharacterSetting));
         FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, PlayerSetting);
+        serializer.Serialize(fs, _characterSetting);
         fs.Close();
     }
-
+    //CharacterMixture
+    internal CharacterMixture FindCharacterMixture(int id)
+    {
+        return _characterMixture;
+    }
+    public void SaveCharacterMixture(ItemContainer item, DateTime durationMinutes)
+    {
+        _characterMixture = new CharacterMixture(item, durationMinutes);
+        SaveCharacterMixture();
+    }
     private void LoadCharacterMixture()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "CharacterMixture.xml");
         //Read the CharacterMixture from CharacterMixture.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(CharacterMixture));
         FileStream fs = new FileStream(path, FileMode.Open);
-        PlayerMixture = (CharacterMixture)serializer.Deserialize(fs);
+        _characterMixture = (CharacterMixture)serializer.Deserialize(fs);
         fs.Close();
     }
-    public void SaveCharacterMixture(ItemContainer item, DateTime durationMinutes)
+    public void SaveCharacterMixture()
     {
-        CharacterMixture characterMixture = new CharacterMixture(item, durationMinutes);
-
         string path = Path.Combine(Application.streamingAssetsPath, "CharacterMixture.xml");
         XmlSerializer serializer = new XmlSerializer(typeof(CharacterMixture));
         FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, characterMixture);
+        serializer.Serialize(fs, _characterMixture);
         fs.Close();
     }
+
+    //Instance
+    public static CharacterDatabase Instance()
+    {
+        if (!_characterDatabase)
+        {
+            _characterDatabase = FindObjectOfType(typeof(CharacterDatabase)) as CharacterDatabase;
+            if (!_characterDatabase)
+                Debug.LogError("There needs to be one active ItemDatabase script on a GameObject in your scene.");
+        }
+        return _characterDatabase;
+    }
+
 
 }

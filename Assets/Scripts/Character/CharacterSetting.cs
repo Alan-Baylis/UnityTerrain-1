@@ -7,6 +7,8 @@ using UnityEngine;
 
 [Serializable]
 public class CharacterSetting {
+    private CharacterSetting characterSetting;
+
     public int Id { get; set; }
     public int CharacterId { get; set; }
     public string Name { get; set; }
@@ -118,6 +120,53 @@ public class CharacterSetting {
     public CharacterSetting()
     {
         Id = -1;
+    }
+
+    public CharacterSetting(CharacterSetting characterSetting)
+    {
+        Id = characterSetting.Id;
+        CharacterId = characterSetting.CharacterId;
+        Name = characterSetting.Name;
+        Description = characterSetting.Description;
+        IconPath = characterSetting.IconPath;
+        IconId = characterSetting.IconId;
+        Level = characterSetting.Level;
+        Rank = characterSetting.Rank;
+        ClanId = characterSetting.ClanId;
+        Live = characterSetting.Live;
+        Longitude = characterSetting.Longitude;
+        Latitude = characterSetting.Latitude;
+        Updated = characterSetting.Updated;
+        Coin = characterSetting.Coin;
+        Gem = characterSetting.Gem;
+        Experience = characterSetting.Experience;
+        HandsCnt = characterSetting.HandsCnt;
+        MaxHealth = characterSetting.MaxHealth;
+        Health = characterSetting.Health;
+        MaxMana = characterSetting.MaxMana;
+        Mana = characterSetting.Mana;
+        MaxEnergy = characterSetting.MaxEnergy;
+        Energy = characterSetting.Energy;
+        AttackSpeed = characterSetting.AttackSpeed;
+        DefenceSpeed = characterSetting.DefenceSpeed;
+        AbilityAttack = characterSetting.AbilityAttack;
+        AbilityDefence = characterSetting.AbilityDefence;
+        MagicAttack = characterSetting.MagicAttack;
+        MagicDefence = characterSetting.MagicDefence;
+        PoisonAttack = characterSetting.PoisonAttack;
+        PoisonDefence = characterSetting.PoisonDefence;
+        Agility = characterSetting.Agility;
+        Bravery = characterSetting.Bravery;
+        Carry = characterSetting.Carry;
+        CarryCnt = characterSetting.CarryCnt;
+        Confidence = characterSetting.Confidence;
+        Intellect = characterSetting.Intellect;
+        Krafting = characterSetting.Krafting;
+        Researching = characterSetting.Researching;
+        Speed = characterSetting.Speed;
+        Stemina = characterSetting.Stemina;
+        Strength = characterSetting.Strength;
+        Equipments = characterSetting.Equipments;
     }
 
 

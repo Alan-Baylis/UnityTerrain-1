@@ -6,16 +6,15 @@ using UnityEngine.UI;
 
 public class InventoryHandler : MonoBehaviour
 {
-    private static CharacterDatabase _characterDb;
     private int _playerSlots;
     private static GUIManager _GUIManager;
-    public bool UpdateInventory = false;
 
     private ItemDatabase _itemDatabase;
+    private CharacterManager _characterManager;
 
 
+    private bool _updateInventory;
     private ItemMixture _itemMixture;
-
     private GameObject _inventoryPanel;
     private GameObject _slotPanel;
 
@@ -37,23 +36,22 @@ public class InventoryHandler : MonoBehaviour
     void Awake ()
     {
         _itemDatabase = ItemDatabase.Instance();
+        _characterManager = CharacterManager.Instance();
+
         //Todo: make sure we use the new way old way ==>  _GUIManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<GUIManager>();
-        _GUIManager =  GUIManager.Instance(); 
+        _GUIManager =  GUIManager.Instance();
 
-        _characterDb = GameObject.FindGameObjectWithTag("Character Database").GetComponent<CharacterDatabase>();
-        CharacterSetting settings = _characterDb.PlayerSetting;
-        //print("###insite Start inventory "+ settings.CarryCnt);
-        _playerSlots = settings.CarryCnt;
+        print("###insite Start inventory "+ _characterManager.CharacterSetting.CarryCnt);
+        _playerSlots = _characterManager.CharacterSetting.CarryCnt;
 
-
+        //Inventory Items
         _inventoryPanel = GameObject.Find("Inventory Panel");
         _slotPanel = _inventoryPanel.transform.Find("Slot Panel").gameObject;
-        
-        InitInventory(_characterDb.PlayerInventory);
+        InitInventory(_characterManager.CharacterInventory);
 
-
-        _itemMixture = GameObject.Find("Item Mixture").GetComponent<ItemMixture>();
-        InitMixture(_characterDb.PlayerMixture);
+        //Item Mixture
+        _itemMixture = ItemMixture.Instance();
+        InitMixture(_characterManager.CharacterMixture);
 
         for (int i = 0; i < _slotAmount; i++)
         {
@@ -93,24 +91,34 @@ public class InventoryHandler : MonoBehaviour
                 InvSlots[i].name = itemObject.name = "Lock";
             }
         }
-        _characterDb.SaveCharacterInventory(_invItems);
+        //todo: unleash the inv to be saved 
+        _characterManager.SaveCharacterInventory(_invItems);
     }
 
-
+    public void UpdateInventory(bool value)
+    {
+        _updateInventory = value;
+    }
+    
     public bool UseEnergy(int amount)
     {
-        if (_characterDb.PlayerSetting.Energy > amount)
+        if (_characterManager.CharacterSetting.Energy > amount)
         {
-            _characterDb.AddCharacterSetting("Energy", -amount);
+            _characterManager.AddCharacterSetting("Energy", -amount);
             return true;
         }
         return false;
     }
 
+    public bool AddItemToInventory(ItemContainer item)
+    {
+        throw new Exception("AddItemToInventory is not defined.");
+    }
+
 
     // Update is called once per frame
     void Update () {
-	    if (UpdateInventory)
+	    if (_updateInventory)
 	    {
             //Refresh _invItems based on the interface 
             //Todo: security vulnerability: might be able to change inv 
@@ -122,7 +130,7 @@ public class InventoryHandler : MonoBehaviour
 	        }
             //Save new inventory 
 	        //_characterDb.SaveCharacterInventory(_invItems);
-	        UpdateInventory = false;
+	        _updateInventory = false;
 	    }
     }
 
@@ -155,28 +163,19 @@ public class InventoryHandler : MonoBehaviour
         if (playerMixture == null)
             return;
         if (playerMixture.Item == null)
-            return;
-        if (playerMixture.Item.Id == -1)
-            return;
-        _itemMixture.LoadItem(playerMixture.Item, playerMixture.Time);
+            _itemMixture.LoadEmpty();
+        else
+            _itemMixture.LoadItem(playerMixture.Item, playerMixture.Time);
     }
 
     public void SaveCharacterMixture(ItemContainer item, DateTime time)
     {
-        _characterDb.SaveCharacterMixture(item, time);
+        _characterManager.SaveCharacterMixture(item, time);
     }
 
     public Recipe CheckRecipes(int first, int second)
     {
-        for (int i = 0; i < _itemDatabase.Recipes.Count; i++)
-        {
-            Recipe r = _itemDatabase.Recipes[i];
-            if (r.IsEnable && first == r.FirstItemId && second == r.SecondItemId)
-                return r;
-            if (r.IsEnable && first == r.SecondItemId && second == r.FirstItemId)
-                return Reverse(r);
-        }
-        return null;
+        return _itemDatabase.FindRecipes( first,  second);
     }
 
     internal void PrintMessage(string message)
@@ -184,16 +183,7 @@ public class InventoryHandler : MonoBehaviour
         _GUIManager.AddMessage(message);
     }
 
-    private Recipe Reverse(Recipe r)
-    {
-        int temp = r.FirstItemId;
-        r.FirstItemId = r.SecondItemId;
-        r.SecondItemId = temp;
-        temp = r.FirstItemCnt;
-        r.FirstItemCnt = r.SecondItemCnt;
-        r.SecondItemCnt = temp;
-        return r;
-    }
+
     public ItemContainer GetItemFromDatabase(int id)
     {
         if (id == -1)

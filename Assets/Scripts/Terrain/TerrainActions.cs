@@ -6,7 +6,7 @@ using UnityEngine;
 public class TerrainActions : MonoBehaviour {
 
     public TerrainManager Terrain_Manager;
-    public Inventory Inventory_Manager;
+    public InventoryHandler Inventory_Manager;
     public KeyCode KeyToConsume = KeyCode.C;
     public KeyCode KeyToDrop = KeyCode.D;
     public KeyCode KeyToPick = KeyCode.P;

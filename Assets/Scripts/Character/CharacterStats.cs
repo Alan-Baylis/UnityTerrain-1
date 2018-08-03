@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class CharacterStats : MonoBehaviour {
 
-    private static CharacterDatabase _characterDb;
+    private CharacterManager _characterManager;
 
-    private static CharacterSetting _settings;
+    private CharacterSetting _settings;
     //public GUISkin Skin;
     //public Vector2 StatsLocation = Vector2.zero;
     //public KeyCode KeyToShowStats = KeyCode.S;
@@ -26,6 +26,12 @@ public class CharacterStats : MonoBehaviour {
     //private string _tooltip = "";
 
     // Use this for initialization
+    void Awake()
+    {
+        _characterManager = CharacterManager.Instance();
+        _settings = _characterManager.CharacterSetting;
+    }
+
     void Start ()
     {
         if (_health == null)
@@ -40,9 +46,6 @@ public class CharacterStats : MonoBehaviour {
             _coin = GameObject.FindGameObjectWithTag("Coin").GetComponent<ContainerValueHandler>();
         if (_gem == null)
             _gem = GameObject.FindGameObjectWithTag("Gem").GetComponent<ContainerValueHandler>();
-
-        _characterDb = GameObject.FindGameObjectWithTag("Character Database").GetComponent<CharacterDatabase>();
-        _settings = _characterDb.PlayerSetting;
 
 
 

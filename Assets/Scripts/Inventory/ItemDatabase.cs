@@ -9,9 +9,10 @@ public class ItemDatabase : MonoBehaviour {
 
     private static ItemDatabase _itemDatabase;
 
-    public List<ItemContainer> Items = new List<ItemContainer>();
+    private List<ItemContainer> _items = new List<ItemContainer>();
+    private List<Recipe> _recipes = new List<Recipe>();  
 
-    public List<Recipe> Recipes = new List<Recipe>();  
+
 
     public int Id;
     public string Name ;
@@ -30,16 +31,6 @@ public class ItemDatabase : MonoBehaviour {
 
     public int _defaultDurationDays = 365;
 
-    public static ItemDatabase Instance()
-    {
-        if (!_itemDatabase)
-        {
-            _itemDatabase = FindObjectOfType(typeof(ItemDatabase)) as ItemDatabase;
-            if (!_itemDatabase)
-                Debug.LogError("There needs to be one active ItemDatabase script on a GameObject in your scene.");
-        }
-        return _itemDatabase;
-    }
 
     void Awake()
     {
@@ -56,7 +47,7 @@ public class ItemDatabase : MonoBehaviour {
         //Consumable template
         tempItem = new ItemContainer(
             //Id
-            Items.Count,                   
+            _items.Count,                   
             //Name
             "Cherry",
             //Desc
@@ -88,13 +79,13 @@ public class ItemDatabase : MonoBehaviour {
                 0   //Energy
             }
         );
-        if (!tempItem.Exist(Items))
-            Items.Add(tempItem);
+        if (!tempItem.Exist(_items))
+            _items.Add(tempItem);
 
         //Equipment template 
         tempItem = new ItemContainer(
             //Id
-            Items.Count,
+            _items.Count,
             //Name
             "Basic Glove",
             //Desc
@@ -135,13 +126,13 @@ public class ItemDatabase : MonoBehaviour {
                 0//Strength = values[11];
             }
         );
-        if (!tempItem.Exist(Items))
-            Items.Add(tempItem);
+        if (!tempItem.Exist(_items))
+            _items.Add(tempItem);
 
         //Weapon template
         tempItem = new ItemContainer(
             //Id
-            Items.Count,
+            _items.Count,
             //Name
             "Small Sword",
             //Desc
@@ -179,13 +170,13 @@ public class ItemDatabase : MonoBehaviour {
                 0   //PoisonDefence
             }
         );
-        if (!tempItem.Exist(Items))
-            Items.Add(tempItem);
+        if (!tempItem.Exist(_items))
+            _items.Add(tempItem);
 
         //Substance template
         tempItem = new ItemContainer(
             //Id
-            Items.Count,
+            _items.Count,
             //Name
             "Round Rock",
             //Desc
@@ -222,8 +213,8 @@ public class ItemDatabase : MonoBehaviour {
                 0   //PoisonDefence
             }
         );
-        if (!tempItem.Exist(Items))
-            Items.Add(tempItem);
+        if (!tempItem.Exist(_items))
+            _items.Add(tempItem);
 
         SaveItems();
 
@@ -234,17 +225,41 @@ public class ItemDatabase : MonoBehaviour {
 
     public ItemContainer FindItem(int id)
     {
-        for (int i = 0; i < Items.Count; i++)
-            if (Items[i].Id == id)
-                return Items[i];
+        for (int i = 0; i < _items.Count; i++)
+            if (_items[i].Id == id)
+                return _items[i];
         return null;
+    }
+
+    public Recipe FindRecipes(int first, int second)
+    {
+        for (int i = 0; i < _recipes.Count; i++)
+        {
+            Recipe r = _recipes[i];
+            if (r.IsEnable && first == r.FirstItemId && second == r.SecondItemId)
+                return r;
+            if (r.IsEnable && first == r.SecondItemId && second == r.FirstItemId)
+                return Reverse(r);
+        }
+        return null;
+    }
+
+    private Recipe Reverse(Recipe r)
+    {
+        int temp = r.FirstItemId;
+        r.FirstItemId = r.SecondItemId;
+        r.SecondItemId = temp;
+        temp = r.FirstItemCnt;
+        r.FirstItemCnt = r.SecondItemCnt;
+        r.SecondItemCnt = temp;
+        return r;
     }
 
     private void PrintRecipes()
     {
-        for (int i = 0; i < Recipes.Count; i++)
+        for (int i = 0; i < _recipes.Count; i++)
         {
-            Recipe r = Recipes[i];
+            Recipe r = _recipes[i];
             if (r.IsEnable)
                 print(i + "- id(" + r.Id + ") " + 
                       r.FirstItemId + "(" + r.FirstItemCnt + ") + " + 
@@ -256,12 +271,12 @@ public class ItemDatabase : MonoBehaviour {
     private void LoadItems()
     {
         //Empty the Items DB
-        Items.Clear();
+        _items.Clear();
         string path = Path.Combine(Application.streamingAssetsPath, "Item.xml");
         //Read the items from Item.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
         FileStream fs = new FileStream(path, FileMode.Open);
-        Items = (List<ItemContainer>) serializer.Deserialize(fs);
+        _items = (List<ItemContainer>) serializer.Deserialize(fs);
         fs.Close();
     }
     private void SaveItems()
@@ -269,19 +284,19 @@ public class ItemDatabase : MonoBehaviour {
         string path = Path.Combine(Application.streamingAssetsPath, "Item.xml");
         XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));
         FileStream fs = new FileStream(path, FileMode.Create);
-        serializer.Serialize(fs, Items);
+        serializer.Serialize(fs, _items);
         fs.Close();
     }
 
     private void LoadRecipes()
     {
         //Empty the Recipes DB
-        Recipes.Clear();
+        _recipes.Clear();
         string path = Path.Combine(Application.streamingAssetsPath, "Recipe.xml");
         //Read the Recipes from Recipe.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(List<Recipe>));
         FileStream fs = new FileStream(path, FileMode.Open);
-        Recipes = (List<Recipe>)serializer.Deserialize(fs);
+        _recipes = (List<Recipe>)serializer.Deserialize(fs);
         fs.Close();
     }
 
@@ -290,7 +305,7 @@ public class ItemDatabase : MonoBehaviour {
     {
         LoadItems();
         //Add item through the public properties 
-        Items.Add(new ItemContainer(Id, Name, Description,
+        _items.Add(new ItemContainer(Id, Name, Description,
             IconPath, IconId, 
             Cost, Weight,
             MaxStackCnt, StackCnt,
@@ -302,5 +317,15 @@ public class ItemDatabase : MonoBehaviour {
     }
 
 
+    public static ItemDatabase Instance()
+    {
+        if (!_itemDatabase)
+        {
+            _itemDatabase = FindObjectOfType(typeof(ItemDatabase)) as ItemDatabase;
+            if (!_itemDatabase)
+                Debug.LogError("There needs to be one active ItemDatabase script on a GameObject in your scene.");
+        }
+        return _itemDatabase;
+    }
 
 }
