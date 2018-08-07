@@ -24,7 +24,7 @@ public class ItemMixture : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
     void Awake()
     {
         _itemMixture = ItemMixture.Instance();
-        _inv = GameObject.Find("Inventory").GetComponent<InventoryHandler>();
+        _inv = InventoryHandler.Instance();
         _tooltip = Tooltip.Instance();
     }
 

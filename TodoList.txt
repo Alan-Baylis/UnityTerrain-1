@@ -2,16 +2,15 @@ try clearing the whole %LocalAppData%\JetBrains\Transient
 
 Inventory Phase:
 
-recepie description to have pic 
 
 
 
 Delete box in inventory 
 X button in inventory 
 inventory button in the page
-shop button and about
 
 Equip Item
+	add/remove the effect of item
 	use energy to do stuff 	
 
 Todo: layout element might help the style of inv in diffrent sizes 
@@ -26,6 +25,7 @@ Consume phase
 4- Digg bug item doesn't appear 
 
 Recepie scene
+recepie description to have pic 
 Recepie page list founded Recepie 
 
 

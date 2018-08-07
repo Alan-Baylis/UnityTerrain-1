@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryHandler : MonoBehaviour
 {
+    private static InventoryHandler _inv;
     private int _playerSlots;
     private static GUIManager _GUIManager;
 
@@ -20,12 +21,14 @@ public class InventoryHandler : MonoBehaviour
 
     public GameObject InventorySlot;
     public GameObject InventorySlotBroken;
-    public GameObject InventoryItam;
+    public GameObject InventoryItem;
     public Sprite LockSprite;
 
 
     private List<ItemContainer> _invItems = new List<ItemContainer>();
     public List<GameObject> InvSlots = new List<GameObject>();
+    private SlotEquipment[] _equiSlots = new SlotEquipment[13];
+    private List<int> _equipments = new List<int>();
 
     private int _slotAmount = 30;
     //private int _slotsX = 5;
@@ -33,21 +36,59 @@ public class InventoryHandler : MonoBehaviour
     //private int _slotsPadding = 10;
 
     // Use this for initialization
-    void Awake ()
+    void Awake()
     {
+        _inv = InventoryHandler.Instance();
         _itemDatabase = ItemDatabase.Instance();
         _characterManager = CharacterManager.Instance();
 
         //Todo: make sure we use the new way old way ==>  _GUIManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<GUIManager>();
-        _GUIManager =  GUIManager.Instance();
+        _GUIManager = GUIManager.Instance();
+    }
 
-        print("###insite Start inventory "+ _characterManager.CharacterSetting.CarryCnt);
-        _playerSlots = _characterManager.CharacterSetting.CarryCnt;
+    void Start()
+    {
+            //print("###insite Start inventory "+ _characterManager.CharacterSetting.CarryCnt);
+            _playerSlots = _characterManager.CharacterSetting.CarryCnt;
 
         //Inventory Items
         _inventoryPanel = GameObject.Find("Inventory Panel");
         _slotPanel = _inventoryPanel.transform.Find("Slot Panel").gameObject;
         InitInventory(_characterManager.CharacterInventory);
+
+        //Equipment
+        _equipments = _characterManager.CharacterSetting.Equipments;
+        SlotEquipment[] equiSlots = _inventoryPanel.GetComponentsInChildren<SlotEquipment>();
+
+        for (int i = 0; i < equiSlots.Length; i++)
+            _equiSlots[(int)equiSlots[i].EquType] = equiSlots[i];
+        for (int i = 0; i < _equiSlots.Length; i++)
+        {
+            //print("index : "+i+"-"+_equiSlots[i].EquType + (int)_equiSlots[i].EquType + " id from in=  "+ _equipments[i]);
+            _equiSlots[i].name = "Slot " + _equiSlots[i].EquType;
+            _equiSlots[i].GetComponentInChildren<Text>().text = _equiSlots[i].EquType.ToString();
+            ItemEquipment equipmentItem = _equiSlots[i].GetComponentInChildren<ItemEquipment>();
+            if (_equipments[i] == -1)
+            {
+                equipmentItem.Item = new ItemContainer();
+                equipmentItem.name = "Empty";
+            }
+            else
+            {
+                ItemContainer tempItem = _itemDatabase.FindItem(_equipments[i]);
+                equipmentItem.Item =
+                    new ItemContainer(
+                        tempItem.Id, tempItem.Name, tempItem.Description,
+                        tempItem.IconPath, tempItem.IconId,
+                        tempItem.Cost, tempItem.Weight,
+                        tempItem.MaxStackCnt, tempItem.MaxStackCnt, //*** Equipmet only accept maxstacks
+                        tempItem.Type, tempItem.Rarity,
+                        tempItem.DurationDays, tempItem.ExpirationTime,
+                        tempItem.Values);
+                equipmentItem.name = tempItem.Name;
+                equipmentItem.GetComponent<Image>().sprite = tempItem.GetSprite();
+            }
+        }
 
         //Item Mixture
         _itemMixture = ItemMixture.Instance();
@@ -66,7 +107,7 @@ public class InventoryHandler : MonoBehaviour
 
             InvSlots[i].transform.SetParent(_slotPanel.transform);
 
-            GameObject itemObject = Instantiate(InventoryItam);
+            GameObject itemObject = Instantiate(InventoryItem);
 
             ItemData data = itemObject.GetComponent<ItemData>();
             data.Item = _invItems[i];
@@ -85,10 +126,15 @@ public class InventoryHandler : MonoBehaviour
                 }
             }
             //todo: lets user buy a slot 
-            else if (i == _playerSlots)
+            else
             {
-                itemObject.GetComponent<Image>().sprite = LockSprite;
-                InvSlots[i].name = itemObject.name = "Lock";
+                data.enabled = false;
+                if (i == _playerSlots)
+                {
+                    itemObject.GetComponent<Image>().sprite = LockSprite;
+                    InvSlots[i].name = itemObject.name = "Lock";
+                }
+
             }
         }
         //todo: unleash the inv to be saved 
@@ -132,6 +178,14 @@ public class InventoryHandler : MonoBehaviour
 	        //_characterDb.SaveCharacterInventory(_invItems);
 	        _updateInventory = false;
 	    }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (_inventoryPanel.activeSelf)
+                _inventoryPanel.SetActive(false);
+            else
+                _inventoryPanel.SetActive(true);
+        }
     }
 
     internal void InitInventory(List<ItemContainer> sourceInv)
@@ -191,6 +245,27 @@ public class InventoryHandler : MonoBehaviour
         return _itemDatabase.FindItem(id);
     }
 
+
+    private bool UseItem(ItemContainer item, int invIndex)
+    {
+        switch (item.Type)
+        {
+            case Item.ItemType.Consumable:
+                return false;
+            case Item.ItemType.Equipment:
+                return false;
+            case Item.ItemType.Weapon:
+                return false;
+            case Item.ItemType.Tool:
+                return false;
+            default:
+                _GUIManager.AddMessage("YEL: " + item.Name + " can not be used");
+                return false;
+        }
+    }
+
+
+
     internal void PrintInventory(List<ItemContainer> inv)
     {
         string invStrt = "Print Inventory: ";
@@ -199,6 +274,18 @@ public class InventoryHandler : MonoBehaviour
             invStrt+= inv[i].Id+'-';
         }
         print(invStrt);
+    }
+
+
+    public static InventoryHandler Instance()
+    {
+        if (!_inv)
+        {
+            _inv = FindObjectOfType(typeof(InventoryHandler)) as InventoryHandler;
+            if (!_inv)
+                Debug.LogError("There needs to be one active InventoryHandler script on a GameObject in your scene.");
+        }
+        return _inv;
     }
 
 }

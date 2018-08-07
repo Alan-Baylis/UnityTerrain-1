@@ -10,6 +10,7 @@ public class Equipment : Item {
         Head,   // Hat, Crown
         Face,   // Mask, Helmet
         Neck,
+        Body,
         Chest,
         Arms,
         Hands,
@@ -17,7 +18,9 @@ public class Equipment : Item {
         Tail,
         Legs,
         Feet,
-        Shadow
+        RightHand,
+        LeftHand,
+        None
     }
 
     public PlaceType PlaceHolder { get; set; }

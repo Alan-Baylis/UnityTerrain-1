@@ -100,27 +100,12 @@
       <Energy>0</Energy>
     </Consumable>
   </ItemContainer>
-  <ItemContainer>
-    <Consumable>
-      <Id>1</Id>
-      <Name>Cherry</Name>
-      <Description>One Cherry</Description>
-      <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>1</IconId>
-      <Cost>0</Cost>
-      <Weight>0</Weight>
-      <MaxStackCnt>20</MaxStackCnt>
-      <StackCnt>1</StackCnt>
-      <Type>Consumable</Type>
-      <Rarity>Common</Rarity>
-      <Slug>Cherry</Slug>
-      <ExpirationTime>2018-08-05T16:04:31.7921108-05:00</ExpirationTime>
-      <IsEnable>true</IsEnable>
-      <Health>1</Health>
-      <Mana>0</Mana>
-      <Energy>0</Energy>
-    </Consumable>
-  </ItemContainer>
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
+  <ItemContainer />
   <ItemContainer />
   <ItemContainer />
   <ItemContainer />

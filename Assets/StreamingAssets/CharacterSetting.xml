@@ -22,7 +22,7 @@
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
-  <Energy>976</Energy>
+  <Energy>934</Energy>
   <AttackSpeed>3</AttackSpeed>
   <DefenceSpeed>3</DefenceSpeed>
   <AbilityAttack>0</AbilityAttack>
@@ -52,6 +52,9 @@
     <int>-1</int>
     <int>-1</int>
     <int>-1</int>
+    <int>-1</int>
     <int>5</int>
+    <int>-1</int>
+    <int>-1</int>
   </Equipments>
 </CharacterSetting>

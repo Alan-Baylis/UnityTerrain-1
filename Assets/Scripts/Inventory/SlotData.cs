@@ -16,7 +16,7 @@ public class SlotData : MonoBehaviour,IDropHandler{
 
     void Start()
     {
-        _inv = GameObject.Find("Inventory").GetComponent<InventoryHandler>();
+        _inv = InventoryHandler.Instance();
         _itemMixture = ItemMixture.Instance();
         _modalPanel = ModalPanel.Instance();
     }
@@ -30,9 +30,10 @@ public class SlotData : MonoBehaviour,IDropHandler{
     {
         ItemData draggedItem = eventData.pointerDrag.GetComponent<ItemData>();
         ItemMixture mixedItem = eventData.pointerDrag.GetComponent<ItemMixture>();
+        ItemEquipment equipedItem = eventData.pointerDrag.GetComponent<ItemEquipment>();
 
 
-        if (mixedItem == null && draggedItem == null)
+        if (mixedItem == null && draggedItem == null && equipedItem == null)
             return;
         else
         {
@@ -41,6 +42,9 @@ public class SlotData : MonoBehaviour,IDropHandler{
                     return;
             if (draggedItem != null)
                 if (draggedItem.Item.Id == -1)
+                    return;
+            if (equipedItem != null)
+                if (equipedItem.Item.Id == -1)
                     return;
         }
 
@@ -65,17 +69,37 @@ public class SlotData : MonoBehaviour,IDropHandler{
                     Text stackCntText = existingItem.transform.GetChild(0).GetComponent<Text>();
                     stackCntText.text = mixedItem.Item.StackCnt > 1 ? mixedItem.Item.StackCnt.ToString() : "";
                     existingItem.Item = mixedItem.Item;
-                    _inv.InvSlots[SlotIndex].name = existingItem.name;
+                    _inv.InvSlots[SlotIndex].name = mixedItem.Item.Name;
                     //Delete mixure Item
-                    _itemMixture.LoadEmpty();
-
+                    mixedItem.LoadEmpty();
                     _inv.UpdateInventory(true);
                 }
                 return;
             }
 
-        if (draggedItem == null)
-            throw new Exception("draggedItem is null!!!!");
+        //Item from equipments Area
+        if (equipedItem != null)
+            if (equipedItem.Item.Id != -1)
+            {
+                //#################################### not empty slot
+                if (existingItem.Item.Id != -1)
+                    _inv.PrintMessage("YEL: New item should be placed in an empty inventory slot");
+                //#################################### empty slot
+                else
+                {
+                    //Set the slot Item
+                    existingItem.transform.name = equipedItem.Item.Name;
+                    existingItem.GetComponent<Image>().sprite = equipedItem.Item.GetSprite();
+                    Text stackCntText = existingItem.transform.GetChild(0).GetComponent<Text>();
+                    stackCntText.text = equipedItem.Item.StackCnt > 1 ? equipedItem.Item.StackCnt.ToString() : "";
+                    existingItem.Item = equipedItem.Item;
+                    _inv.InvSlots[SlotIndex].name = equipedItem.Item.Name;
+                    //Delete equipments Item
+                    equipedItem.LoadItem();
+                    _inv.UpdateInventory(true);
+                }
+                return;
+            }
 
 
         Debug.Log(draggedItem.SlotIndex+" Dragged to "+ SlotIndex + "-" + existingItem.Item.Name);

@@ -51,12 +51,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28dc3296728949245a9ccdc33e404d0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UpdateInventory: 0
   InventorySlot: {fileID: 1452981279929114, guid: eb2362fdb14a6f144a3037e47d259df8,
     type: 2}
   InventorySlotBroken: {fileID: 1452981279929114, guid: 4f9324243ab40f248af1381e8d1698a5,
     type: 2}
-  InventoryItam: {fileID: 1659708649214486, guid: 7affa43fb912d2f48aad0d7cc48c49d1,
+  InventoryItem: {fileID: 1659708649214486, guid: 7affa43fb912d2f48aad0d7cc48c49d1,
     type: 2}
   LockSprite: {fileID: 21300010, guid: 7e9d88b801724754d98182f02f7808e2, type: 3}
   InvSlots: []

@@ -20,9 +20,9 @@ public class CharacterManager : MonoBehaviour {
 
     public int PlayerId=0;
 
-    private int _basicHealth=1000;
-    private int _basicSpeed = 3;
-    private int _basicCarry = 100;
+    //private int _basicHealth=1000;
+    //private int _basicSpeed = 3;
+    //private int _basicCarry = 100;
 
     void Awake()
     {

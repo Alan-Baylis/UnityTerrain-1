@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDragHandler,IEndDragHandler,IPointerEnterHandler,IPointerExitHandler {
+public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDragHandler,IEndDragHandler,IPointerEnterHandler,IPointerExitHandler
+{
 
 	// Use this for initialization
     public ItemContainer Item;
@@ -21,7 +22,7 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
 
     void Start()
     {
-        _inv = GameObject.Find("Inventory").GetComponent<InventoryHandler>();
+        _inv = InventoryHandler.Instance();
         _tooltip = Tooltip.Instance();
     }
 
@@ -61,6 +62,7 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        //Todo: you can move the sprite by cliclking cpouple time fix it 
         if (Item.Id == -1)
             return;
         _offset = eventData.position - (Vector2) this.transform.position;
@@ -84,8 +86,7 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        if (Item.Id == -1)
-            return;
+        print("#######Inside OnEndDrag Itemdata: " + Item.Id);
 
         //TODO NOT change it to <= 
         Text stackCntText = this.transform.GetChild(0).GetComponent<Text>();
@@ -107,4 +108,25 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
         this.transform.position = originalParent.position;
         GetComponent<CanvasGroup>().blocksRaycasts = true;
     }
+
+    public void LoadItem(ItemContainer item)
+    {
+        print("#######Inside loadItem Itemdata: "+ item.Id);
+        if (item.Id == -1)
+        {
+            Item = new ItemContainer();
+            GetComponent<Image>().sprite = EmptySprite;
+            Text stackCntText = this.transform.GetChild(0).GetComponent<Text>();
+            stackCntText.text = "";
+        }
+        else
+        {
+            Item = item;
+            this.transform.name = Item.Name;
+            GetComponent<Image>().sprite = Item.GetSprite();
+            this.transform.GetChild(0).GetComponent<Text>().text = Item.StackCnt > 1 ? Item.StackCnt.ToString() : "";
+            _inv.InvSlots[SlotIndex].transform.name = Item.Name;
+        }
+    }
+
 }

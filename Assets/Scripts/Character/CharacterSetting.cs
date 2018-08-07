@@ -110,7 +110,7 @@ public class CharacterSetting {
         if (equipments ==null)
         {
             Equipments = new List<int>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 13; i++)
                 Equipments.Add(-1);
         }
         else

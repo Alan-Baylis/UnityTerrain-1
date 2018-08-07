@@ -217,7 +217,7 @@ public class ItemDatabase : MonoBehaviour {
             _items.Add(tempItem);
 
         SaveItems();
-
+        //PrintItems();
         LoadRecipes();
 
         //PrintRecipes();
@@ -267,6 +267,18 @@ public class ItemDatabase : MonoBehaviour {
                       r.FinalItemId + "(" + r.FinalItemCnt + ")");
         }
     }
+
+    private void PrintItems()
+    {
+        for (int i = 0; i < _items.Count; i++)
+        {
+            ItemContainer r = _items[i];
+            if (r.IsEnable)
+                print(i + "- id(" + r.Id + ") " +
+                      r.Name + "(" + r.Type + ") + ");
+        }
+    }
+
 
     private void LoadItems()
     {
