@@ -25,7 +25,7 @@ public class MoveInside : MonoBehaviour
 
         if (Building.IsExiting(targetTile))
         {
-            //Preparing to sreturn to terrain
+            //Preparing to return to terrain
             GameObject go = new GameObject();
             //Make go undestroyable
             GameObject.DontDestroyOnLoad(go);

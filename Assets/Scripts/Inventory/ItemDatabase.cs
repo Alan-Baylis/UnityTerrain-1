@@ -202,16 +202,41 @@ public class ItemDatabase : MonoBehaviour {
             //ExpirationTime
             ExpirationTime,
             //###Extras //todo: ignore for now 
-            new int[8] {
-                1,  //AttackSpeed
-                0,  //DefenceSpeed
-                1,  //AbilityAttack
-                0,  //AbilityDefence
-                0,  //MagicAttack
-                0,  //MagicDefence
-                0,  //PoisonAttack
-                0   //PoisonDefence
-            }
+            new int[] { }
+        );
+        if (!tempItem.Exist(_items))
+            _items.Add(tempItem);        
+        
+        //Tools template   //Iron Metal Silver Golden
+        tempItem = new ItemContainer(
+            //Id
+            _items.Count,
+            //Name
+            "Iron Shovel",
+            //Desc
+            "Iron Shovel",
+            //IconPath
+            "Inventory/InventoryTools",
+            //IconID    
+            16,
+            //Coat                            
+            1,
+            //Weight                            
+            5,
+            //MaxStackCnt
+            1,
+            //StackCnt
+            1,
+            //Type
+            Item.ItemType.Tool,
+            //Rarity
+            Item.ItemRarity.Common,
+            //DurationDays
+            _defaultDurationDays,
+            //ExpirationTime
+            ExpirationTime,
+            //###Extras //todo: ignore for now 
+            new int[] { }
         );
         if (!tempItem.Exist(_items))
             _items.Add(tempItem);
@@ -229,6 +254,16 @@ public class ItemDatabase : MonoBehaviour {
             if (_items[i].Id == id)
                 return _items[i];
         return null;
+    }
+
+    public List<Recipe> RecipeList()
+    {
+        return _recipes;
+    }
+
+    public List<ItemContainer> RecipeItems(Recipe r)
+    {
+        return new List<ItemContainer> { FindItem(r.FirstItemId), FindItem(r.SecondItemId), FindItem(r.FinalItemId) };
     }
 
     public Recipe FindRecipes(int first, int second)

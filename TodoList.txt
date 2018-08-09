@@ -1,19 +1,9 @@
 try clearing the whole %LocalAppData%\JetBrains\Transient 
 
+
+
+
 Inventory Phase:
-
-
-
-
-Delete box in inventory 
-X button in inventory 
-inventory button in the page
-
-Equip Item
-	add/remove the effect of item
-	use energy to do stuff 	
-
-Todo: layout element might help the style of inv in diffrent sizes 
 
 
 Consume phase
@@ -24,13 +14,6 @@ Consume phase
 	use Saw for trees	
 4- Digg bug item doesn't appear 
 
-Recepie scene
-recepie description to have pic 
-Recepie page list founded Recepie 
-
-
-Research scene
-Research page list founded Researchs 
 
 loading page phase (menu)
 https://www.youtube.com/watch?v=zc8ac_qUXQY
@@ -65,24 +48,28 @@ Map Mobile Phase
 
 Phase 
 	Add live container
-
-
-
-Phase 
-Base location should get saved in the user 
-Set up a tent that have the Bank Inventory 
 	
+UI Phase
 number of ellements be better 
 Make more the animations  for movings
 Make more the animations  for water
 Make more the animations  for lava
-	
+Todo: layout element might help the style of inv in diffrent sizes 
 
 buy these ??
 https://shop.bitgem3d.com/products/cracked-earth-brown-dirt-floor-hand-painted-texture
+###########After first lunch
+Phase 
+Base location should get saved in the user 
+Set up a tent that have the Bank Inventory 
 
-1 $ 1 mile 
+Research scene
+	Research page list founded Researchs 
 
-2000 
+Recepie scene
+	recepie description to have pic 
 
-20
+
+
+
+

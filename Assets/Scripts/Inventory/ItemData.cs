@@ -86,22 +86,6 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        print("#######Inside OnEndDrag Itemdata: " + Item.Id);
-
-        //TODO NOT change it to <= 
-        Text stackCntText = this.transform.GetChild(0).GetComponent<Text>();
-        if (Item.StackCnt == 0)
-        {
-            //Logic of adding empty Item to Slot 
-            Item = new ItemContainer();
-            this.transform.name = "Empty";
-            this.GetComponent<Image>().sprite = EmptySprite;
-            //Update Text
-            stackCntText.text = "";
-        }
-        else if (Item.StackCnt.ToString() != stackCntText.text)
-            stackCntText.text = Item.StackCnt > 1 ? Item.StackCnt.ToString() : "";
-
         Transform originalParent = _inv.InvSlots[SlotIndex].transform;
         this.transform.SetParent(originalParent);
         originalParent.name = this.transform.name;
@@ -111,13 +95,14 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
 
     public void LoadItem(ItemContainer item)
     {
-        print("#######Inside loadItem Itemdata: "+ item.Id);
+        //print("#######Inside loadItem Itemdata: "+ item.Id);
         if (item.Id == -1)
         {
             Item = new ItemContainer();
             GetComponent<Image>().sprite = EmptySprite;
             Text stackCntText = this.transform.GetChild(0).GetComponent<Text>();
             stackCntText.text = "";
+            _inv.UpdateInventory(true);
         }
         else
         {

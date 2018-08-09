@@ -52,7 +52,7 @@ public class CharacterSetting {
     public float Researching { get; set; }
     public float Bravery { get; set; }
     public float Confidence { get; set; }
-    public List<int> Equipments { get; set; }
+    public List<ItemContainer> Equipments { get; set; }
     //Todo: add the hashcode
 
     public CharacterSetting(int id = 0, int characterId = 0, string name = null,
@@ -63,7 +63,7 @@ public class CharacterSetting {
         int energy = 0, int attackSpeed = 0, int defenceSpeed = 0, int abilityAttack = 0, int abilityDefence = 0,
         int magicAttack = 0, int magicDefence = 0, int poisonAttack = 0, int poisonDefence = 0, float carry = 0, int carryCnt = 0,
         float speed = 0, float intellect = 0, float agility = 0, float strength = 0, float stemina = 0,
-        float krafting = 0, float researching = 0, float bravery = 0, float confidence = 0, List<int> equipments = null)
+        float krafting = 0, float researching = 0, float bravery = 0, float confidence = 0, List<ItemContainer>  equipments = null)
     {
         Id = id;
         CharacterId = characterId;
@@ -109,9 +109,9 @@ public class CharacterSetting {
         Strength = strength;
         if (equipments ==null)
         {
-            Equipments = new List<int>();
+            Equipments = new List<ItemContainer>();
             for (int i = 0; i < 13; i++)
-                Equipments.Add(-1);
+                Equipments.Add(new ItemContainer());
         }
         else
             Equipments = equipments;

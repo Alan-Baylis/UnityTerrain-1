@@ -19,6 +19,7 @@ public class Move : MonoBehaviour {
     {
         _characterManager = CharacterManager.Instance();
         _cache = Cache.Get();
+        
     }
 
     // Use this for initialization

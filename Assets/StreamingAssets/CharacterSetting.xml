@@ -18,11 +18,11 @@
   <Experience>1000</Experience>
   <HandsCnt>2</HandsCnt>
   <MaxHealth>1000</MaxHealth>
-  <Health>950</Health>
+  <Health>959</Health>
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
-  <Energy>934</Energy>
+  <Energy>758</Energy>
   <AttackSpeed>3</AttackSpeed>
   <DefenceSpeed>3</DefenceSpeed>
   <AbilityAttack>0</AbilityAttack>
@@ -38,23 +38,53 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>334</Krafting>
+  <Krafting>332</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>
   <Equipments>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>-1</int>
-    <int>5</int>
-    <int>-1</int>
-    <int>-1</int>
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer />
+    <ItemContainer>
+      <Equipment>
+        <Id>5</Id>
+        <Name>Basic Glove</Name>
+        <Description>Basic glove from animal leather</Description>
+        <IconPath>Inventory/InventorySet1</IconPath>
+        <IconId>204</IconId>
+        <Cost>3</Cost>
+        <Weight>1</Weight>
+        <MaxStackCnt>2</MaxStackCnt>
+        <StackCnt>1</StackCnt>
+        <Type>Equipment</Type>
+        <Rarity>Common</Rarity>
+        <Slug>Basic_Glove</Slug>
+        <DurationDays>365</DurationDays>
+        <ExpirationTime>2019-06-28T18:35:01.5138436-05:00</ExpirationTime>
+        <IsEnable>true</IsEnable>
+        <PlaceHolder>Feet</PlaceHolder>
+        <Agility>0</Agility>
+        <Bravery>0</Bravery>
+        <Carry>0</Carry>
+        <CarryCnt>0</CarryCnt>
+        <Confidence>0</Confidence>
+        <Intellect>0</Intellect>
+        <Krafting>1</Krafting>
+        <Researching>0</Researching>
+        <Speed>0</Speed>
+        <Stemina>0</Stemina>
+        <Strength>0</Strength>
+      </Equipment>
+    </ItemContainer>
+    <ItemContainer />
+    <ItemContainer />
   </Equipments>
 </CharacterSetting>

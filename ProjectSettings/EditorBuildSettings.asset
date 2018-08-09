@@ -11,3 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/InsideBuilding.unity
     guid: d1145a47f30be404c877b86e2555f1c6
+  - enabled: 1
+    path: Assets/Scenes/RecipeList.unity
+    guid: 75801da778a80984f8d9eb35c9627e40

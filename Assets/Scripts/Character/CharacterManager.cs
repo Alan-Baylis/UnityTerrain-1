@@ -20,9 +20,9 @@ public class CharacterManager : MonoBehaviour {
 
     public int PlayerId=0;
 
-    //private int _basicHealth=1000;
-    //private int _basicSpeed = 3;
-    //private int _basicCarry = 100;
+    private int _basicHealth = 1000;
+    private int _basicSpeed = 3;
+    private int _basicCarry = 100;
 
     void Awake()
     {
@@ -40,24 +40,7 @@ public class CharacterManager : MonoBehaviour {
         print("CharacterInventory " + CharacterInventory.Count);
     }
 
-    public void AddCharacterSetting(string field, float value)
-    {
-        switch (field)
-        {
-            case "Agility":
-                CharacterSetting.Agility += value;
-                break;
-            case "Health":
-                CharacterSetting.Health -= (int)value;
-                CharacterSetting.Coin += 1;
-                break;
-            case "Energy":
-                CharacterSetting.Energy += (int)value;
-                break;
-        }
-        CharacterSetting.Updated = true;
-        SaveCharacterSetting();
-    }
+
 
 
     //middle man to CharacterDatabase
@@ -92,78 +75,16 @@ public class CharacterManager : MonoBehaviour {
         //todo: make it async with db
         _characterDatabase.SaveCharacterInventory(CharacterInventory);
     }
+    internal void SaveCharacterEquipments(List<ItemContainer> equipments)
+    {
+        CharacterSetting.Equipments = equipments.ToList();
+        //Todo: or this one = > _characterSetting.Equipments = new List<Int32>(equipments);
+        CharacterSetting.Updated = true;
+        SaveCharacterSetting();
+    }
 
 
-    //public int AddEquipment(int index, int id)
-    //{
-    //    int OldItem = CharacterSetting.Equipments[index];
-    //    CharacterSetting.Equipments[index] = id;
-    //    //Todo: Adjust character based on the new equipment an remove old setting
-    //    AddCharacterSetting("Health", 2);
-    //    //Todo: may need to move 
-    //    CharacterSetting.Updated = true;
-    //    SaveCharacterSetting();
-    //    return OldItem;
-    //}
 
-
-    //public int AddEquipment(ItemContainer item)
-    //{
-    //    int OldItem=-1;
-    //    if (item.Equipment != null)
-    //        OldItem = CharacterSetting.AddEquipment((int) item.Equipment.PlaceHolder, item.Id);
-    //    return OldItem;
-    //}
-
-    //public int AddEquipment(int id)
-    //{
-    //    return AddEquipment(_itemDb.FindItem(id));
-    //}
-
-    //internal CharacterSetting GetPlayerSettings()
-    //{
-    //    if (CharacterSetting.Level == 0 && CharacterSetting.Experience == 0)
-    //    {//Basic Setting
-    //        //print("###Inside GetPlayerSettings Basic Setting");
-    //        Character character = Character;
-    //        CharacterSetting.MaxHealth = ((int)character.Body / 100 + 1) * _basicHealth;
-    //        CharacterSetting.Health = CharacterSetting.MaxHealth;
-    //        CharacterSetting.MaxMana = CharacterSetting.MaxHealth; //Todo: calculate basic Mana
-    //        CharacterSetting.Mana = CharacterSetting.MaxMana;
-    //        CharacterSetting.MaxEnergy = CharacterSetting.MaxHealth;//Todo: calculate basic Energy
-    //        CharacterSetting.Energy = CharacterSetting.MaxEnergy;
-    //        CharacterSetting.AttackSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic AttackSpeed
-    //        CharacterSetting.DefenceSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic DefenceSpeed
-    //        CharacterSetting.Carry = _basicCarry + (int)character.Carry * 5;
-    //        CharacterSetting.CarryCnt = _basicCarry / 20 + CharacterSetting.Level / 5;
-    //        CharacterSetting.Speed = ((int)character.Speed / 100 + 1) * _basicSpeed;
-    //    }
-    //    //Equipment setting
-    //    if (CharacterSetting.Equipments != null)
-    //        foreach (var id in CharacterSetting.Equipments)
-    //        {
-    //            if (id == -1)
-    //                continue;
-    //            ItemContainer item = _itemDatabase.FindItem(id);
-    //            if (item.Equipment != null)
-    //            {
-    //                CharacterSetting.Agility += item.Equipment.Agility;
-    //                CharacterSetting.Bravery += item.Equipment.Bravery;
-    //                CharacterSetting.Carry += item.Equipment.Carry;
-    //                CharacterSetting.CarryCnt += item.Equipment.CarryCnt;
-    //                CharacterSetting.Confidence += item.Equipment.Confidence;
-    //                CharacterSetting.Intellect += item.Equipment.Intellect;
-    //                CharacterSetting.Krafting += item.Equipment.Krafting;
-    //                CharacterSetting.Researching += item.Equipment.Researching;
-    //                CharacterSetting.Speed += item.Equipment.Speed;
-    //                CharacterSetting.Stemina += item.Equipment.Stemina;
-    //                CharacterSetting.Strength += item.Equipment.Strength;
-    //            }
-    //            //print("###Inside GetPlayerSettings Equipment = " + id);
-    //        }
-    //    return CharacterSetting;
-    //    //todo: if not saved return new CharacterSetting();
-    //}
 
 
     //Instance
@@ -178,4 +99,130 @@ public class CharacterManager : MonoBehaviour {
         return _characterManager;
     }
 
+
+    private void CalculateCharacterSetting()
+    {
+        CharacterSetting.MaxHealth = ((int)Character.Body / 100 + 1) * _basicHealth;
+        CharacterSetting.Health = CharacterSetting.MaxHealth;
+        CharacterSetting.MaxMana = CharacterSetting.MaxHealth; //Todo: calculate basic Mana
+        CharacterSetting.Mana = CharacterSetting.MaxMana;
+        CharacterSetting.MaxEnergy = CharacterSetting.MaxHealth;//Todo: calculate basic Energy
+        CharacterSetting.Energy = CharacterSetting.MaxEnergy;
+        CharacterSetting.AttackSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic AttackSpeed
+        CharacterSetting.DefenceSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic DefenceSpeed
+        CharacterSetting.Carry = _basicCarry + (int)Character.Carry * 5;
+        CharacterSetting.CarryCnt = _basicCarry / 20 + CharacterSetting.Level / 5;
+        CharacterSetting.Speed = ((int)Character.Speed / 100 + 1) * _basicSpeed;
+        //Equipment setting
+        if (CharacterSetting.Equipments != null)
+            foreach (var item in CharacterSetting.Equipments)
+            {
+                if (item.Id == -1)
+                    continue;
+                CharacterSettingUseItem(item, 0,false);
+            }
+        SaveCharacterSetting();
+    }
+
+    public void AddCharacterSetting(string field, float value)
+    {
+        switch (field)
+        {
+            case "Agility":
+                CharacterSetting.Agility += value;
+                break;
+            case "Health":
+                CharacterSetting.Health -= (int)value;
+                CharacterSetting.Coin += 1;
+                break;
+            case "Energy":
+                CharacterSetting.Energy += (int)value;
+                break;
+        }
+        CharacterSetting.Updated = true;
+        SaveCharacterSetting();
+    }
+
+    public void CharacterSettingUseItem(ItemContainer item, int energy,bool save)
+    {
+        if (item == null)
+            return;
+        switch (item.Type)
+        {
+            case Item.ItemType.Consumable:
+                CharacterSetting.Health += item.Consumable.Health;
+                CharacterSetting.Mana += item.Consumable.Mana;
+                CharacterSetting.Energy += item.Consumable.Energy;
+                break;
+            case Item.ItemType.Equipment:
+                CharacterSetting.Agility += item.Equipment.Agility;
+                CharacterSetting.Bravery += item.Equipment.Bravery;
+                CharacterSetting.Carry += item.Equipment.Carry;
+                CharacterSetting.CarryCnt += item.Equipment.CarryCnt;
+                CharacterSetting.Confidence += item.Equipment.Confidence;
+                CharacterSetting.Intellect += item.Equipment.Intellect;
+                CharacterSetting.Krafting += item.Equipment.Krafting;
+                CharacterSetting.Researching += item.Equipment.Researching;
+                CharacterSetting.Speed += item.Equipment.Speed;
+                CharacterSetting.Stemina += item.Equipment.Stemina;
+                CharacterSetting.Strength += item.Equipment.Strength;
+                break;
+            case Item.ItemType.Weapon:
+                CharacterSetting.AttackSpeed += item.Weapon.AttackSpeed;
+                CharacterSetting.DefenceSpeed += item.Weapon.DefenceSpeed;
+                CharacterSetting.AbilityAttack += item.Weapon.AbilityAttack;
+                CharacterSetting.AbilityDefence += item.Weapon.AbilityDefence;
+                CharacterSetting.MagicAttack += item.Weapon.MagicAttack;
+                CharacterSetting.MagicDefence += item.Weapon.MagicDefence;
+                CharacterSetting.PoisonAttack += item.Weapon.PoisonAttack;
+                CharacterSetting.PoisonDefence += item.Weapon.PoisonDefence;
+                break;
+            case Item.ItemType.Tool:
+                return;
+        }
+        CharacterSetting.Energy -= energy;
+        CharacterSetting.Updated = true;
+        if (save)
+            SaveCharacterSetting();
+    }
+
+    internal void CharacterSettingUnuseItem(ItemContainer item, int energy, bool save)
+    {
+        if (item == null)
+            return;
+        switch (item.Type)
+        {
+            case Item.ItemType.Consumable:
+                return;
+            case Item.ItemType.Equipment:
+                CharacterSetting.Agility -= item.Equipment.Agility;
+                CharacterSetting.Bravery -= item.Equipment.Bravery;
+                CharacterSetting.Carry -= item.Equipment.Carry;
+                CharacterSetting.CarryCnt -= item.Equipment.CarryCnt;
+                CharacterSetting.Confidence -= item.Equipment.Confidence;
+                CharacterSetting.Intellect -= item.Equipment.Intellect;
+                CharacterSetting.Krafting -= item.Equipment.Krafting;
+                CharacterSetting.Researching -= item.Equipment.Researching;
+                CharacterSetting.Speed -= item.Equipment.Speed;
+                CharacterSetting.Stemina -= item.Equipment.Stemina;
+                CharacterSetting.Strength -= item.Equipment.Strength;
+                break;
+            case Item.ItemType.Weapon:
+                CharacterSetting.AttackSpeed -= item.Weapon.AttackSpeed;
+                CharacterSetting.DefenceSpeed -= item.Weapon.DefenceSpeed;
+                CharacterSetting.AbilityAttack -= item.Weapon.AbilityAttack;
+                CharacterSetting.AbilityDefence -= item.Weapon.AbilityDefence;
+                CharacterSetting.MagicAttack -= item.Weapon.MagicAttack;
+                CharacterSetting.MagicDefence -= item.Weapon.MagicDefence;
+                CharacterSetting.PoisonAttack -= item.Weapon.PoisonAttack;
+                CharacterSetting.PoisonDefence -= item.Weapon.PoisonDefence;
+                break;
+            case Item.ItemType.Tool:
+                return;
+        }
+        CharacterSetting.Energy -= energy;
+        CharacterSetting.Updated = true;
+        if (save)
+            SaveCharacterSetting();
+    }
 }

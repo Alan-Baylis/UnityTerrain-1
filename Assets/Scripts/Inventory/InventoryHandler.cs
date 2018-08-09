@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class InventoryHandler : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class InventoryHandler : MonoBehaviour
 
 
     private bool _updateInventory;
+    private bool _updateEquipments;
     private ItemMixture _itemMixture;
     private GameObject _inventoryPanel;
     private GameObject _slotPanel;
@@ -27,10 +29,16 @@ public class InventoryHandler : MonoBehaviour
 
     private List<ItemContainer> _invItems = new List<ItemContainer>();
     public List<GameObject> InvSlots = new List<GameObject>();
-    private SlotEquipment[] _equiSlots = new SlotEquipment[13];
-    private List<int> _equipments = new List<int>();
+    public SlotEquipment[] EquiSlots = new SlotEquipment[13];
+    private List<ItemContainer> _equipments = new List<ItemContainer>();
 
     private int _slotAmount = 30;
+    private int _basicEnergyUse = 10;
+
+    public static int SceneIdForRecepie = 2;
+    public bool ShowInventory;
+
+
     //private int _slotsX = 5;
     //private int _slotsY = 6;
     //private int _slotsPadding = 10;
@@ -41,41 +49,39 @@ public class InventoryHandler : MonoBehaviour
         _inv = InventoryHandler.Instance();
         _itemDatabase = ItemDatabase.Instance();
         _characterManager = CharacterManager.Instance();
-
-        //Todo: make sure we use the new way old way ==>  _GUIManager = GameObject.FindGameObjectWithTag("PlayerCamera").GetComponent<GUIManager>();
         _GUIManager = GUIManager.Instance();
+
+        _inventoryPanel = GameObject.Find("Inventory Panel");
+        _slotPanel = _inventoryPanel.transform.Find("Slot Panel").gameObject;
     }
 
     void Start()
     {
-            //print("###insite Start inventory "+ _characterManager.CharacterSetting.CarryCnt);
-            _playerSlots = _characterManager.CharacterSetting.CarryCnt;
+        //print("###insite Start inventory "+ _characterManager.CharacterSetting.CarryCnt);
+        _playerSlots = _characterManager.CharacterSetting.CarryCnt;
 
         //Inventory Items
-        _inventoryPanel = GameObject.Find("Inventory Panel");
-        _slotPanel = _inventoryPanel.transform.Find("Slot Panel").gameObject;
         InitInventory(_characterManager.CharacterInventory);
 
         //Equipment
         _equipments = _characterManager.CharacterSetting.Equipments;
         SlotEquipment[] equiSlots = _inventoryPanel.GetComponentsInChildren<SlotEquipment>();
-
         for (int i = 0; i < equiSlots.Length; i++)
-            _equiSlots[(int)equiSlots[i].EquType] = equiSlots[i];
-        for (int i = 0; i < _equiSlots.Length; i++)
+            EquiSlots[(int)equiSlots[i].EquType] = equiSlots[i];
+        for (int i = 0; i < EquiSlots.Length; i++)
         {
             //print("index : "+i+"-"+_equiSlots[i].EquType + (int)_equiSlots[i].EquType + " id from in=  "+ _equipments[i]);
-            _equiSlots[i].name = "Slot " + _equiSlots[i].EquType;
-            _equiSlots[i].GetComponentInChildren<Text>().text = _equiSlots[i].EquType.ToString();
-            ItemEquipment equipmentItem = _equiSlots[i].GetComponentInChildren<ItemEquipment>();
-            if (_equipments[i] == -1)
+            EquiSlots[i].name = "Slot " + EquiSlots[i].EquType;
+            EquiSlots[i].GetComponentInChildren<Text>().text = EquiSlots[i].EquType.ToString();
+            ItemEquipment equipmentItem = EquiSlots[i].GetComponentInChildren<ItemEquipment>();
+            if (_equipments[i].Id == -1)
             {
                 equipmentItem.Item = new ItemContainer();
                 equipmentItem.name = "Empty";
             }
             else
             {
-                ItemContainer tempItem = _itemDatabase.FindItem(_equipments[i]);
+                ItemContainer tempItem = _equipments[i];
                 equipmentItem.Item =
                     new ItemContainer(
                         tempItem.Id, tempItem.Name, tempItem.Description,
@@ -89,7 +95,6 @@ public class InventoryHandler : MonoBehaviour
                 equipmentItem.GetComponent<Image>().sprite = tempItem.GetSprite();
             }
         }
-
         //Item Mixture
         _itemMixture = ItemMixture.Instance();
         InitMixture(_characterManager.CharacterMixture);
@@ -134,11 +139,61 @@ public class InventoryHandler : MonoBehaviour
                     itemObject.GetComponent<Image>().sprite = LockSprite;
                     InvSlots[i].name = itemObject.name = "Lock";
                 }
-
             }
         }
         //todo: unleash the inv to be saved 
         _characterManager.SaveCharacterInventory(_invItems);
+    }
+
+    void Update()
+    {
+        if (ShowInventory)
+        {
+            _inventoryPanel.SetActive(true);
+            ShowInventory = false;
+        }
+
+        if (_updateInventory)
+        {
+            //Refresh _invItems based on the interface 
+            //Todo: security vulnerability: might be able to change inv 
+            _invItems.Clear();
+            for (int i = 0; i < _slotAmount; i++)
+            {
+                ItemContainer tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>().Item;
+                _invItems.Add(tmpItem);
+            }
+            //Save new inventory 
+            //_characterManager.SaveCharacterInventory(_invItems);
+            _updateInventory = false;
+        }
+
+        if (_updateEquipments)
+        {
+            _invItems.Clear();
+            for (int i = 0; i < _equipments.Count; i++)
+            {
+                ItemContainer tmpItem = EquiSlots[i].transform.GetChild(0).GetComponent<ItemEquipment>().Item;
+                if (_equipments[i].Id == tmpItem.Id) continue;
+                _equipments[i] = tmpItem;
+            }
+            //Save new Equipments 
+            _characterManager.SaveCharacterEquipments(_equipments);
+            _updateEquipments = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (_inventoryPanel.activeSelf)
+                _inventoryPanel.SetActive(false);
+            else
+                _inventoryPanel.SetActive(true);
+        }
+    }
+
+    public void UpdateEquipments(bool value)
+    {
+        _updateEquipments = value;
     }
 
     public void UpdateInventory(bool value)
@@ -153,40 +208,73 @@ public class InventoryHandler : MonoBehaviour
             _characterManager.AddCharacterSetting("Energy", -amount);
             return true;
         }
+        PrintMessage("YEL: Not enough energy ");
         return false;
+    }
+
+    public void UseItem(ItemContainer item)
+    {
+        if (item.Id == -1)
+            return;
+        if (_characterManager.CharacterSetting.Energy > _basicEnergyUse)
+            _characterManager.CharacterSettingUseItem(item, _basicEnergyUse, true);
+        else
+            PrintMessage("YEL: Not enough energy ");
+    }
+
+    public void UnuseItem(ItemContainer item)
+    {
+        if (item.Id ==-1)
+            return;
+        if (_characterManager.CharacterSetting.Energy > _basicEnergyUse)
+            _characterManager.CharacterSettingUnuseItem(item, _basicEnergyUse, true);
+        else
+            PrintMessage("YEL: Not enough energy ");
     }
 
     public bool AddItemToInventory(ItemContainer item)
     {
-        throw new Exception("AddItemToInventory is not defined.");
-    }
-
-
-    // Update is called once per frame
-    void Update () {
-	    if (_updateInventory)
-	    {
-            //Refresh _invItems based on the interface 
-            //Todo: security vulnerability: might be able to change inv 
-            _invItems.Clear();
-            for (int i = 0; i < _slotAmount; i++)
-	        {
-	            ItemContainer tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>().Item;
-	            _invItems.Add(tmpItem);
-	        }
-            //Save new inventory 
-	        //_characterDb.SaveCharacterInventory(_invItems);
-	        _updateInventory = false;
-	    }
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        for (int i = 0; i < _playerSlots; i++)
         {
-            if (_inventoryPanel.activeSelf)
-                _inventoryPanel.SetActive(false);
-            else
-                _inventoryPanel.SetActive(true);
+            ItemData tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>();
+            if (tmpItem.Item.Id != -1)
+                continue;
+            tmpItem.Item = item;
+            InvSlots[i].name = tmpItem.name = tmpItem.Item.Name;
+            tmpItem.GetComponent<Image>().sprite = tmpItem.Item.GetSprite();
+            tmpItem.transform.GetChild(0).GetComponent<Text>().text = tmpItem.Item.StackCnt > 1 ? tmpItem.Item.StackCnt.ToString() : "";
+            UpdateInventory(true);
+            return true;
         }
+        PrintMessage("RED: Not Enough room in inventory");
+        return false;
     }
+
+    public void DisableMe()
+    {
+        _inventoryPanel.SetActive(false);
+    }
+
+    public void EnableMe()
+    {
+        _inventoryPanel.SetActive(true);
+    }
+
+    public void GoToRecepieScene()
+    {
+        //Preparing to return to terrain
+        GameObject go = new GameObject();
+        //Make go undestroyable
+        GameObject.DontDestroyOnLoad(go);
+        var starter = go.AddComponent<TerrainStarter>();
+        Transform player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
+        starter.PreviousPosition = player.position;
+        starter.ShowInventory = true;
+        go.name = "Terrain Starter";
+        //switch the scene
+        SceneManager.LoadScene(SceneIdForRecepie);
+    }
+
 
     internal void InitInventory(List<ItemContainer> sourceInv)
     {
@@ -237,35 +325,13 @@ public class InventoryHandler : MonoBehaviour
         _GUIManager.AddMessage(message);
     }
 
-
     public ItemContainer GetItemFromDatabase(int id)
     {
         if (id == -1)
             return new ItemContainer();
         return _itemDatabase.FindItem(id);
     }
-
-
-    private bool UseItem(ItemContainer item, int invIndex)
-    {
-        switch (item.Type)
-        {
-            case Item.ItemType.Consumable:
-                return false;
-            case Item.ItemType.Equipment:
-                return false;
-            case Item.ItemType.Weapon:
-                return false;
-            case Item.ItemType.Tool:
-                return false;
-            default:
-                _GUIManager.AddMessage("YEL: " + item.Name + " can not be used");
-                return false;
-        }
-    }
-
-
-
+    
     internal void PrintInventory(List<ItemContainer> inv)
     {
         string invStrt = "Print Inventory: ";
@@ -275,7 +341,6 @@ public class InventoryHandler : MonoBehaviour
         }
         print(invStrt);
     }
-
 
     public static InventoryHandler Instance()
     {
@@ -287,5 +352,4 @@ public class InventoryHandler : MonoBehaviour
         }
         return _inv;
     }
-
 }

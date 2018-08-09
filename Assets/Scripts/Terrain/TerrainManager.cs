@@ -17,6 +17,7 @@ public class TerrainManager : MonoBehaviour {
     public Sprite Dig;
 
 
+    private static InventoryHandler _inv;
     private ItemDatabase _itemDatabase;
 
     private int _horizontalTiles = 25;
@@ -157,6 +158,7 @@ public class TerrainManager : MonoBehaviour {
     void Start() {
 
         _itemDatabase = ItemDatabase.Instance();
+        _inv = InventoryHandler.Instance();
         _cache = Cache.Get();
         //todo: make the player private
         //Player = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
@@ -182,6 +184,7 @@ public class TerrainManager : MonoBehaviour {
         if (starter != null)
         {
             Player.position = starter.PreviousPosition;
+            _inv.ShowInventory = starter.ShowInventory;
             Destroy(starter.gameObject);
         }
         RedrawMap();

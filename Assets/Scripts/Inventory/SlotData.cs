@@ -94,14 +94,15 @@ public class SlotData : MonoBehaviour,IDropHandler{
                     stackCntText.text = equipedItem.Item.StackCnt > 1 ? equipedItem.Item.StackCnt.ToString() : "";
                     existingItem.Item = equipedItem.Item;
                     _inv.InvSlots[SlotIndex].name = equipedItem.Item.Name;
-                    //Delete equipments Item
+                    //unload new Item to equipments
                     equipedItem.LoadItem();
+                    _inv.UnuseItem(existingItem.Item);
+
                     _inv.UpdateInventory(true);
+                    _inv.UpdateEquipments(true);
                 }
                 return;
             }
-
-
         Debug.Log(draggedItem.SlotIndex+" Dragged to "+ SlotIndex + "-" + existingItem.Item.Name);
         if (SlotIndex != draggedItem.SlotIndex )
         {

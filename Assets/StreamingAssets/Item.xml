@@ -153,4 +153,24 @@
       <Strength>0</Strength>
     </Equipment>
   </ItemContainer>
+  <ItemContainer>
+    <Tool>
+      <Id>6</Id>
+      <Name>Iron Shovel</Name>
+      <Description>Iron Shovel</Description>
+      <IconPath>Inventory/InventoryTools</IconPath>
+      <IconId>16</IconId>
+      <Cost>1</Cost>
+      <Weight>5</Weight>
+      <MaxStackCnt>1</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Tool</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Iron_Shovel</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-08-09T11:51:45.0731418-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+      <TimeToUse>2018-08-16T11:51:45.102145-05:00</TimeToUse>
+    </Tool>
+  </ItemContainer>
 </ArrayOfItemContainer>

@@ -18,8 +18,8 @@ public class Equipment : Item {
         Tail,
         Legs,
         Feet,
-        RightHand,
-        LeftHand,
+        Right,
+        Left,
         None
     }
 

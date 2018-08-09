@@ -1,0 +1,62 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class RecipeListHandler : MonoBehaviour {
+
+
+    private ItemDatabase _itemDatabase;
+    public GameObject RecipeContent;
+
+    private GameObject _contentPanel;
+    private List<Recipe> _recipes = new List<Recipe>();
+
+    public int SceneIdForTerrainView = 0;
+    void Awake()
+    {
+        _itemDatabase = ItemDatabase.Instance();
+
+        _contentPanel = GameObject.Find("ContentPanel");
+    }
+
+
+    // Use this for initialization
+    void Start ()
+    {
+        _recipes = _itemDatabase.RecipeList();
+        for (int i = 0; i < _recipes.Count; i++)
+        {
+            List<ItemContainer> recipeItems = _itemDatabase.RecipeItems(_recipes[i]);
+            List<int> recipeCnt = new List<int> { _recipes[i].FirstItemCnt, _recipes[i].SecondItemCnt, _recipes[i].FinalItemCnt };
+
+            GameObject recipeObject = Instantiate(RecipeContent);
+            recipeObject.transform.SetParent(_contentPanel.transform);
+
+            recipeObject.transform.name = "Recepie "+_recipes[i].Id;
+            var items = recipeObject.GetComponentsInChildren<Image>();
+            for (int j = 0; j < items.Length; j++)
+            {
+                var texts = items[j].GetComponentsInChildren<Text>();
+                texts[0].text = recipeCnt[j].ToString();
+                texts[1].text = recipeItems[j].Name;
+                items[j].sprite = recipeItems[j].GetSprite();
+                items[j].name = recipeItems[j].Name;
+            }
+        }
+    }
+
+    public void BackToMainScene()
+    {
+        SceneManager.LoadScene(SceneIdForTerrainView);
+    }
+
+
+    // Update is called once per frame
+    void Update () {
+		
+	}
+}

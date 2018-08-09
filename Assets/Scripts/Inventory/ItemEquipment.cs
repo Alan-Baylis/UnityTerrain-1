@@ -65,6 +65,8 @@ public class ItemEquipment : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
 
     public void OnEndDrag(PointerEventData eventData)
     {
+        if (_parent == null)
+            return;
         this.transform.position = _parent.position;
         this.transform.SetParent(_parent);
         this.transform.SetSiblingIndex(0);
