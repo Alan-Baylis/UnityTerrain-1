@@ -52,29 +52,41 @@ public class CharacterManager : MonoBehaviour {
     {
         _characterDatabase.SaveCharacterMixture(item, time);
     }
-    public void SaveCharacterInventory(List<ItemContainer> inv)
+    public void SaveCharacterInventory()
     {
-        //TODO: May need to clrat list
-        CharacterInventory.Clear();
-        for (int i = 0; i < CharacterInventory.Count; i++)
-        {
-            if (inv[i].Id == -1)
-                CharacterInventory.Add(new ItemContainer());
-            else
-                CharacterInventory.Add(
-                    new ItemContainer(
-                        inv[i].Id, inv[i].Name, inv[i].Description,
-                        inv[i].IconPath, inv[i].IconId,
-                        inv[i].Cost, inv[i].Weight,
-                        inv[i].MaxStackCnt, inv[i].StackCnt,
-                        inv[i].Type, inv[i].Rarity,
-                        inv[i].DurationDays, inv[i].ExpirationTime,
-                        inv[i].Values)
-                );
-        }
-        //todo: make it async with db
-        _characterDatabase.SaveCharacterInventory(CharacterInventory);
+        _characterDatabase.SaveCharacterInventory();
     }
+    
+
+    internal bool HaveAvailableSlot()
+    {
+        for (int i = 0; i < CharacterSetting.CarryCnt; i++)
+            if (CharacterInventory[i].Id == -1)
+                return true;
+        return false;
+    }
+
+    internal void AddItemToInventory(ItemContainer item)
+    {       
+        for (int i = 0; i < CharacterSetting.CarryCnt; i++)
+        {
+            if (CharacterInventory[i].Id != -1)
+                continue;
+            CharacterInventory[i] = item;
+                //new ItemContainer(
+                //    item.Id, item.Name, item.Description,
+                //    item.IconPath, item.IconId,
+                //    item.Cost, item.Weight,
+                //    item.MaxStackCnt, item.StackCnt,
+                //    item.Type, item.Rarity,
+                //    item.DurationDays, item.ExpirationTime,
+                //    item.Values);
+            item.Print();
+            break;
+        }
+        _characterDatabase.SaveCharacterInventory();
+    }
+
     internal void SaveCharacterEquipments(List<ItemContainer> equipments)
     {
         CharacterSetting.Equipments = equipments.ToList();
@@ -137,6 +149,15 @@ public class CharacterManager : MonoBehaviour {
                 break;
             case "Energy":
                 CharacterSetting.Energy += (int)value;
+                break;
+            case "Gem":
+                CharacterSetting.Gem += (int)value;
+                break;
+            case "Coin":
+                CharacterSetting.Coin += (int)value;
+                break;
+            case "CarryCnt":
+                CharacterSetting.CarryCnt += (int)value;
                 break;
         }
         CharacterSetting.Updated = true;

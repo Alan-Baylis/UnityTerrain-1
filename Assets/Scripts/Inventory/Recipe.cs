@@ -1,9 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
-using System;
-using System.Runtime.InteropServices;
-using Random = UnityEngine.Random;
 
 [Serializable]
 public class Recipe{

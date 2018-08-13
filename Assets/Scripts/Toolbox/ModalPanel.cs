@@ -35,16 +35,7 @@ public class ModalPanel : MonoBehaviour
     }
     
 
-    public static ModalPanel Instance()
-    {
-        if (!_modalPanel)
-        {
-            _modalPanel = FindObjectOfType(typeof(ModalPanel)) as ModalPanel;
-            if (!_modalPanel)
-                Debug.LogError("There needs to be one active ModalPanel script on a GameObject in your scene.");
-        }
-        return _modalPanel;
-    }
+
 
     // Yes/No/Cancel: A string, a Yes event, a No event and Cancel event
     public void Choice(string question, ModalPanelType modalPanelType, UnityAction firstEvent=null)
@@ -143,5 +134,14 @@ public class ModalPanel : MonoBehaviour
         Debug.Log("Cancel Clicked!");
     }
 
-
+    public static ModalPanel Instance()
+    {
+        if (!_modalPanel)
+        {
+            _modalPanel = FindObjectOfType(typeof(ModalPanel)) as ModalPanel;
+            if (!_modalPanel)
+                Debug.LogError("There needs to be one active ModalPanel script on a GameObject in your scene.");
+        }
+        return _modalPanel;
+    }
 }

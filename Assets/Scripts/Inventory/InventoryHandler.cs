@@ -9,7 +9,8 @@ public class InventoryHandler : MonoBehaviour
 {
     private static InventoryHandler _inv;
     private int _playerSlots;
-    private static GUIManager _GUIManager;
+    private GUIManager _GUIManager;
+    private ModalPanel _modalPanel;
 
     private ItemDatabase _itemDatabase;
     private CharacterManager _characterManager;
@@ -21,21 +22,28 @@ public class InventoryHandler : MonoBehaviour
     private GameObject _inventoryPanel;
     private GameObject _slotPanel;
 
-    public GameObject InventorySlot;
-    public GameObject InventorySlotBroken;
-    public GameObject InventoryItem;
-    public Sprite LockSprite;
+    [SerializeField]
+    private GameObject InventorySlot;
+    [SerializeField]
+    private GameObject InventorySlotBroken;
+    [SerializeField]
+    private GameObject InventoryItem;
+    [SerializeField]
+    private Sprite LockSprite;
 
 
     private List<ItemContainer> _invItems = new List<ItemContainer>();
     public List<GameObject> InvSlots = new List<GameObject>();
-    public SlotEquipment[] EquiSlots = new SlotEquipment[13];
+    public SlotEquipment[] EquiSlots = new SlotEquipment[14];
     private List<ItemContainer> _equipments = new List<ItemContainer>();
 
     private int _slotAmount = 30;
     private int _basicEnergyUse = 10;
 
     public static int SceneIdForRecepie = 2;
+    public static int SceneIdForStore = 3;
+    public static int SceneIdForSetting = 4;
+    public static int SceneIdForCredits = 5;
     public bool ShowInventory;
 
 
@@ -50,6 +58,7 @@ public class InventoryHandler : MonoBehaviour
         _itemDatabase = ItemDatabase.Instance();
         _characterManager = CharacterManager.Instance();
         _GUIManager = GUIManager.Instance();
+        _modalPanel = ModalPanel.Instance();
 
         _inventoryPanel = GameObject.Find("Inventory Panel");
         _slotPanel = _inventoryPanel.transform.Find("Slot Panel").gameObject;
@@ -61,7 +70,8 @@ public class InventoryHandler : MonoBehaviour
         _playerSlots = _characterManager.CharacterSetting.CarryCnt;
 
         //Inventory Items
-        InitInventory(_characterManager.CharacterInventory);
+        //InitInventory(_characterManager.CharacterInventory);
+        _invItems = _characterManager.CharacterInventory;
 
         //Equipment
         _equipments = _characterManager.CharacterSetting.Equipments;
@@ -98,7 +108,7 @@ public class InventoryHandler : MonoBehaviour
         //Item Mixture
         _itemMixture = ItemMixture.Instance();
         InitMixture(_characterManager.CharacterMixture);
-
+        //Inventory
         for (int i = 0; i < _slotAmount; i++)
         {
             if (i < _playerSlots)
@@ -109,6 +119,7 @@ public class InventoryHandler : MonoBehaviour
             }
             else
                 InvSlots.Add(Instantiate(InventorySlotBroken));
+
 
             InvSlots[i].transform.SetParent(_slotPanel.transform);
 
@@ -138,12 +149,15 @@ public class InventoryHandler : MonoBehaviour
                 {
                     itemObject.GetComponent<Image>().sprite = LockSprite;
                     InvSlots[i].name = itemObject.name = "Lock";
+
+                    //var buttons = offerObject.GetComponentsInChildren<Button>();
                 }
             }
+            InvSlots[i].transform.localScale = Vector3.one;
         }
-        //todo: unleash the inv to be saved 
-        _characterManager.SaveCharacterInventory(_invItems);
     }
+
+
 
     void Update()
     {
@@ -155,26 +169,30 @@ public class InventoryHandler : MonoBehaviour
 
         if (_updateInventory)
         {
-            //Refresh _invItems based on the interface 
+            //print("#####_updateInventory " +_invItems.Count);
             //Todo: security vulnerability: might be able to change inv 
-            _invItems.Clear();
-            for (int i = 0; i < _slotAmount; i++)
+            //Refresh _invItems based on the interface 
+            for (int i = 0; i < _playerSlots; i++)
             {
                 ItemContainer tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>().Item;
-                _invItems.Add(tmpItem);
+                //tmpItem.Print();
+                _invItems[i] = tmpItem;
             }
             //Save new inventory 
-            //_characterManager.SaveCharacterInventory(_invItems);
+            _characterManager.SaveCharacterInventory();
             _updateInventory = false;
         }
 
         if (_updateEquipments)
         {
-            _invItems.Clear();
             for (int i = 0; i < _equipments.Count; i++)
             {
                 ItemContainer tmpItem = EquiSlots[i].transform.GetChild(0).GetComponent<ItemEquipment>().Item;
-                if (_equipments[i].Id == tmpItem.Id) continue;
+                if (_equipments[i].Id == tmpItem.Id)
+                    if (_equipments[i].Type != Item.ItemType.Tool)
+                        continue;
+                    else if (_equipments[i].Tool.TimeToUse == tmpItem.Tool.TimeToUse)
+                            continue;
                 _equipments[i] = tmpItem;
             }
             //Save new Equipments 
@@ -190,7 +208,17 @@ public class InventoryHandler : MonoBehaviour
                 _inventoryPanel.SetActive(true);
         }
     }
-
+    internal bool HaveAvailableSlot()
+    {
+        for (int i = 0; i < _playerSlots; i++)
+        {
+            ItemData tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>();
+            if (tmpItem.Item.Id != -1)
+                continue;
+            return true;
+        }
+        return false;
+    }
     public void UpdateEquipments(bool value)
     {
         _updateEquipments = value;
@@ -239,10 +267,7 @@ public class InventoryHandler : MonoBehaviour
             ItemData tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>();
             if (tmpItem.Item.Id != -1)
                 continue;
-            tmpItem.Item = item;
-            InvSlots[i].name = tmpItem.name = tmpItem.Item.Name;
-            tmpItem.GetComponent<Image>().sprite = tmpItem.Item.GetSprite();
-            tmpItem.transform.GetChild(0).GetComponent<Text>().text = tmpItem.Item.StackCnt > 1 ? tmpItem.Item.StackCnt.ToString() : "";
+            tmpItem.LoadItem(item);
             UpdateInventory(true);
             return true;
         }
@@ -250,18 +275,35 @@ public class InventoryHandler : MonoBehaviour
         return false;
     }
 
-    public void DisableMe()
+    public void SetActiveMe()
     {
-        _inventoryPanel.SetActive(false);
-    }
-
-    public void EnableMe()
-    {
-        _inventoryPanel.SetActive(true);
+        if (_inventoryPanel.activeSelf)
+            _inventoryPanel.SetActive(false);
+        else
+            _inventoryPanel.SetActive(true);
     }
 
     public void GoToRecepieScene()
     {
+        BuildTrainStarter();
+        //switch the scene
+        SceneManager.LoadScene(SceneIdForRecepie);
+    }
+    public void GoToCreditScene()
+    {
+        BuildTrainStarter();
+        //switch the scene
+        SceneManager.LoadScene(SceneIdForCredits);
+    }
+    public void GoToStoreScene()
+    {
+        BuildTrainStarter();
+        //switch the scene
+        SceneManager.LoadScene(SceneIdForStore);
+    }
+
+    private void BuildTrainStarter()
+    {        
         //Preparing to return to terrain
         GameObject go = new GameObject();
         //Make go undestroyable
@@ -271,33 +313,6 @@ public class InventoryHandler : MonoBehaviour
         starter.PreviousPosition = player.position;
         starter.ShowInventory = true;
         go.name = "Terrain Starter";
-        //switch the scene
-        SceneManager.LoadScene(SceneIdForRecepie);
-    }
-
-
-    internal void InitInventory(List<ItemContainer> sourceInv)
-    {
-        _invItems.Clear();
-        for (int i = 0; i < _slotAmount; i++)
-        {
-            if (sourceInv.Count <= i)
-                _invItems.Add(new ItemContainer());
-            else
-                if (sourceInv[i].Id == -1)
-                    _invItems.Add(new ItemContainer());
-                else
-                    _invItems.Add(
-                        new ItemContainer(
-                            sourceInv[i].Id, sourceInv[i].Name, sourceInv[i].Description,
-                            sourceInv[i].IconPath, sourceInv[i].IconId,
-                            sourceInv[i].Cost, sourceInv[i].Weight,
-                            sourceInv[i].MaxStackCnt, sourceInv[i].StackCnt,
-                            sourceInv[i].Type, sourceInv[i].Rarity,
-                            sourceInv[i].DurationDays, sourceInv[i].ExpirationTime,
-                            sourceInv[i].Values)
-                    );
-        }
     }
 
     private void InitMixture(CharacterMixture playerMixture)
@@ -305,6 +320,8 @@ public class InventoryHandler : MonoBehaviour
         if (playerMixture == null)
             return;
         if (playerMixture.Item == null)
+            _itemMixture.LoadEmpty();
+        else if (playerMixture.Item.Id == -1)
             _itemMixture.LoadEmpty();
         else
             _itemMixture.LoadItem(playerMixture.Item, playerMixture.Time);
@@ -351,5 +368,37 @@ public class InventoryHandler : MonoBehaviour
                 Debug.LogError("There needs to be one active InventoryHandler script on a GameObject in your scene.");
         }
         return _inv;
+    }
+
+    public bool ElementToolUse(EllementIns element=null)
+    {
+        ItemEquipment existingEquipment = _inv.EquiSlots[(int)Equipment.PlaceType.Left].GetComponentInChildren<ItemEquipment>();
+        ItemContainer itemEquipment = existingEquipment.Item;
+        EllementIns.EllementType targetType = element != null ? element.Type: EllementIns.EllementType.Hole;
+        if (itemEquipment.Id != -1 && 
+            itemEquipment.Type == Item.ItemType.Tool && 
+            itemEquipment.StackCnt > 0 &&
+            targetType == itemEquipment.Tool.FavouriteEllement)
+        {
+            existingEquipment.Item.UseItem(1);
+            UpdateEquipments(true);
+            return true;
+        }
+        else
+        { 
+            existingEquipment = _inv.EquiSlots[(int)Equipment.PlaceType.Right].GetComponentInChildren<ItemEquipment>();
+            itemEquipment = existingEquipment.Item;
+            if (itemEquipment.Id != -1 &&
+                itemEquipment.Type == Item.ItemType.Tool &&
+                itemEquipment.StackCnt > 0 &&
+                targetType == itemEquipment.Tool.FavouriteEllement)
+            {
+                existingEquipment.Item.UseItem(1);
+                UpdateEquipments(true);
+                return true;
+            }
+        }
+        PrintMessage("YEL: You don't have a right tool to use");
+        return false;
     }
 }

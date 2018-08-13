@@ -45,7 +45,7 @@ public class Move : MonoBehaviour {
             (!terrain.Flyable && _characterManager.Character.MoveType == Character.CharacterType.Fly) ||
             (!terrain.Swimable && _characterManager.Character.MoveType == Character.CharacterType.Swim) ||
             //ellement + character
-            (ellement != null && !ellement.EllementTypeInUse.IsEnterable && _characterManager.Character.MoveType != Character.CharacterType.Fly)
+            (ellement != null && !ellement.EllementTypeInUse.Enterable && _characterManager.Character.MoveType != Character.CharacterType.Fly)
             )
         {
             return true;
@@ -64,7 +64,7 @@ public class Move : MonoBehaviour {
         { 
             transform.position = currentPos = previousPosition;
         }
-        if (ellement != null && ellement.EllementTypeInUse.IsEnterable)
+        if (ellement != null && ellement.EllementTypeInUse.Enterable)
         {
             //todo: make canvas DontDestroyOnLoad
             //https://answers.unity.com/questions/1245665/keep-some-ui-alive-between-scenes.html

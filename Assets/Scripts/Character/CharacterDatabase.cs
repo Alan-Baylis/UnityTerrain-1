@@ -90,8 +90,9 @@ public class CharacterDatabase : MonoBehaviour {
     public void SaveCharacterInventory(List<ItemContainer> inv)
     {
         //TODO: May need to clrat list
-        //print("####Inside SaveCharacterInventory");
+        print("####Inside SaveCharacterInventory = " + inv.Count + _characterInventory.Count);
         _characterInventory.Clear();
+        print("####Inside SaveCharacterInventory = " + inv.Count + _characterInventory.Count);
         for (int i = 0; i < inv.Count; i++)
         {
             if (inv[i].Id == -1)
@@ -109,6 +110,10 @@ public class CharacterDatabase : MonoBehaviour {
                 );
         }
         //todo: make it async with db
+        foreach (var VARIABLE in _characterInventory)
+        {
+            VARIABLE.Print();
+        }
         //SaveCharacterInventory();
     }
     private void LoadCharacterInventory()
@@ -122,7 +127,7 @@ public class CharacterDatabase : MonoBehaviour {
         _characterInventory = (List<ItemContainer>)serializer.Deserialize(fs);
         fs.Close();
     }
-    private void SaveCharacterInventory()
+    public void SaveCharacterInventory()
     {
         string path = Path.Combine(Application.streamingAssetsPath, "CharacterInventory.xml");
         XmlSerializer serializer = new XmlSerializer(typeof(List<ItemContainer>));

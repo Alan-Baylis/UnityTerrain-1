@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RecipeListHandler : MonoBehaviour {
 
@@ -53,10 +50,4 @@ public class RecipeListHandler : MonoBehaviour {
     {
         SceneManager.LoadScene(SceneIdForTerrainView);
     }
-
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }

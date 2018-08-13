@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerPanel : MonoBehaviour {
+public class InsideStory : MonoBehaviour {
 
-    //https://www.youtube.com/watch?v=xZGExnQ9iCQ
-    // Use this for initialization
-    void Start () {
+	// Use this for initialization
+	void Start () {
 		
 	}
 	

@@ -54,9 +54,14 @@ MonoBehaviour:
   Id: 1
   Name: avid
   Description: avid desc
+  IconPath: 
+  IconId: 0
   Cost: 3
+  Weight: 0
   MaxStackCnt: 4
   StackCnt: 5
   Type: 1
   Rarity: 3
+  DurationDays: 0
   Values: 0a00000014000000
+  _defaultDurationDays: 365

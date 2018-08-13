@@ -35,10 +35,8 @@ public class ItemDatabase : MonoBehaviour {
     void Awake()
     {
         _itemDatabase = ItemDatabase.Instance();
-    }
+        DontDestroyOnLoad(gameObject);
 
-    void Start()
-    {
         ItemContainer tempItem =new ItemContainer();
         DateTime ExpirationTime = DateTime.Now.Add(new TimeSpan(_defaultDurationDays, 0, 0, 0, 0));
 
@@ -173,6 +171,43 @@ public class ItemDatabase : MonoBehaviour {
         if (!tempItem.Exist(_items))
             _items.Add(tempItem);
 
+
+        //Tools template   //Iron Metal Silver Golden
+        tempItem = new ItemContainer(
+            //Id
+            _items.Count,
+            //Name
+            "Iron Shovel",
+            //Desc
+            "Iron Shovel",
+            //IconPath
+            "Inventory/InventoryTools",
+            //IconID    
+            16,
+            //Coat                            
+            1,
+            //Weight                            
+            5,
+            //MaxStackCnt
+            1,
+            //StackCnt
+            1,
+            //Type
+            Item.ItemType.Tool,
+            //Rarity
+            Item.ItemRarity.Common,
+            //DurationDays
+            _defaultDurationDays,
+            //ExpirationTime
+            ExpirationTime,
+            //###Extras //todo: ignore for now 
+            new int[2] {
+                100,  //FavouriteEllement
+                0  //FavouriteEllement
+            }
+        );
+        if (!tempItem.Exist(_items))
+            _items.Add(tempItem);
         //Substance template
         tempItem = new ItemContainer(
             //Id
@@ -205,41 +240,7 @@ public class ItemDatabase : MonoBehaviour {
             new int[] { }
         );
         if (!tempItem.Exist(_items))
-            _items.Add(tempItem);        
-        
-        //Tools template   //Iron Metal Silver Golden
-        tempItem = new ItemContainer(
-            //Id
-            _items.Count,
-            //Name
-            "Iron Shovel",
-            //Desc
-            "Iron Shovel",
-            //IconPath
-            "Inventory/InventoryTools",
-            //IconID    
-            16,
-            //Coat                            
-            1,
-            //Weight                            
-            5,
-            //MaxStackCnt
-            1,
-            //StackCnt
-            1,
-            //Type
-            Item.ItemType.Tool,
-            //Rarity
-            Item.ItemRarity.Common,
-            //DurationDays
-            _defaultDurationDays,
-            //ExpirationTime
-            ExpirationTime,
-            //###Extras //todo: ignore for now 
-            new int[] { }
-        );
-        if (!tempItem.Exist(_items))
-            _items.Add(tempItem);
+            _items.Add(tempItem);    
 
         SaveItems();
         //PrintItems();
@@ -314,7 +315,6 @@ public class ItemDatabase : MonoBehaviour {
         }
     }
 
-
     private void LoadItems()
     {
         //Empty the Items DB
@@ -347,6 +347,17 @@ public class ItemDatabase : MonoBehaviour {
         fs.Close();
     }
 
+    public List<Offer> LoadOffers()
+    {
+        string path = Path.Combine(Application.streamingAssetsPath, "Offer.xml");
+        //Read the Recipes from Recipe.xml file in the streamingAssets folder
+        XmlSerializer serializer = new XmlSerializer(typeof(List<Offer>));
+        FileStream fs = new FileStream(path, FileMode.Open);
+        List<Offer> offers = (List<Offer>)serializer.Deserialize(fs);
+        fs.Close();
+        return offers;
+    }
+
     //Add item button call this function 
     public void CreateItem()
     {
@@ -362,7 +373,6 @@ public class ItemDatabase : MonoBehaviour {
         //Save the new list back in Item.xml file in the streamingAssets folder
         SaveItems();
     }
-
 
     public static ItemDatabase Instance()
     {

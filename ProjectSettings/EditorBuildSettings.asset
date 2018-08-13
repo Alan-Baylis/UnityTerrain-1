@@ -14,3 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RecipeList.unity
     guid: 75801da778a80984f8d9eb35c9627e40
+  - enabled: 1
+    path: Assets/Scenes/StoreScene.unity
+    guid: 0e4eb8bc39f32a744b50246e0485c126
+  - enabled: 1
+    path: Assets/Scenes/Settings.unity
+    guid: c25c2938dbdc0df4199208d586d961ce
+  - enabled: 1
+    path: Assets/Scenes/ScriptScene.unity
+    guid: 8c08cc292479fe443ba0c49c1edc2f8d

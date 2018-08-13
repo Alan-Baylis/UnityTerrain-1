@@ -6,7 +6,7 @@ using UnityEngine;
 public class TerrainActions : MonoBehaviour {
 
     public TerrainManager Terrain_Manager;
-    public InventoryHandler Inventory_Manager;
+    private InventoryHandler _inv;
     public KeyCode KeyToConsume = KeyCode.C;
     public KeyCode KeyToDrop = KeyCode.D;
     public KeyCode KeyToPick = KeyCode.P;
@@ -15,10 +15,11 @@ public class TerrainActions : MonoBehaviour {
 
     private Cache _cache;
 
-	// Use this for initialization
-	void Start () {
+        // Use this for initialization
+    void Start () {
         _cache = Cache.Get();
-	}
+        _inv = InventoryHandler.Instance();
+    }
 	
 	// Update is called once per frame
     void Update()
@@ -30,8 +31,8 @@ public class TerrainActions : MonoBehaviour {
             var currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
             if (currentItem != null)
             {
-                //print("###Inside Terrrain actions : Item id =" + currentItem.ItemTypeInUse.Id);
-                if (Inventory_Manager.AddItemToInventory(currentItem.ItemTypeInUse))
+                print("###Inside Terrrain actions : Item id =" + currentItem.ItemTypeInUse.Id);
+                if (_inv.AddItemToInventory(currentItem.ItemTypeInUse))
                     Terrain_Manager.DistroyItem(currentItem);
             }
         }
@@ -42,28 +43,21 @@ public class TerrainActions : MonoBehaviour {
             var currentElement = Terrain_Manager.GetEllement(pos.x, pos.y);
             if (currentElement != null)
             {
-                if (currentElement.EllementTypeInUse.IsDistroyable)
+                if (currentElement.EllementTypeInUse.Distroyable)
                 {
-                    Vector3 elementPos = currentElement.transform.position;
-                    //Remember Consume elemnt to not draw them 
-                    //print("###Inside KeyToConsume currentElement ADD to cache" + currentElement.name);
-                    _cache.Add(new CacheContent()
-                        {
-                            Location = elementPos,
-                            ObjectType = "VacantElement"
-                        }
-                    );
-                    Terrain_Manager.DistroyEllement(currentElement);
-                    //Last relaiable location
-                    //TODO: Removed on 6/28 => after adding remember consumed elememnt this might not needed and also 
-                    /*_cache.Add(new CacheContent()
-                        {
-                            Location = transform.position,
-                            ObjectType = "Player"
-                        }
-                    );
-                    */
-                    DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
+                    if (Terrain_Manager.DistroyEllement(currentElement, true))
+                    {
+                        Vector3 elementPos = currentElement.transform.position;
+                        //Remember Consume elemnt to not draw them 
+                        //print("###Inside KeyToConsume currentElement ADD to cache" + currentElement.name);
+                        _cache.Add(new CacheContent()
+                            {
+                                Location = elementPos,
+                                ObjectType = "VacantElement"
+                            }
+                        );
+                        DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
+                    }
                 }
                 return;
             }
@@ -71,17 +65,20 @@ public class TerrainActions : MonoBehaviour {
             TerrainIns currentTerrain = Terrain_Manager.SelectTerrain(pos.x, pos.y);
             if (currentTerrain != null)
             {
-                if (currentTerrain.IsDiggable)
+                if (currentTerrain.Diggable)
                 {
                     pos.y -= 0.2f;
-                    Terrain_Manager.CreateDigging(pos);
-                    _cache.Add(new CacheContent()
-                        {
-                            Location = pos,
-                            ObjectType = "Digging"
-                        }
-                    );
-                    DropItem(pos, currentTerrain.DropChance, currentTerrain.DropItems);
+                    if (Terrain_Manager.CreateDigging(pos,true))
+                    {
+                        _cache.Add(new CacheContent()
+                            {
+                                Location = pos,
+                                ObjectType = "Digging"
+                            }
+                        );
+                        DropItem(pos, currentTerrain.DropChance, currentTerrain.DropItems);
+                    }
+
                 }
                 return;
             }
@@ -107,10 +104,10 @@ public class TerrainActions : MonoBehaviour {
 
     private void DropItem(Vector3 pos, float chance, string dropItems)
     {
-        if (chance == 1 || chance > RandomHelper.Percent(pos, 1))
+        if (chance >= 1f || chance > RandomHelper.Percent(pos, 1))
         {
             List<int> items = dropItems.Split(',').Select(int.Parse).ToList();
-            //print("###Inside KeyToConsume : (" + items.Count + ")" + dropItems + "=>" + RandomHelper.Range(pos, 1, items.Count));
+            print("###Inside KeyToConsume : (" + items.Count + ")" + dropItems + "=>" + RandomHelper.Range(pos, 1, items.Count) + pos);
             if (items.Count > 0)
             {
                 //todo: item based on rarity of item 
@@ -123,7 +120,12 @@ public class TerrainActions : MonoBehaviour {
                         ObjectType = "Item"
                     }
                 );
+
             }
+        }
+        else
+        {
+            print("Bad luck");
         }
     }
 }

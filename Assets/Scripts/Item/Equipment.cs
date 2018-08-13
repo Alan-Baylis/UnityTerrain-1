@@ -8,18 +8,19 @@ public class Equipment : Item {
     public enum PlaceType
     {
         Head,   // Hat, Crown
-        Face,   // Mask, Helmet
+        Mask,   // Mask, Helmet
         Neck,
-        Body,
+        Shoulders,
         Chest,
-        Arms,
-        Hands,
-        Waist,
+        Gloves,
+        Ring,
+        Belt,
         Tail,
         Legs,
         Feet,
         Right,
         Left,
+        Charm,
         None
     }
 

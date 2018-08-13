@@ -33,6 +33,8 @@ public class SlotConsume: MonoBehaviour, IDropHandler
         ItemData draggedItem = eventData.pointerDrag.GetComponent<ItemData>();
         if (draggedItem == null)
             return;
+        if (draggedItem.Item.Id == -1)
+            return;
         ItemEquipment existingEquipment;
         ItemContainer itemEquipment;
         switch (draggedItem.Item.Type)

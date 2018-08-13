@@ -30,7 +30,7 @@ public class MarkBlockedTiles : MonoBehaviour {
                     //UnityEditor.Handles.color = Color.red;
                     //UnityEditor.Handles.DrawWireDisc(worldPos, Vector3.back, radius);
                     var ellement = Terrain_Manager.GetEllement(mapPos);
-                    if (!terrain.Walkable || (ellement != null && !ellement.EllementTypeInUse.IsEnterable))
+                    if (!terrain.Walkable || (ellement != null && !ellement.EllementTypeInUse.Enterable))
                     {
                         UnityEditor.Handles.color = Color.white;
                         UnityEditor.Handles.DrawWireDisc(worldPos, Vector3.back, radius);

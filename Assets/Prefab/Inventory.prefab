@@ -59,3 +59,19 @@ MonoBehaviour:
     type: 2}
   LockSprite: {fileID: 21300010, guid: 7e9d88b801724754d98182f02f7808e2, type: 3}
   InvSlots: []
+  EquiSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ShowInventory: 0

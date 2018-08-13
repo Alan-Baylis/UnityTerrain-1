@@ -324,8 +324,12 @@ public class ItemContainer {
                     ,Equipment.Stemina
                     ,Equipment.Strength 
                 };
-            if (Equipment != null)
-                return null;
+            if (Tool != null)
+                return new int[2]
+                {
+                    Tool.TimeToUse,
+                    (int)Tool.FavouriteEllement
+                };
             return null;
         }
     }
@@ -453,6 +457,20 @@ public class ItemContainer {
                 return Tool.GetSprite();
             default:
                 return null;
+        }
+    }
+
+    internal void UseItem(int value)
+    {
+        switch (Type)
+        {
+            case Item.ItemType.Tool:
+                Tool.TimeToUse -= value;
+                if (Tool.TimeToUse ==0)
+                {
+                    setStackCnt(0);
+                }
+                break;
         }
     }
 

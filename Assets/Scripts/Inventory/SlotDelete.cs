@@ -8,11 +8,13 @@ using UnityEngine.UI;
 public class SlotDelete : MonoBehaviour, IDropHandler
 {
     
-    private static ModalPanel _modalPanel;
+    private ModalPanel _modalPanel;
+    private CharacterManager _characterManager;
 
     void Start()
     {
         _modalPanel = ModalPanel.Instance();
+        _characterManager =CharacterManager.Instance();
     }
     
     public void OnDrop(PointerEventData eventData)
@@ -21,6 +23,15 @@ public class SlotDelete : MonoBehaviour, IDropHandler
 
         if ( draggedItem == null)
             return;
-        _modalPanel.Choice("Are you sure you want to delete this Item", ModalPanel.ModalPanelType.YesCancel, () => { draggedItem.Item.setStackCnt(0); });
+        if (draggedItem.Item.Id ==-1)
+            return;
+        _modalPanel.Choice("Are you sure you want to Recycle this Item for %50 of Cost ?", ModalPanel.ModalPanelType.YesCancel,() => { DeleteItem(draggedItem.Item); });
     }
+
+    private void DeleteItem(ItemContainer item)
+    {
+        _characterManager.AddCharacterSetting("Coin", (int) (item.StackCnt*item.Cost)/2);
+        item.setStackCnt(0);
+    }
+
 }

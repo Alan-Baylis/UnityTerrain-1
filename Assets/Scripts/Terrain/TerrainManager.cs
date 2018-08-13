@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 
 public class TerrainManager : MonoBehaviour {
@@ -12,17 +13,19 @@ public class TerrainManager : MonoBehaviour {
     public Transform Player;
     public float MaxDistanceFromCenter = 7;
     public Vector2 MapOffset ;
-    public TerrainIns[] TerrainTypes;
-    public EllementType[] EllementTypes;
     public Sprite Dig;
 
 
-    private static InventoryHandler _inv;
+    private InventoryHandler _inv;
     private ItemDatabase _itemDatabase;
+    private TerrainDatabase _terrainDatabase;
 
     private int _horizontalTiles = 25;
-    public List<EllementType> _availableEllementTypes = new List<EllementType>();
-    public List<TerrainIns> _availableTerrainTypes = new List<TerrainIns>();
+    private List<TerrainIns> _terrainTypes;
+    private List<TerrainIns> _availableTerrainTypes = new List<TerrainIns>();
+    private List<EllementIns> _ellementTypes;
+    private List<EllementIns> _availableEllementTypes = new List<EllementIns>();
+
     private int _verticalTiles = 25;
     private SpriteRenderer[,] _renderers;
     private IEnumerable<Marker> _markers;
@@ -31,7 +34,64 @@ public class TerrainManager : MonoBehaviour {
     private List<GameObject> _digs = new List<GameObject>();
 
     private Cache _cache;
-    
+
+
+    void Start()
+    {
+
+        _itemDatabase = ItemDatabase.Instance();
+        _inv = InventoryHandler.Instance();
+        _terrainDatabase = TerrainDatabase.Instance();
+        _cache = Cache.Get();
+        _terrainTypes = _terrainDatabase._terrains;
+        _ellementTypes = _terrainDatabase._ellements;
+
+        print("_terrainTypes count = " + _terrainTypes.Count);
+        print("_ellementTypes count = " + _ellementTypes.Count);
+
+        //todo: make the player private
+        //Player = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
+
+        int sortIndex = 0;
+        var offset = new Vector3(0 - _horizontalTiles / 2, 0 - _verticalTiles / 2, 0);
+        _renderers = new SpriteRenderer[_horizontalTiles, _verticalTiles];
+
+        for (int x = 0; x < _horizontalTiles; x++)
+        {
+            for (int y = 0; y < _verticalTiles; y++)
+            {
+                var tile = new GameObject();
+                tile.transform.position = new Vector3(x, y, 0) + offset;
+                var renderer = _renderers[x, y] = tile.AddComponent<SpriteRenderer>();
+                renderer.sortingOrder = sortIndex--;
+                tile.name = "Terrain " + tile.transform.position;
+                tile.transform.parent = transform;
+            }
+        }
+        SetAvailableMarketTerrains();
+        var starter = GameObject.FindObjectOfType<TerrainStarter>();
+        if (starter != null)
+        {
+            Player.position = starter.PreviousPosition;
+            _inv.ShowInventory = starter.ShowInventory;
+            Destroy(starter.gameObject);
+        }
+        RedrawMap();
+
+        if (starter == null)
+            SetPlayerlocation();
+    }
+
+    void Update()
+    {
+        if (MaxDistanceFromCenter < Vector3.Distance(Player.position, transform.position))
+        {
+            //Debug.Log("Redraw");
+            RedrawMap();
+        }
+    }
+
+
     public Vector2 WorldToMapPosition(Vector3 worldPosition)
     {
         if (worldPosition.x < 0) worldPosition.x--;
@@ -91,12 +151,13 @@ public class TerrainManager : MonoBehaviour {
                 var terrain = SelectTerrain(
                         offset.x + x,
                         offset.y + y);
-                spriteRenderer.sprite = terrain.GetTile(
+                if (terrain.Tiles > 0)
+                    spriteRenderer.sprite = terrain.GetTile(
                         offset.x + x,
                         offset.y + y,
                         Key);
                 var animator = spriteRenderer.gameObject.GetComponent<Animator>();
-                if (terrain.IsAnimated)
+                if (terrain.AnimationControler > 0)
                 {
                     if(animator == null )
                     {
@@ -124,7 +185,7 @@ public class TerrainManager : MonoBehaviour {
         _digs.Clear();
         foreach (var marker in _markers)
         {
-            SetAvailableMarketEllements(marker.Terrain.Type);
+            SetAvailableMarketEllements(marker.Terrain);
             LoadEllements(marker);
         }
         //If it has been consumed recently delete them
@@ -133,7 +194,7 @@ public class TerrainManager : MonoBehaviour {
         foreach (var element in _cache.Find("VacantElement", transform.position, _horizontalTiles / 2, true))
         {
             var currentElement = GetEllement(element.Location.x, element.Location.y);
-            DistroyEllement(currentElement);
+            DistroyEllement(currentElement,false);
             //print("###Inside RedrawMap currentElement Remove"+ currentElement.name+ transform.position);
         }
         LoadCaches();
@@ -145,7 +206,7 @@ public class TerrainManager : MonoBehaviour {
         //print("###Inside LoadCaches: " + transform.position);
         foreach (var item in _cache.Find("Digging", transform.position, _horizontalTiles / 2,true))
         {
-            CreateDigging(item.Location);
+            CreateDigging(item.Location,false);
         }
         foreach (var item in _cache.Find("Item", transform.position, _horizontalTiles / 2, true))
         {
@@ -155,52 +216,6 @@ public class TerrainManager : MonoBehaviour {
     }
 
 
-    void Start() {
-
-        _itemDatabase = ItemDatabase.Instance();
-        _inv = InventoryHandler.Instance();
-        _cache = Cache.Get();
-        //todo: make the player private
-        //Player = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
-
-        int sortIndex = 0;
-        var offset = new Vector3(0 - _horizontalTiles / 2, 0 - _verticalTiles / 2, 0);
-        _renderers = new SpriteRenderer[_horizontalTiles, _verticalTiles];
-        
-        for (int x = 0; x < _horizontalTiles; x++)
-        {
-            for (int y = 0; y < _verticalTiles; y++)
-            {
-                var tile = new GameObject();
-                tile.transform.position = new Vector3(x, y, 0) + offset;
-                var renderer = _renderers[x,y]= tile.AddComponent<SpriteRenderer>();
-                renderer.sortingOrder = sortIndex--;
-                tile.name = "Terrain " + tile.transform.position;
-                tile.transform.parent = transform;
-            }
-        }
-        SetAvailableMarketTerrains();
-        var starter = GameObject.FindObjectOfType<TerrainStarter>();
-        if (starter != null)
-        {
-            Player.position = starter.PreviousPosition;
-            _inv.ShowInventory = starter.ShowInventory;
-            Destroy(starter.gameObject);
-        }
-        RedrawMap();
-
-        if (starter == null)
-            SetPlayerlocation();
-    }
-    
-    // Update is called once per frame
-    void Update () {
-        if (MaxDistanceFromCenter<Vector3.Distance(Player.position,transform.position))
-        {
-            //Debug.Log("Redraw");
-            RedrawMap();
-        }
-	}
 
     public ActiveEllementType CreateEllements(Vector3 location)
     {
@@ -210,7 +225,7 @@ public class TerrainManager : MonoBehaviour {
         ellement.transform.position = location;
         var renderer = ellement.AddComponent<SpriteRenderer>();
         var ellementInfo = _availableEllementTypes[RandomHelper.Range(ellement.transform.position, Key, _availableEllementTypes.Count)];
-        renderer.sprite = ellementInfo.Tile;
+        renderer.sprite = ellementInfo.GetSprite();
         active.EllementTypeInUse = ellementInfo;
 
         ellement.name = "Ellement " + ellement.transform.position;
@@ -218,8 +233,11 @@ public class TerrainManager : MonoBehaviour {
         return active;
 
     }
-    public void CreateDigging(Vector3 location)
+    public bool CreateDigging(Vector3 location,bool useTool)
     {
+        if (useTool)
+            if (!_inv.ElementToolUse())
+                return false;
         GameObject dig = new GameObject();
         _digs.Add(dig);
         dig.transform.position = location;
@@ -227,6 +245,8 @@ public class TerrainManager : MonoBehaviour {
         renderer.sprite = Dig;
         dig.name = "Dig " + dig.transform.position;
         dig.transform.parent = transform;
+        return true;
+
     }
 
     public void CreateItem(Vector3 location, int itemId)
@@ -234,6 +254,7 @@ public class TerrainManager : MonoBehaviour {
         GameObject Item = new GameObject();
         var active = Item.AddComponent<ActiveItemType>();
         active.ItemTypeInUse = _itemDatabase.FindItem(itemId);
+        location.z -= 0.001f;
         active.Location = location;
         _items.Add(active);
         Item.transform.position = location;
@@ -286,10 +307,14 @@ public class TerrainManager : MonoBehaviour {
         Destroy(item.gameObject);
     }
 
-    internal void DistroyEllement(ActiveEllementType element)
+    internal bool DistroyEllement(ActiveEllementType element,bool useTool)
     {
+        if (useTool)
+            if (!_inv.ElementToolUse(element.EllementTypeInUse))
+                return false;
         _ellements.Remove(element);
         Destroy(element.gameObject);
+        return true;
     }
 
 
@@ -318,16 +343,17 @@ public class TerrainManager : MonoBehaviour {
     private void SetAvailableMarketTerrains()
     {
         _availableTerrainTypes.Clear();
-        for (int i = 0; i < TerrainTypes.Length; i++)
-            if (TerrainTypes[i].IsActive)
-                _availableTerrainTypes.Add(TerrainTypes[i]);
+        for (int i = 0; i < _terrainTypes.Count; i++)
+            if (_terrainTypes[i].IsEnabled)
+                _availableTerrainTypes.Add(_terrainTypes[i]);
     }
-    private void SetAvailableMarketEllements(TerrainIns.TerrainType type)
+    private void SetAvailableMarketEllements(TerrainIns terrain)
     {
         _availableEllementTypes.Clear();
-        for (int i = 0; i < EllementTypes.Length; i++)
-            if (EllementTypes[i].FavouriteTerrainTypes == type && EllementTypes[i].IsActive)
-                _availableEllementTypes.Add(EllementTypes[i]);
+        if (terrain.HasElement)
+            for (int i = 0; i < _ellementTypes.Count; i++)
+                if (_ellementTypes[i].FavouriteTerrainTypes == terrain.Type && _ellementTypes[i].IsEnabled)
+                    _availableEllementTypes.Add(_ellementTypes[i]);
     }
 
     private void SetPlayerlocation()

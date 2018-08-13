@@ -1,35 +1,51 @@
 try clearing the whole %LocalAppData%\JetBrains\Transient 
 
+Shop Phase	
+	Settingscene 
 
+	
+Write codes
+	InsideStory
+	ScriptTextHandler
+	
+Game over  Phase	
+	game over scene  
+	
+Bug Pick up item doesn't get saved 
+bug item doesn't appear 	
+	
+user agreement
+https://termsfeed.com/blog/sample-eula-template/	
+https://termsfeed.com/blog/terms-conditions-games/
 
+Chat phase:
+https://www.youtube.com/watch?v=IRAeJgGkjHk
+https://www.youtube.com/watch?v=7_BCbzRMi2w
 
 Inventory Phase:
+make lock a button
+https://unity3d.com/learn/tutorials/topics/user-interface-ui/adding-buttons-script
 
 
-Consume phase
-1- Consume items let harvest
-2- Consume items
-	use Shovel for digging 
-	use Mattock for destustion
-	use Saw for trees	
-4- Digg bug item doesn't appear 
+krafting give expreince 
+use krafting speed 
+
+profile scene 
 
 
 loading page phase (menu)
 https://www.youtube.com/watch?v=zc8ac_qUXQY
 
-
 Mobile phase 
 	ellemnt be button that let harvest destroy .. 
 
-Game over  Phase	
-	game over scene  
-	
-Shop Phase	
-	Shoping scene to buy shovel 
-	
+
+profile scene
 Research Phase	
 	should be similar to mixture 
+
+	
+
 	
 Fight Phase	
 Scene for fight (fight logic  Att aganst Shields if more shield then get att)
@@ -37,14 +53,19 @@ Scene for fight (fight logic  Att aganst Shields if more shield then get att)
 damage puop up 
 	https://www.youtube.com/watch?v=fbUOG7f3jq8
 	
-Research phase
+
 
 Map Mobile Phase
 	Generate map based on the key
 	location of the user 
 	rigen of the user 
-	
- 
+
+Home:	
+1- test
+	DontDestroyOnLoad
+2- Fixing animation ofcharacter to transit better maybe add fight animation too 
+https://www.youtube.com/watch?v=OoutYKyb4g0
+https://www.youtube.com/watch?v=Y03jBu6enf8 (some movement improvement animantions on layers)
 
 Phase 
 	Add live container
@@ -54,7 +75,9 @@ number of ellements be better
 Make more the animations  for movings
 Make more the animations  for water
 Make more the animations  for lava
+
 Todo: layout element might help the style of inv in diffrent sizes 
+https://youtu.be/DAdW_K44Dao
 
 buy these ??
 https://shop.bitgem3d.com/products/cracked-earth-brown-dirt-floor-hand-painted-texture

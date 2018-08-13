@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class ActiveEllementType : MonoBehaviour
 {
-    public EllementType EllementTypeInUse;
+    public EllementIns EllementTypeInUse;
     public Vector3 Location;
 }

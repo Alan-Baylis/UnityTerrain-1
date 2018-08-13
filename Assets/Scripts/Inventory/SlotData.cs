@@ -72,6 +72,8 @@ public class SlotData : MonoBehaviour,IDropHandler{
                     _inv.InvSlots[SlotIndex].name = mixedItem.Item.Name;
                     //Delete mixure Item
                     mixedItem.LoadEmpty();
+                    //Save empty item in mixture
+                    _inv.SaveCharacterMixture(mixedItem.Item, DateTime.Now);
                     _inv.UpdateInventory(true);
                 }
                 return;
@@ -143,7 +145,7 @@ public class SlotData : MonoBehaviour,IDropHandler{
                         else //Not enough materials 
                             _inv.PrintMessage("YEL: Not enough " + draggedItem.Item.Name +
                                               " in the inventory, You need " +
-                                              (newRecipe.FirstItemCnt - draggedItem.Item.StackCnt) + " more");
+                                              (newRecipe.SecondItemCnt - draggedItem.Item.StackCnt) + " more");
                     else //Not enough materials 
                         _inv.PrintMessage("YEL: Not enough " + existingItem.Item.Name + " in the inventory, You need " +
                                           (newRecipe.FirstItemCnt - existingItem.Item.StackCnt) + " more");

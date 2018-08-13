@@ -29,9 +29,12 @@ public class MoveManager : MonoBehaviour {
     private RuntimeAnimatorController _leftAnime;
 
 
-    private GameObject _player;
+    //private GameObject _player;
     private SpriteRenderer _renderer;
     private Animator _animator;
+    private Vector3 _movement;
+
+    private Rigidbody2D _myRigidbody2D;
 
 
     // Use this for initialization
@@ -41,6 +44,8 @@ public class MoveManager : MonoBehaviour {
         _playerCharacter = _characterManager.Character;
 
         _renderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
+        _myRigidbody2D = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
+
 
         _animator = GameObject.FindGameObjectWithTag("Player").GetComponent<Animator>();
         if (_animator == null)
@@ -53,28 +58,40 @@ public class MoveManager : MonoBehaviour {
             _animator.runtimeAnimatorController = _downAnime;
         else
             _renderer.sprite = _down;
-
-
     }
 
     // Update is called once per frame
     void Update () {
 
-        var currentSpeed = Speed;
-	    if (Input.GetKey(EnableFastSpeedWithKey))
-	    {
-	        currentSpeed = MaxSpeed;
-	    }
-
         //Get the value of the movemoen x -1(Left) .. +1(Right) & y -1(Down) .. +1(UP)
-	    var movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        _movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        HandleMove(_movement);
+    }
 
-        transform.Translate(movement * currentSpeed * Time.deltaTime);
-        if ( movement != Vector3.zero)
+    private void FixedUpdate()
+    {
+        DoMove(_movement);
+    }
+
+    private void HandleMove(Vector3 movement)
+    {
+        //GameObject PlayerCharacter;
+        //Touch touch = Input.GetTouch(0);
+        //Vector3 touchpos = GetComponentInChildren<Camera>().ScreenToWorldPoint(touch.position);
+        //Vector3 playerpos = transform.position;
+        //print("touchpos = " + touchpos+ "  playerpos = " + playerpos);
+        //PlayerCharacter.GetComponent<Transform>().position = playerpos;
+
+
+        //todo:Rotate game object according to the direction
+        //if (Mathf.Abs(movement.x) > 0.1f || Mathf.Abs(movement.y) > 0.1f)
+        //    TurnWithMovement.rotation = Quaternion.LookRotation(Vector3.back, movement.normalized);
+
+        if (movement != Vector3.zero)
             _animator.speed = 1;
         //Change Sprite or Animation according to the direction of moving
         if (movement.x > 0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
-            if(DoAnimation)
+            if (DoAnimation)
                 _animator.runtimeAnimatorController = _righAnimet;
             else
                 _renderer.sprite = _right;
@@ -92,24 +109,25 @@ public class MoveManager : MonoBehaviour {
             if (DoAnimation)
                 _animator.runtimeAnimatorController = _downAnime;
             else
-	            _renderer.sprite = _down;
-        if ( _playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
+                _renderer.sprite = _down;
+        if (_playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
         {
             _animator.speed = 0;
         }
-        //Rotate game object according to the direction
-        //if (Mathf.Abs(movement.x) > 0.1f || Mathf.Abs(movement.y) > 0.1f)
-        //    TurnWithMovement.rotation = Quaternion.LookRotation(Vector3.back, movement.normalized);
     }
 
-
-
-    //Draw the item sprite in the Rect 
-    public void GetCharacter(int id)
+    private void DoMove(Vector3 movement)
     {
-        return;
+        var currentSpeed = Speed;
+        if (Input.GetKey(EnableFastSpeedWithKey))
+        {
+            currentSpeed = MaxSpeed;
+        }
+        //Old moving system
+        //transform.Translate(movement * currentSpeed * Time.deltaTime);
+        //Physics moving
+        _myRigidbody2D.velocity = movement.normalized * currentSpeed;
     }
-
 
     private void SetMoveSprites(int charId)
     {

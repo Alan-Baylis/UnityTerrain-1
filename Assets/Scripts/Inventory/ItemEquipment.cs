@@ -11,6 +11,7 @@ public class ItemEquipment : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
     public Sprite EmptySprite;
 
 
+    private InventoryHandler _inv;
     private Tooltip _tooltip;
     private Vector2 _offset;
     private Transform _parent;
@@ -18,11 +19,20 @@ public class ItemEquipment : MonoBehaviour, IPointerDownHandler, IBeginDragHandl
     // Use this for initialization
     void Start ()
     {
+        _inv = InventoryHandler.Instance();
         _tooltip = Tooltip.Instance();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
+        if (Item.Id == -1)
+            return;
+        if (Item.StackCnt == 0)
+        {
+            LoadItem();
+            _inv.UpdateEquipments(true);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)

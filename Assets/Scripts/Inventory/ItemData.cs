@@ -28,6 +28,8 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
 
     void Update()
     {
+        if (Item.Id == -1)
+            return;
         if (Item.StackCnt == 0)
         {
             //Logic of adding empty Item to Slot 
@@ -37,6 +39,7 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
             //Update Text
             this.transform.GetChild(0).GetComponent<Text>().text = "";
             _inv.InvSlots[SlotIndex].transform.name = this.transform.name;
+            _inv.UpdateInventory(true);
         }
         else
         {
@@ -98,7 +101,7 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
         //print("#######Inside loadItem Itemdata: "+ item.Id);
         if (item.Id == -1)
         {
-            Item = new ItemContainer();
+            this.Item = new ItemContainer();
             GetComponent<Image>().sprite = EmptySprite;
             Text stackCntText = this.transform.GetChild(0).GetComponent<Text>();
             stackCntText.text = "";
@@ -106,10 +109,12 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
         }
         else
         {
-            Item = item;
+            Item = new ItemContainer(item);
+            Item.Print();
             this.transform.name = Item.Name;
             GetComponent<Image>().sprite = Item.GetSprite();
             this.transform.GetChild(0).GetComponent<Text>().text = Item.StackCnt > 1 ? Item.StackCnt.ToString() : "";
+            print(Item.Name);
             _inv.InvSlots[SlotIndex].transform.name = Item.Name;
         }
     }
