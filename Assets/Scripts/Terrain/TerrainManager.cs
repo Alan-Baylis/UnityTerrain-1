@@ -30,7 +30,7 @@ public class TerrainManager : MonoBehaviour {
     private SpriteRenderer[,] _renderers;
     private IEnumerable<Marker> _markers;
     private List<ActiveEllementType> _ellements = new List<ActiveEllementType>();
-    private List<ActiveItemType> _items = new List<ActiveItemType>();
+    private List<ActiveItemType> _activeItems = new List<ActiveItemType>();
     private List<GameObject> _digs = new List<GameObject>();
 
     private Cache _cache;
@@ -178,9 +178,9 @@ public class TerrainManager : MonoBehaviour {
         //Destruction happen at the end of the frame not immediately 
         _ellements.ForEach(x => Destroy(x.gameObject));
         _ellements.Clear();
-        _cache.SyncItems("Item", _items);
-        _items.ForEach(x => Destroy(x.gameObject));
-        _items.Clear();
+        _cache.SyncItems("Item", _activeItems);
+        _activeItems.ForEach(x => Destroy(x.gameObject));
+        _activeItems.Clear();
         _digs.ForEach(x => Destroy(x.gameObject));
         _digs.Clear();
         foreach (var marker in _markers)
@@ -256,11 +256,11 @@ public class TerrainManager : MonoBehaviour {
         active.ItemTypeInUse = _itemDatabase.FindItem(itemId);
         location.z -= 0.001f;
         active.Location = location;
-        _items.Add(active);
+        _activeItems.Add(active);
         Item.transform.position = location;
         var renderer = Item.AddComponent<SpriteRenderer>();
         renderer.sprite = active.ItemTypeInUse.GetSprite();
-        Item.name = "Item " + Item.transform.position;
+        Item.name = active.ItemTypeInUse.Name + Item.transform.position;
         Item.transform.parent = transform;
     }
     
@@ -291,19 +291,23 @@ public class TerrainManager : MonoBehaviour {
     
     public ActiveItemType GetDropItem(float x, float y)
     {
-        foreach (var item in _items)
+        //foreach (var item in _activeItems)
+        //    print(item.name+item.ItemTypeInUse.Name+ item.transform.position + " x= " + x + " y= " + y + " " + item.Location);
+        foreach (var item in _activeItems)
         {
             var bLoc = item.transform.position;
             //Mappos inbetween the ellement 
             if (Math.Abs(bLoc.x - x) < 1 && Math.Abs(bLoc.y - y) < 1)
+            {
                 return item;
+            }
         }
         return null;
     }
 
     internal void DistroyItem(ActiveItemType item)
     {
-        _items.Remove(item);
+        _activeItems.Remove(item);
         Destroy(item.gameObject);
     }
 

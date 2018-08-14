@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Runtime.Remoting.Messaging;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -109,13 +110,14 @@ public class ItemData : MonoBehaviour,IPointerDownHandler,IBeginDragHandler,IDra
         }
         else
         {
-            Item = new ItemContainer(item);
-            Item.Print();
+            Item = item; 
             this.transform.name = Item.Name;
             GetComponent<Image>().sprite = Item.GetSprite();
             this.transform.GetChild(0).GetComponent<Text>().text = Item.StackCnt > 1 ? Item.StackCnt.ToString() : "";
-            print(Item.Name);
+            if (_inv ==null)
+                _inv = InventoryHandler.Instance();
             _inv.InvSlots[SlotIndex].transform.name = Item.Name;
+            _inv.UpdateInventory(true);
         }
     }
 

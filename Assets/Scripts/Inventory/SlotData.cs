@@ -174,12 +174,13 @@ public class SlotData : MonoBehaviour,IDropHandler{
         existingItem.Item.setStackCnt(existingItem.Item.StackCnt - newRecipe.FirstItemCnt);
         draggedItem.Item.setStackCnt(draggedItem.Item.StackCnt - newRecipe.SecondItemCnt);
 
-        ItemContainer item = _inv.GetItemFromDatabase(newRecipe.FinalItemId);
+        ItemContainer item = _inv.BuilItemFromDatabase(newRecipe.FinalItemId);
         item.setStackCnt(Math.Min(newRecipe.FinalItemCnt, item.MaxStackCnt));
 
         _itemMixture.LoadItem(item, newRecipe.DurationMinutes);
         _inv.PrintMessage("GRE: Making " + item.Name + " starts");
-        
+        _inv.AddExperince(newRecipe.Energy);
+
         if (existingItem.Item.StackCnt == 0)
         {
             //Logic of adding empty Item to Slot 

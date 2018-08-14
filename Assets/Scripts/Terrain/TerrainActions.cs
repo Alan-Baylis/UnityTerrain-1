@@ -28,11 +28,11 @@ public class TerrainActions : MonoBehaviour {
         pos.z += 0.01f;
         if (Input.GetKeyDown(KeyToPick))
         {
-            var currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
+            ActiveItemType currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
             if (currentItem != null)
             {
                 print("###Inside Terrrain actions : Item id =" + currentItem.ItemTypeInUse.Id);
-                if (_inv.AddItemToInventory(currentItem.ItemTypeInUse))
+                if (_inv.AddItemToInventory(currentItem.ItemTypeInUse.Id))
                     Terrain_Manager.DistroyItem(currentItem);
             }
         }
@@ -107,7 +107,7 @@ public class TerrainActions : MonoBehaviour {
         if (chance >= 1f || chance > RandomHelper.Percent(pos, 1))
         {
             List<int> items = dropItems.Split(',').Select(int.Parse).ToList();
-            print("###Inside KeyToConsume : (" + items.Count + ")" + dropItems + "=>" + RandomHelper.Range(pos, 1, items.Count) + pos);
+            //print("###Inside KeyToConsume : (" + items.Count + ")" + dropItems + "=>" + RandomHelper.Range(pos, 1, items.Count) + pos);
             if (items.Count > 0)
             {
                 //todo: item based on rarity of item 

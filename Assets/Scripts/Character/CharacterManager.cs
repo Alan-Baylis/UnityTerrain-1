@@ -10,7 +10,7 @@ public class CharacterManager : MonoBehaviour {
     private static CharacterManager _characterManager;
 
     private CharacterDatabase _characterDatabase;
-    private ItemDatabase _itemDatabase;
+    //private ItemDatabase _itemDatabase;
 
     public Character Character;
     public CharacterSetting CharacterSetting;
@@ -26,7 +26,7 @@ public class CharacterManager : MonoBehaviour {
 
     void Awake()
     {
-        _itemDatabase = ItemDatabase.Instance();
+        //_itemDatabase = ItemDatabase.Instance();
         _characterDatabase = CharacterDatabase.Instance();
         _characterManager = CharacterManager.Instance();
         //print("_availableCharacters.Count =" + _availableCharacters.Characters.Count);
@@ -40,8 +40,26 @@ public class CharacterManager : MonoBehaviour {
         print("CharacterInventory " + CharacterInventory.Count);
     }
 
+    private int calculateXP(int level)
+    {
+        if (level == 0)
+            return 500;
+        if (level == 1)
+            return 1000;
+        return calculateXP(level - 1) + calculateXP(level - 2);
+    }
 
-
+    void Update()
+    {
+        if (CharacterSetting.Experience >= CharacterSetting.MaxExperience)
+        {
+            CharacterSetting.Experience -= CharacterSetting.MaxExperience;
+            CharacterSetting.Level += 1;
+            CharacterSetting.MaxExperience = calculateXP(CharacterSetting.Level);
+            CharacterSetting.Updated = true;
+            SaveCharacterSetting();
+        }
+    }
 
     //middle man to CharacterDatabase
     public void SaveCharacterSetting()
@@ -73,14 +91,6 @@ public class CharacterManager : MonoBehaviour {
             if (CharacterInventory[i].Id != -1)
                 continue;
             CharacterInventory[i] = item;
-                //new ItemContainer(
-                //    item.Id, item.Name, item.Description,
-                //    item.IconPath, item.IconId,
-                //    item.Cost, item.Weight,
-                //    item.MaxStackCnt, item.StackCnt,
-                //    item.Type, item.Rarity,
-                //    item.DurationDays, item.ExpirationTime,
-                //    item.Values);
             item.Print();
             break;
         }
@@ -99,42 +109,29 @@ public class CharacterManager : MonoBehaviour {
 
 
 
-    //Instance
-    public static CharacterManager Instance()
-    {
-        if (!_characterManager)
-        {
-            _characterManager = FindObjectOfType(typeof(CharacterManager)) as CharacterManager;
-            if (!_characterManager)
-                Debug.LogError("There needs to be one active ItemDatabase script on a GameObject in your scene.");
-        }
-        return _characterManager;
-    }
-
-
-    private void CalculateCharacterSetting()
-    {
-        CharacterSetting.MaxHealth = ((int)Character.Body / 100 + 1) * _basicHealth;
-        CharacterSetting.Health = CharacterSetting.MaxHealth;
-        CharacterSetting.MaxMana = CharacterSetting.MaxHealth; //Todo: calculate basic Mana
-        CharacterSetting.Mana = CharacterSetting.MaxMana;
-        CharacterSetting.MaxEnergy = CharacterSetting.MaxHealth;//Todo: calculate basic Energy
-        CharacterSetting.Energy = CharacterSetting.MaxEnergy;
-        CharacterSetting.AttackSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic AttackSpeed
-        CharacterSetting.DefenceSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic DefenceSpeed
-        CharacterSetting.Carry = _basicCarry + (int)Character.Carry * 5;
-        CharacterSetting.CarryCnt = _basicCarry / 20 + CharacterSetting.Level / 5;
-        CharacterSetting.Speed = ((int)Character.Speed / 100 + 1) * _basicSpeed;
-        //Equipment setting
-        if (CharacterSetting.Equipments != null)
-            foreach (var item in CharacterSetting.Equipments)
-            {
-                if (item.Id == -1)
-                    continue;
-                CharacterSettingUseItem(item, 0,false);
-            }
-        SaveCharacterSetting();
-    }
+    //private void CalculateCharacterSetting()
+    //{
+    //    CharacterSetting.MaxHealth = ((int)Character.Body / 100 + 1) * _basicHealth;
+    //    CharacterSetting.Health = CharacterSetting.MaxHealth;
+    //    CharacterSetting.MaxMana = CharacterSetting.MaxHealth; //Todo: calculate basic Mana
+    //    CharacterSetting.Mana = CharacterSetting.MaxMana;
+    //    CharacterSetting.MaxEnergy = CharacterSetting.MaxHealth;//Todo: calculate basic Energy
+    //    CharacterSetting.Energy = CharacterSetting.MaxEnergy;
+    //    CharacterSetting.AttackSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic AttackSpeed
+    //    CharacterSetting.DefenceSpeed = (int)CharacterSetting.Speed;//Todo: calculate basic DefenceSpeed
+    //    CharacterSetting.Carry = _basicCarry + (int)Character.Carry * 5;
+    //    CharacterSetting.CarryCnt = _basicCarry / 20 + CharacterSetting.Level / 5;
+    //    CharacterSetting.Speed = ((int)Character.Speed / 100 + 1) * _basicSpeed;
+    //    //Equipment setting
+    //    if (CharacterSetting.Equipments != null)
+    //        foreach (var item in CharacterSetting.Equipments)
+    //        {
+    //            if (item.Id == -1)
+    //                continue;
+    //            CharacterSettingUseItem(item, 0,false);
+    //        }
+    //    SaveCharacterSetting();
+    //}
 
     public void AddCharacterSetting(string field, float value)
     {
@@ -158,6 +155,9 @@ public class CharacterManager : MonoBehaviour {
                 break;
             case "CarryCnt":
                 CharacterSetting.CarryCnt += (int)value;
+                break;
+            case "Experince":
+                CharacterSetting.Experience += (int)value;
                 break;
         }
         CharacterSetting.Updated = true;
@@ -207,7 +207,7 @@ public class CharacterManager : MonoBehaviour {
             SaveCharacterSetting();
     }
 
-    internal void CharacterSettingUnuseItem(ItemContainer item, int energy, bool save)
+    internal void CharacterSettingUnuseItem(ItemContainer item, bool save)
     {
         if (item == null)
             return;
@@ -241,9 +241,20 @@ public class CharacterManager : MonoBehaviour {
             case Item.ItemType.Tool:
                 return;
         }
-        CharacterSetting.Energy -= energy;
         CharacterSetting.Updated = true;
         if (save)
             SaveCharacterSetting();
+    }
+
+    //Instance
+    public static CharacterManager Instance()
+    {
+        if (!_characterManager)
+        {
+            _characterManager = FindObjectOfType(typeof(CharacterManager)) as CharacterManager;
+            if (!_characterManager)
+                Debug.LogError("There needs to be one active ItemDatabase script on a GameObject in your scene.");
+        }
+        return _characterManager;
     }
 }

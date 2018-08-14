@@ -108,7 +108,8 @@ public class ItemMixture : MonoBehaviour, IPointerDownHandler, IBeginDragHandler
 
     internal void LoadItem(ItemContainer item, int durationMinutes)
     {
-        _time = DateTime.Now.AddMinutes(durationMinutes);
+        float speed = _inv.GetKrafting();
+        _time = DateTime.Now.AddMinutes(durationMinutes * (1-speed));
         _inv.SaveCharacterMixture(item, _time);
         LoadItem(item, _time);
     }

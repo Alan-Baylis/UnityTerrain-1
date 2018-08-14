@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <ArrayOfItemContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ItemContainer>
-    <Tool>
-      <Id>6</Id>
-      <Name>Iron Shovel</Name>
-      <Description>Iron Shovel</Description>
-      <IconPath>Inventory/InventoryTools</IconPath>
-      <IconId>16</IconId>
-      <Cost>1</Cost>
-      <Weight>5</Weight>
-      <MaxStackCnt>1</MaxStackCnt>
-      <StackCnt>1</StackCnt>
-      <Type>Tool</Type>
+    <Consumable>
+      <Id>1</Id>
+      <Name>Cherry</Name>
+      <Description>One Cherry</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>1</IconId>
+      <Cost>0</Cost>
+      <Weight>0</Weight>
+      <MaxStackCnt>20</MaxStackCnt>
+      <StackCnt>2</StackCnt>
+      <Type>Consumable</Type>
       <Rarity>Common</Rarity>
-      <Slug>Iron_Shovel</Slug>
+      <Slug>Cherry</Slug>
       <DurationDays>365</DurationDays>
-      <ExpirationTime>2019-08-09T11:51:45.0731418-05:00</ExpirationTime>
+      <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
-      <TimeToUse>100</TimeToUse>
-      <FavouriteEllement>Hole</FavouriteEllement>
-    </Tool>
+      <Health>1</Health>
+      <Mana>0</Mana>
+      <Energy>0</Energy>
+    </Consumable>
   </ItemContainer>
-  <ItemContainer />
-  <ItemContainer />
+  <ItemContainer>
+    <Substance>
+      <Id>3</Id>
+      <Name>Round Rock</Name>
+      <Description>Round Rock</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>240</IconId>
+      <Cost>0</Cost>
+      <Weight>5</Weight>
+      <MaxStackCnt>5</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Substance</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Round_Rock</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-06-14T17:06:57.5051813-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+    </Substance>
+  </ItemContainer>
   <ItemContainer>
     <Equipment>
       <Id>4</Id>
@@ -64,7 +82,7 @@
       <Cost>0</Cost>
       <Weight>0</Weight>
       <MaxStackCnt>20</MaxStackCnt>
-      <StackCnt>9</StackCnt>
+      <StackCnt>6</StackCnt>
       <Type>Consumable</Type>
       <Rarity>Common</Rarity>
       <Slug>Black_Berry</Slug>
@@ -76,6 +94,7 @@
       <Energy>0</Energy>
     </Consumable>
   </ItemContainer>
+  <ItemContainer />
   <ItemContainer />
   <ItemContainer />
   <ItemContainer />

@@ -14,6 +14,7 @@ public class OfferListHandler : MonoBehaviour {
     public Sprite CoinSprite;
     public Sprite GemSprite;
     public Sprite MoneySprite;
+    public Sprite CarryCntSprite;
 
     private ModalPanel _modalPanel;
     private GameObject _contentPanel;
@@ -21,6 +22,8 @@ public class OfferListHandler : MonoBehaviour {
     private List<Offer> _offers = new List<Offer>();
 
     public int SceneIdForTerrainView = 0;
+
+
     void Awake()
     {
         _itemDatabase = ItemDatabase.Instance();
@@ -75,8 +78,8 @@ public class OfferListHandler : MonoBehaviour {
         return offer;
     }
 
-    void ShopOffer() {
-        
+    void ShopOffer()
+    {
         string buttonName = EventSystem.current.currentSelectedGameObject.name;
         Offer offer = _offers[Int32.Parse(buttonName)];
 
@@ -102,7 +105,11 @@ public class OfferListHandler : MonoBehaviour {
             else
                 ProcessTheSell(offer.SellProd, offer.SellAmount);
         }
-        
+        if (offer.IsSpecial)
+        {
+            Button pressButton = EventSystem.current.currentSelectedGameObject.GetComponent<Button>();
+            pressButton.interactable = false;
+        }
     }
 
     private void ProcessTheSell(string sellProd, int sellAmount)
@@ -167,6 +174,8 @@ public class OfferListHandler : MonoBehaviour {
                 return GemSprite;
             case "Money":
                 return MoneySprite;
+            case "CarryCnt":
+                return CarryCntSprite;
             default:
                 if (Regex.IsMatch(spriteName, @"\d"))
                 {

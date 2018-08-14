@@ -7,6 +7,7 @@ Shop Phase
 Write codes
 	InsideStory
 	ScriptTextHandler
+	Bug: on refresh page items get disapears 
 	
 Game over  Phase	
 	game over scene  
@@ -26,12 +27,7 @@ Inventory Phase:
 make lock a button
 https://unity3d.com/learn/tutorials/topics/user-interface-ui/adding-buttons-script
 
-
-krafting give expreince 
-use krafting speed 
-
 profile scene 
-
 
 loading page phase (menu)
 https://www.youtube.com/watch?v=zc8ac_qUXQY
@@ -60,9 +56,7 @@ Map Mobile Phase
 	location of the user 
 	rigen of the user 
 
-Home:	
-1- test
-	DontDestroyOnLoad
+Home:
 2- Fixing animation ofcharacter to transit better maybe add fight animation too 
 https://www.youtube.com/watch?v=OoutYKyb4g0
 https://www.youtube.com/watch?v=Y03jBu6enf8 (some movement improvement animantions on layers)

@@ -124,9 +124,9 @@ public class MoveManager : MonoBehaviour {
             currentSpeed = MaxSpeed;
         }
         //Old moving system
-        //transform.Translate(movement * currentSpeed * Time.deltaTime);
+        transform.Translate(movement * currentSpeed * Time.deltaTime);
         //Physics moving
-        _myRigidbody2D.velocity = movement.normalized * currentSpeed;
+        //_myRigidbody2D.velocity = movement.normalized * currentSpeed;
     }
 
     private void SetMoveSprites(int charId)

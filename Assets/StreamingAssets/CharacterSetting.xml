@@ -6,23 +6,24 @@
   <Description>Werewolf2</Description>
   <IconPath>Somewhere</IconPath>
   <IconId>0</IconId>
-  <Level>0</Level>
+  <Level>1</Level>
   <Longitude>0</Longitude>
   <Latitude>0</Latitude>
   <Updated>true</Updated>
   <Rank>0</Rank>
   <ClanId>0</ClanId>
   <Live>0</Live>
-  <Coin>27357</Coin>
-  <Gem>229</Gem>
-  <Experience>1000</Experience>
+  <Coin>26684</Coin>
+  <Gem>159</Gem>
+  <Experience>501</Experience>
+  <MaxExperience>1000</MaxExperience>
   <HandsCnt>2</HandsCnt>
   <MaxHealth>1000</MaxHealth>
-  <Health>960</Health>
+  <Health>964</Health>
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
-  <Energy>28</Energy>
+  <Energy>878</Energy>
   <AttackSpeed>12</AttackSpeed>
   <DefenceSpeed>3</DefenceSpeed>
   <AbilityAttack>9</AbilityAttack>
@@ -38,7 +39,7 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>332</Krafting>
+  <Krafting>333</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>
@@ -101,11 +102,31 @@
         <DurationDays>365</DurationDays>
         <ExpirationTime>2019-08-09T11:51:45.0731418-05:00</ExpirationTime>
         <IsEnable>true</IsEnable>
-        <TimeToUse>31</TimeToUse>
+        <TimeToUse>26</TimeToUse>
         <FavouriteEllement>Hole</FavouriteEllement>
       </Tool>
     </ItemContainer>
-    <ItemContainer />
+    <ItemContainer>
+      <Tool>
+        <Id>6</Id>
+        <Name>Iron Shovel</Name>
+        <Description>Iron Shovel</Description>
+        <IconPath>Inventory/InventoryTools</IconPath>
+        <IconId>16</IconId>
+        <Cost>1</Cost>
+        <Weight>5</Weight>
+        <MaxStackCnt>1</MaxStackCnt>
+        <StackCnt>1</StackCnt>
+        <Type>Tool</Type>
+        <Rarity>Common</Rarity>
+        <Slug>Iron_Shovel</Slug>
+        <DurationDays>365</DurationDays>
+        <ExpirationTime>2019-08-09T11:51:45.0731418-05:00</ExpirationTime>
+        <IsEnable>true</IsEnable>
+        <TimeToUse>1</TimeToUse>
+        <FavouriteEllement>Hole</FavouriteEllement>
+      </Tool>
+    </ItemContainer>
     <ItemContainer />
   </Equipments>
 </CharacterSetting>

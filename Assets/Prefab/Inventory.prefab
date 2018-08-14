@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InventorySlot: {fileID: 1452981279929114, guid: eb2362fdb14a6f144a3037e47d259df8,
     type: 2}
-  InventorySlotBroken: {fileID: 1452981279929114, guid: 4f9324243ab40f248af1381e8d1698a5,
+  InventorySlotBroken: {fileID: 1794797592213624, guid: 004bb08e0d3cbd7479ddda04b93587b4,
     type: 2}
   InventoryItem: {fileID: 1659708649214486, guid: 7affa43fb912d2f48aad0d7cc48c49d1,
     type: 2}

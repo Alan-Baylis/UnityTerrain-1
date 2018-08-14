@@ -402,16 +402,45 @@ public class ItemContainer {
 
     public ItemContainer(ItemContainer item)
     {
-        new ItemContainer(
-            item.Id, item.Name, item.Description,
-            item.IconPath, item.IconId,
-            cost: item.Cost, weight: item.Weight,
-            maxStackCnt: item.MaxStackCnt, stackCnt: item.StackCnt,
-            type: item.Type, rarity: item.Rarity,
-            durationDays: item.DurationDays, expirationTime: item.ExpirationTime,
-            values: item.Values);
+        switch (item.Type)
+        {
+            case Item.ItemType.Consumable:
+                Consumable = new Consumable(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost, item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity, item.DurationDays, item.ExpirationTime, item.Values);
+                Equipment = null;
+                Weapon = null;
+                Substance = null;
+                Tool = null;
+                break;
+            case Item.ItemType.Weapon:
+                Consumable = null;
+                Equipment = null;
+                Weapon = new Weapon(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost, item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity, item.DurationDays, item.ExpirationTime, item.Values);
+                Substance = null;
+                Tool = null;
+                break;
+            case Item.ItemType.Equipment:
+                Consumable = null;
+                Equipment = new Equipment(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost, item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity, item.DurationDays, item.ExpirationTime, item.Values);
+                Weapon = null;
+                Substance = null;
+                Tool = null;
+                break;
+            case Item.ItemType.Substance:
+                Consumable = null;
+                Equipment = null;
+                Weapon = null;
+                Substance = new Substance(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost, item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity, item.DurationDays, item.ExpirationTime, item.Values);
+                Tool = null;
+                break;
+            case Item.ItemType.Tool:
+                Consumable = null;
+                Equipment = null;
+                Weapon = null;
+                Substance = null;
+                Tool = new Tool(item.Id, item.Name, item.Description, item.IconPath, item.IconId, item.Cost, item.Weight, item.MaxStackCnt, item.StackCnt, item.Type, item.Rarity, item.DurationDays, item.ExpirationTime, item.Values);
+                break;
+        }
     }
-
 
     public ItemContainer()
     {

@@ -35,7 +35,6 @@ public class ItemDatabase : MonoBehaviour {
     void Awake()
     {
         _itemDatabase = ItemDatabase.Instance();
-        DontDestroyOnLoad(gameObject);
 
         ItemContainer tempItem =new ItemContainer();
         DateTime ExpirationTime = DateTime.Now.Add(new TimeSpan(_defaultDurationDays, 0, 0, 0, 0));
@@ -253,7 +252,7 @@ public class ItemDatabase : MonoBehaviour {
     {
         for (int i = 0; i < _items.Count; i++)
             if (_items[i].Id == id)
-                return _items[i];
+                return _items[i];  
         return null;
     }
 

@@ -19,7 +19,6 @@ public class CharacterStats : MonoBehaviour {
     private BarHandler _experience;
     private ContainerValueHandler _coin;
     private ContainerValueHandler _gem;
-    private int _maxExperience;
 
     //private bool _showStats = false;
     //private bool _showTooltip = false;
@@ -52,9 +51,8 @@ public class CharacterStats : MonoBehaviour {
         _health.UpdateValues(_settings.Health, _settings.MaxHealth);
         _mana.UpdateValues(_settings.Mana, _settings.MaxMana);
         _energy.UpdateValues(_settings.Energy, _settings.MaxEnergy);
-        _maxExperience = (int) Math.Pow( (_settings.Level+1) * 100, 2);
-        _experience.UpdateValues(_settings.Experience, _maxExperience, _settings.Level);
-
+        _experience.UpdateValues(_settings.Experience, _settings.MaxExperience, _settings.Level);
+        //Todo: splash on level up 
         _coin.UpdateValue(_settings.Coin);
         _gem.UpdateValue(_settings.Gem);
     }
@@ -66,8 +64,8 @@ public class CharacterStats : MonoBehaviour {
             _health.UpdateValues(_settings.Health, _settings.MaxHealth);
             _mana.UpdateValues(_settings.Mana, _settings.MaxMana);
             _energy.UpdateValues(_settings.Energy, _settings.MaxEnergy);
-            //todo: set exp 0 when it reach the max probabaly not in here ormaybe here 
-            _experience.UpdateValues(_settings.Experience, _maxExperience, _settings.Level);
+             
+            _experience.UpdateValues(_settings.Experience, _settings.MaxExperience, _settings.Level);
 
             _coin.UpdateValue(_settings.Coin);
             _gem.UpdateValue(_settings.Gem);

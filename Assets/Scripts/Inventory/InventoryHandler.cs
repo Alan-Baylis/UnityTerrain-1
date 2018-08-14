@@ -68,7 +68,7 @@ public class InventoryHandler : MonoBehaviour
     {
         //print("###insite Start inventory "+ _characterManager.CharacterSetting.CarryCnt);
         _playerSlots = _characterManager.CharacterSetting.CarryCnt;
-
+        print("_playerSlots =" + _playerSlots);
         //Inventory Items
         //InitInventory(_characterManager.CharacterInventory);
         _invItems = _characterManager.CharacterInventory;
@@ -122,21 +122,20 @@ public class InventoryHandler : MonoBehaviour
 
 
             InvSlots[i].transform.SetParent(_slotPanel.transform);
-
-            GameObject itemObject = Instantiate(InventoryItem);
-
-            ItemData data = itemObject.GetComponent<ItemData>();
-            data.Item = _invItems[i];
-            data.SlotIndex = i;
-
-            //print(_invItems[i].Id + "-" + i);
-            itemObject.transform.SetParent(InvSlots[i].transform);
-            itemObject.transform.position = Vector2.zero;
-            InvSlots[i].name = itemObject.name = _invItems[i].Name;
             if (i < _playerSlots)
             {
+                GameObject itemObject = Instantiate(InventoryItem);
+
+                ItemData data = itemObject.GetComponent<ItemData>();
+                data.Item = _invItems[i];
+                data.SlotIndex = i;
+                //print(_invItems[i].Id + "-" + i);
+                itemObject.transform.SetParent(InvSlots[i].transform);
+                itemObject.transform.position = Vector2.zero;
+                InvSlots[i].name = itemObject.name = _invItems[i].Name;
                 if (_invItems[i].Id != -1)
                 {
+
                     itemObject.GetComponent<Image>().sprite = _invItems[i].GetSprite();
                     itemObject.transform.GetChild(0).GetComponent<Text>().text = _invItems[i].StackCnt > 1 ? _invItems[i].StackCnt.ToString() :"";
                 }
@@ -144,20 +143,22 @@ public class InventoryHandler : MonoBehaviour
             //todo: lets user buy a slot 
             else
             {
-                data.enabled = false;
                 if (i == _playerSlots)
                 {
-                    itemObject.GetComponent<Image>().sprite = LockSprite;
-                    InvSlots[i].name = itemObject.name = "Lock";
-
-                    //var buttons = offerObject.GetComponentsInChildren<Button>();
+                    Button button = InvSlots[i].GetComponentInChildren<Button>();
+                    button.GetComponent<Image>().sprite = LockSprite;
+                    InvSlots[i].name = button.name = "Lock";
+                    button.interactable = true;
                 }
             }
             InvSlots[i].transform.localScale = Vector3.one;
         }
     }
 
-
+    internal float GetKrafting()
+    {
+        return (_characterManager.CharacterSetting.Krafting % 1000)/1000 ;
+    }
 
     void Update()
     {
@@ -236,7 +237,7 @@ public class InventoryHandler : MonoBehaviour
             _characterManager.AddCharacterSetting("Energy", -amount);
             return true;
         }
-        PrintMessage("YEL: Not enough energy ");
+        PrintMessage("YEL: 3Not enough energy ");
         return false;
     }
 
@@ -247,21 +248,19 @@ public class InventoryHandler : MonoBehaviour
         if (_characterManager.CharacterSetting.Energy > _basicEnergyUse)
             _characterManager.CharacterSettingUseItem(item, _basicEnergyUse, true);
         else
-            PrintMessage("YEL: Not enough energy ");
+            PrintMessage("YEL: 1Not enough energy ");
     }
 
     public void UnuseItem(ItemContainer item)
     {
         if (item.Id ==-1)
             return;
-        if (_characterManager.CharacterSetting.Energy > _basicEnergyUse)
-            _characterManager.CharacterSettingUnuseItem(item, _basicEnergyUse, true);
-        else
-            PrintMessage("YEL: Not enough energy ");
+        _characterManager.CharacterSettingUnuseItem(item, true);
     }
 
-    public bool AddItemToInventory(ItemContainer item)
+    public bool AddItemToInventory(int itemId)
     {
+        ItemContainer item = BuilItemFromDatabase(itemId);
         for (int i = 0; i < _playerSlots; i++)
         {
             ItemData tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>();
@@ -342,11 +341,11 @@ public class InventoryHandler : MonoBehaviour
         _GUIManager.AddMessage(message);
     }
 
-    public ItemContainer GetItemFromDatabase(int id)
+    public ItemContainer BuilItemFromDatabase(int id)
     {
         if (id == -1)
             return new ItemContainer();
-        return _itemDatabase.FindItem(id);
+        return new ItemContainer(_itemDatabase.FindItem(id));
     }
     
     internal void PrintInventory(List<ItemContainer> inv)
@@ -400,5 +399,10 @@ public class InventoryHandler : MonoBehaviour
         }
         PrintMessage("YEL: You don't have a right tool to use");
         return false;
+    }
+
+    public void AddExperince(int amount)
+    {
+        _characterManager.AddCharacterSetting("Experince", amount);
     }
 }

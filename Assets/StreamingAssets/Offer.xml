@@ -72,4 +72,22 @@
     <IsSpecial>true</IsSpecial>
     <IsEnable>true</IsEnable>
   </Offer>
+  <Offer>
+    <Id>9</Id>
+    <SellProd>Gem</SellProd>
+    <SellAmount>100</SellAmount>
+    <PayProd>Money</PayProd>
+    <PayAmount>9</PayAmount>
+    <IsSpecial>false</IsSpecial>
+    <IsEnable>true</IsEnable>
+  </Offer>
+  <Offer>
+    <Id>9</Id>
+    <SellProd>Gem</SellProd>
+    <SellAmount>1000</SellAmount>
+    <PayProd>Money</PayProd>
+    <PayAmount>80</PayAmount>
+    <IsSpecial>false</IsSpecial>
+    <IsEnable>true</IsEnable>
+  </Offer>
 </ArrayOfOffer>

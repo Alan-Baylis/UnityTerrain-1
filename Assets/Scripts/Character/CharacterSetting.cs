@@ -26,6 +26,7 @@ public class CharacterSetting {
     public int Coin { get; set; }
     public int Gem { get; set; }
     public int Experience { get; set; }
+    public int MaxExperience { get; set; }
     public int HandsCnt { get; set; }
     public int MaxHealth { get; set; }
     public int Health { get; set; }
@@ -59,7 +60,7 @@ public class CharacterSetting {
          string description = null, string iconPath = null, int iconId = 0, 
         int level = 0, float longitude = 0, float latitude = 0,bool updated = true,
         int rank = 0, int clanId = 0, int live = 0, int coin = 0, int gem = 0,
-        int experience = 0, int handsCnt = 2, int maxHealth = 0,  int health = 0, int maxMana = 0, int mana = 0, int maxEnergy = 0,
+        int experience = 0, int maxExperience = 0, int handsCnt = 2, int maxHealth = 0,  int health = 0, int maxMana = 0, int mana = 0, int maxEnergy = 0,
         int energy = 0, int attackSpeed = 0, int defenceSpeed = 0, int abilityAttack = 0, int abilityDefence = 0,
         int magicAttack = 0, int magicDefence = 0, int poisonAttack = 0, int poisonDefence = 0, float carry = 0, int carryCnt = 0,
         float speed = 0, float intellect = 0, float agility = 0, float strength = 0, float stemina = 0,
@@ -81,6 +82,7 @@ public class CharacterSetting {
         Coin = coin;
         Gem = gem;
         Experience = experience;
+        MaxExperience = maxExperience;
         HandsCnt = handsCnt;
         MaxHealth = maxHealth;
         Health = health;
@@ -140,6 +142,7 @@ public class CharacterSetting {
         Coin = characterSetting.Coin;
         Gem = characterSetting.Gem;
         Experience = characterSetting.Experience;
+        MaxExperience = characterSetting.MaxExperience;
         HandsCnt = characterSetting.HandsCnt;
         MaxHealth = characterSetting.MaxHealth;
         Health = characterSetting.Health;
