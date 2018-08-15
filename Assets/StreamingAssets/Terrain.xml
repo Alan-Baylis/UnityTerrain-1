@@ -9,7 +9,7 @@
     <Swimable>false</Swimable>
     <HasElement>true</HasElement>
     <DropItems>1,2,3</DropItems>
-    <DropChance>0.7</DropChance>
+    <DropChance>0.5</DropChance>
     <Type>Land</Type>
     <Tiles>4</Tiles>
     <AnimationControler>0</AnimationControler>
@@ -24,7 +24,7 @@
     <Swimable>false</Swimable>
     <HasElement>true</HasElement>
     <DropItems>1,2,3</DropItems>
-    <DropChance>1</DropChance>
+    <DropChance>0.7</DropChance>
     <Type>Land</Type>
     <Tiles>3</Tiles>
     <AnimationControler>0</AnimationControler>

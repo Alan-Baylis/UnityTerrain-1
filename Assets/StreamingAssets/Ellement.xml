@@ -9,8 +9,22 @@
     <Enterable>true</Enterable>
     <Distroyable>true</Distroyable>
     <DropItems>1,2,3</DropItems>
-    <DropChance>0.5</DropChance>
+    <DropChance>0.7</DropChance>
     <Type>Building</Type>
+    <FavouriteTerrainTypes>Land</FavouriteTerrainTypes>
+    <IsEnabled>true</IsEnabled>
+  </EllementIns>
+  <EllementIns>
+    <Id>1</Id>
+    <Name>BasicTree</Name>
+    <Walkable>false</Walkable>
+    <Flyable>true</Flyable>
+    <Swimable>false</Swimable>
+    <Enterable>false</Enterable>
+    <Distroyable>true</Distroyable>
+    <DropItems>4,5,6</DropItems>
+    <DropChance>0.7</DropChance>
+    <Type>Tree</Type>
     <FavouriteTerrainTypes>Land</FavouriteTerrainTypes>
     <IsEnabled>true</IsEnabled>
   </EllementIns>

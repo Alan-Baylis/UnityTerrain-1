@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 public class OfferListHandler : MonoBehaviour {
     private ItemDatabase _itemDatabase;
@@ -34,7 +35,8 @@ public class OfferListHandler : MonoBehaviour {
 
     void Start()
     {
-        _offers = _itemDatabase.LoadOffers();
+        List<Offer> offers = _itemDatabase.LoadOffers();
+        _offers = offers.OrderBy(o => o.PayProd).ThenBy(o => o.IsSpecial).ToList();
         for (int i = 0; i < _offers.Count; i++)
         {
             if (_offers[i].IsSpecial)

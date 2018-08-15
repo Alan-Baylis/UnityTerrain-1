@@ -11,6 +11,7 @@ public class EllementIns {
         Hole,
         Building,
         Tree,
+        Bush,
         Rock
     }
 

@@ -30,11 +30,8 @@ public class TerrainActions : MonoBehaviour {
         {
             ActiveItemType currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
             if (currentItem != null)
-            {
-                print("###Inside Terrrain actions : Item id =" + currentItem.ItemTypeInUse.Id);
                 if (_inv.AddItemToInventory(currentItem.ItemTypeInUse.Id))
                     Terrain_Manager.DistroyItem(currentItem);
-            }
         }
 
         if (Input.GetKeyDown(KeyToConsume))
@@ -95,19 +92,19 @@ public class TerrainActions : MonoBehaviour {
     }
 
 
-    public void DropItem(int id)
-    {
-        var pos = transform.position;
-        pos.z += 0.01f;
-        DropItem(pos, 1, id.ToString());
-    }
+    //public void DropItem(int id)
+    //{
+    //    var pos = transform.position;
+    //    pos.z += 0.01f;
+    //    DropItem(pos, 1, id.ToString());
+    //}
 
     private void DropItem(Vector3 pos, float chance, string dropItems)
     {
+        print("chance = "+ chance +" Yourchance= " + RandomHelper.Percent(pos, 1) + pos);
         if (chance >= 1f || chance > RandomHelper.Percent(pos, 1))
         {
             List<int> items = dropItems.Split(',').Select(int.Parse).ToList();
-            //print("###Inside KeyToConsume : (" + items.Count + ")" + dropItems + "=>" + RandomHelper.Range(pos, 1, items.Count) + pos);
             if (items.Count > 0)
             {
                 //todo: item based on rarity of item 
@@ -120,12 +117,7 @@ public class TerrainActions : MonoBehaviour {
                         ObjectType = "Item"
                     }
                 );
-
             }
-        }
-        else
-        {
-            print("Bad luck");
         }
     }
 }

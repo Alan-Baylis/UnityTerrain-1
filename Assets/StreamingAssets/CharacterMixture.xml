@@ -2,26 +2,23 @@
 <CharacterMixture xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Id>0</Id>
   <Item>
-    <Consumable>
-      <Id>1</Id>
-      <Name>Cherry</Name>
-      <Description>One Cherry</Description>
+    <Substance>
+      <Id>3</Id>
+      <Name>Round Rock</Name>
+      <Description>Round Rock</Description>
       <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>1</IconId>
+      <IconId>240</IconId>
       <Cost>0</Cost>
-      <Weight>0</Weight>
-      <MaxStackCnt>20</MaxStackCnt>
-      <StackCnt>5</StackCnt>
-      <Type>Consumable</Type>
+      <Weight>5</Weight>
+      <MaxStackCnt>5</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Substance</Type>
       <Rarity>Common</Rarity>
-      <Slug>Cherry</Slug>
+      <Slug>Round_Rock</Slug>
       <DurationDays>365</DurationDays>
-      <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
+      <ExpirationTime>2019-06-14T17:06:57.5051813-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
-      <Health>1</Health>
-      <Mana>0</Mana>
-      <Energy>0</Energy>
-    </Consumable>
+    </Substance>
   </Item>
-  <Time>2018-08-14T14:09:21.9840844-05:00</Time>
+  <Time>2018-08-14T22:33:19.5593389-05:00</Time>
 </CharacterMixture>

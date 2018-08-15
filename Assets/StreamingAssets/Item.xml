@@ -160,7 +160,7 @@
       <Description>Iron Shovel</Description>
       <IconPath>Inventory/InventoryTools</IconPath>
       <IconId>16</IconId>
-      <Cost>1</Cost>
+      <Cost>10</Cost>
       <Weight>5</Weight>
       <MaxStackCnt>1</MaxStackCnt>
       <StackCnt>1</StackCnt>
@@ -172,6 +172,27 @@
       <IsEnable>true</IsEnable>
       <TimeToUse>100</TimeToUse>
       <FavouriteEllement>Hole</FavouriteEllement>
+    </Tool>
+  </ItemContainer>
+  <ItemContainer>
+    <Tool>
+      <Id>7</Id>
+      <Name>Iron Axe</Name>
+      <Description>Iron Axe</Description>
+      <IconPath>Inventory/InventoryTools</IconPath>
+      <IconId>2</IconId>
+      <Cost>10</Cost>
+      <Weight>5</Weight>
+      <MaxStackCnt>1</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Tool</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Iron_Axe</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-08-14T15:42:05.8492805-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+      <TimeToUse>100</TimeToUse>
+      <FavouriteEllement>Tree</FavouriteEllement>
     </Tool>
   </ItemContainer>
 </ArrayOfItemContainer>

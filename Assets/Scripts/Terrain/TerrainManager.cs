@@ -175,10 +175,10 @@ public class TerrainManager : MonoBehaviour {
                 }
             }
         }
+
         //Destruction happen at the end of the frame not immediately 
         _ellements.ForEach(x => Destroy(x.gameObject));
         _ellements.Clear();
-        _cache.SyncItems("Item", _activeItems);
         _activeItems.ForEach(x => Destroy(x.gameObject));
         _activeItems.Clear();
         _digs.ForEach(x => Destroy(x.gameObject));
@@ -189,13 +189,10 @@ public class TerrainManager : MonoBehaviour {
             LoadEllements(marker);
         }
         //If it has been consumed recently delete them
-
-        //print("###Inside RedrawMap Player pos " +  transform.position+ _horizontalTiles / 2);
         foreach (var element in _cache.Find("VacantElement", transform.position, _horizontalTiles / 2, true))
         {
             var currentElement = GetEllement(element.Location.x, element.Location.y);
             DistroyEllement(currentElement,false);
-            //print("###Inside RedrawMap currentElement Remove"+ currentElement.name+ transform.position);
         }
         LoadCaches();
     }
@@ -203,19 +200,11 @@ public class TerrainManager : MonoBehaviour {
     private void LoadCaches()
     {
         _cache = Cache.Get();
-        //print("###Inside LoadCaches: " + transform.position);
         foreach (var item in _cache.Find("Digging", transform.position, _horizontalTiles / 2,true))
-        {
             CreateDigging(item.Location,false);
-        }
         foreach (var item in _cache.Find("Item", transform.position, _horizontalTiles / 2, true))
-        {
-            //print("###Inside LoadCaches: item: " + item.ObjectType + item.Location+ item.Content );
             CreateItem(item.Location, Int32.Parse(item.Content));
-        }
     }
-
-
 
     public ActiveEllementType CreateEllements(Vector3 location)
     {

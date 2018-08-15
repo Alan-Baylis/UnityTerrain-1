@@ -176,15 +176,15 @@ public class ItemDatabase : MonoBehaviour {
             //Id
             _items.Count,
             //Name
-            "Iron Shovel",
+            "Iron Axe",
             //Desc
-            "Iron Shovel",
+            "Iron Axe",
             //IconPath
             "Inventory/InventoryTools",
             //IconID    
-            16,
+            2,
             //Coat                            
-            1,
+            10,
             //Weight                            
             5,
             //MaxStackCnt
@@ -202,7 +202,7 @@ public class ItemDatabase : MonoBehaviour {
             //###Extras //todo: ignore for now 
             new int[2] {
                 100,  //FavouriteEllement
-                0  //FavouriteEllement
+                2  //FavouriteEllement
             }
         );
         if (!tempItem.Exist(_items))

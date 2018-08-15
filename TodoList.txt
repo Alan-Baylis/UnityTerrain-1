@@ -1,19 +1,11 @@
 try clearing the whole %LocalAppData%\JetBrains\Transient 
+start from here 
 
-Shop Phase	
-	Settingscene 
-
-	
+	https://www.youtube.com/watch?v=1MgnZ3SK_h8
 Write codes
 	InsideStory
 	ScriptTextHandler
-	Bug: on refresh page items get disapears 
-	
-Game over  Phase	
-	game over scene  
-	
-Bug Pick up item doesn't get saved 
-bug item doesn't appear 	
+
 	
 user agreement
 https://termsfeed.com/blog/sample-eula-template/	
@@ -23,11 +15,6 @@ Chat phase:
 https://www.youtube.com/watch?v=IRAeJgGkjHk
 https://www.youtube.com/watch?v=7_BCbzRMi2w
 
-Inventory Phase:
-make lock a button
-https://unity3d.com/learn/tutorials/topics/user-interface-ui/adding-buttons-script
-
-profile scene 
 
 loading page phase (menu)
 https://www.youtube.com/watch?v=zc8ac_qUXQY
@@ -56,10 +43,17 @@ Map Mobile Phase
 	location of the user 
 	rigen of the user 
 
+//todo: make canvas DontDestroyOnLoad
+//https://answers.unity.com/questions/1245665/keep-some-ui-alive-between-scenes.html
+//https://answers.unity.com/questions/1396450/how-to-not-lose-canvas-reference-when-loading-new.html
+	
 Home:
-2- Fixing animation ofcharacter to transit better maybe add fight animation too 
-https://www.youtube.com/watch?v=OoutYKyb4g0
-https://www.youtube.com/watch?v=Y03jBu6enf8 (some movement improvement animantions on layers)
+Game over  Phase	
+	game over scene  
+profile scene 
+level up splash 
+	Settingscene 
+
 
 Phase 
 	Add live container

@@ -22,11 +22,8 @@ public class MoveManager : MonoBehaviour {
     private Sprite _down;
     private Sprite _right;
     private Sprite _left;
-
-    private RuntimeAnimatorController _upAnime;
-    private RuntimeAnimatorController _downAnime;
-    private RuntimeAnimatorController _righAnimet;
-    private RuntimeAnimatorController _leftAnime;
+    
+    private RuntimeAnimatorController _playerAnimeCtrl;
 
 
     //private GameObject _player;
@@ -51,11 +48,11 @@ public class MoveManager : MonoBehaviour {
         if (_animator == null)
             _animator = GameObject.FindGameObjectWithTag("Player").AddComponent<Animator>();
 
-        SetMoveSprites(1);
-        SetMoveAnimation(1);
+        SetMoveSprites(99);
+        SetMoveAnimation(99);
 
         if (DoAnimation)
-            _animator.runtimeAnimatorController = _downAnime;
+            _animator.runtimeAnimatorController = _playerAnimeCtrl;
         else
             _renderer.sprite = _down;
     }
@@ -63,59 +60,30 @@ public class MoveManager : MonoBehaviour {
     // Update is called once per frame
     void Update () {
 
+        //New moving System by touch/Mouse
+        //Touch touch = Input.GetTouch(0);
+        //Vector3 touchpos = GetComponentInChildren<Camera>().ScreenToWorldPoint(touch.position);
+        //Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //Vector3 playerpos = transform.position;
+        //_movement = (touchpos - playerpos).normalized;
+        //print( touchpos + " - " + playerpos + " = " + (touchpos - playerpos) + " normalized = " + _movement); 
+
+
+
+        //Old moving System by key board 
         //Get the value of the movemoen x -1(Left) .. +1(Right) & y -1(Down) .. +1(UP)
         _movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        HandleMove(_movement);
+        //Change Sprite or Animation according to the direction of moving
+        if (DoAnimation)
+            HandleAnimation(_movement);
+        else
+            HandleSprite(_movement);
     }
 
     private void FixedUpdate()
     {
         DoMove(_movement);
     }
-
-    private void HandleMove(Vector3 movement)
-    {
-        //GameObject PlayerCharacter;
-        //Touch touch = Input.GetTouch(0);
-        //Vector3 touchpos = GetComponentInChildren<Camera>().ScreenToWorldPoint(touch.position);
-        //Vector3 playerpos = transform.position;
-        //print("touchpos = " + touchpos+ "  playerpos = " + playerpos);
-        //PlayerCharacter.GetComponent<Transform>().position = playerpos;
-
-
-        //todo:Rotate game object according to the direction
-        //if (Mathf.Abs(movement.x) > 0.1f || Mathf.Abs(movement.y) > 0.1f)
-        //    TurnWithMovement.rotation = Quaternion.LookRotation(Vector3.back, movement.normalized);
-
-        if (movement != Vector3.zero)
-            _animator.speed = 1;
-        //Change Sprite or Animation according to the direction of moving
-        if (movement.x > 0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
-            if (DoAnimation)
-                _animator.runtimeAnimatorController = _righAnimet;
-            else
-                _renderer.sprite = _right;
-        if (movement.x < -0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
-            if (DoAnimation)
-                _animator.runtimeAnimatorController = _leftAnime;
-            else
-                _renderer.sprite = _left;
-        if (movement.y > 0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
-            if (DoAnimation)
-                _animator.runtimeAnimatorController = _upAnime;
-            else
-                _renderer.sprite = _up;
-        if (movement.y < -0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
-            if (DoAnimation)
-                _animator.runtimeAnimatorController = _downAnime;
-            else
-                _renderer.sprite = _down;
-        if (_playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
-        {
-            _animator.speed = 0;
-        }
-    }
-
     private void DoMove(Vector3 movement)
     {
         var currentSpeed = Speed;
@@ -128,6 +96,43 @@ public class MoveManager : MonoBehaviour {
         //Physics moving
         //_myRigidbody2D.velocity = movement.normalized * currentSpeed;
     }
+
+    private void HandleAnimation(Vector3 movement)
+    {
+        if (_playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
+            _animator.speed = 0;
+        else
+            _animator.speed = 1;
+        if (movement == Vector3.zero)
+            return;
+        if (movement.x > 0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
+            movement = Vector3.right;
+        else if (movement.x < -0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
+            movement = Vector3.left;
+        else if (movement.y > 0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
+            movement = Vector3.up;
+        else if (movement.y < -0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
+            movement = Vector3.down;
+        _animator.SetFloat("x",movement.x);
+        _animator.SetFloat("y", movement.y);
+
+    }
+
+    private void HandleSprite(Vector3 movement)
+    {
+        if (movement.x > 0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
+            _renderer.sprite = _right;
+        if (movement.x < -0.1f && Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
+            _renderer.sprite = _left;
+        if (movement.y > 0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
+            _renderer.sprite = _up;
+        if (movement.y < -0.1f && Mathf.Abs(movement.y) >= Mathf.Abs(movement.x))
+            _renderer.sprite = _down;
+    }
+    //TODO: Attach animation and layer
+    //https://www.youtube.com/watch?v=aOqQuD_1ylA
+    //https://www.youtube.com/watch?v=Y03jBu6enf8 (some movement improvement animantions on layers)
+
 
     private void SetMoveSprites(int charId)
     {
@@ -143,14 +148,9 @@ public class MoveManager : MonoBehaviour {
 
     private void SetMoveAnimation(int charId)
     {
-        string character = _playerCharacter.Name;
         // Load Animation Controllers
         string animationPath = "Characters/Animations/";
-
-        _righAnimet = (RuntimeAnimatorController)Resources.Load(animationPath+ character+"RightWalk"); ; 
-        _leftAnime = (RuntimeAnimatorController)Resources.Load(animationPath + character + "LeftWalk"); ; 
-        _upAnime = (RuntimeAnimatorController)Resources.Load(animationPath + character + "UpWalk"); ; 
-        _downAnime = (RuntimeAnimatorController)Resources.Load(animationPath + character + "DownWalk"); ; 
+        _playerAnimeCtrl = (RuntimeAnimatorController)Resources.Load(animationPath + _playerCharacter.Name + "Controller");
     }
 
 
