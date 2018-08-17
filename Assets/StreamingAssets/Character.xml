@@ -6,14 +6,23 @@
     <Description>Phoenix Flyer</Description>
     <IconPath>Somewhere</IconPath>
     <IconId>0</IconId>
-    <Cost>0</Cost>
-    <Weight>0</Weight>
-    <MoveType>Fly</MoveType>
-    <Attack>Close</Attack>
-    <Defence>Range</Defence>
-    <Speed>Fast</Speed>
-    <Body>Tiny</Body>
-    <Carry>Light</Carry>
+    <IsAnimated>true</IsAnimated>
+    <MoveT>Fly</MoveT>
+    <AttackR>Close</AttackR>
+    <DefenceR>Range</DefenceR>
+    <AttackT>Strength</AttackT>
+    <DefenceT>Strength</DefenceT>
+    <BasicAttack>10</BasicAttack>
+    <BasicDefence>10</BasicDefence>
+    <BasicSpeed>4</BasicSpeed>
+    <BasicHealth>1000</BasicHealth>
+    <SpeedT>Fast</SpeedT>
+    <BodyT>Tiny</BodyT>
+    <CarryT>Light</CarryT>
+    <FavouriteTerrainTypes>Land</FavouriteTerrainTypes>
+    <DropItems>1,2,4</DropItems>
+    <DropChance>0.5</DropChance>
+    <IsEnabled>true</IsEnabled>
     <Slug>Phoenix</Slug>
   </Character>
   <Character>
@@ -22,14 +31,23 @@
     <Description>Sailormoon walker</Description>
     <IconPath>Somewhere</IconPath>
     <IconId>1</IconId>
-    <Cost>0</Cost>
-    <Weight>0</Weight>
-    <MoveType>Walk</MoveType>
-    <Attack>Close</Attack>
-    <Defence>Close</Defence>
-    <Speed>Regular</Speed>
-    <Body>Slim</Body>
-    <Carry>Light</Carry>
+    <IsAnimated>true</IsAnimated>
+    <MoveT>Walk</MoveT>
+    <AttackR>Close</AttackR>
+    <DefenceR>Close</DefenceR>
+    <AttackT>Magic</AttackT>
+    <DefenceT>Magic</DefenceT>
+    <BasicAttack>5</BasicAttack>
+    <BasicDefence>5</BasicDefence>
+    <BasicSpeed>3</BasicSpeed>
+    <BasicHealth>2000</BasicHealth>
+    <SpeedT>Regular</SpeedT>
+    <BodyT>Slim</BodyT>
+    <CarryT>Light</CarryT>
+    <FavouriteTerrainTypes>Land</FavouriteTerrainTypes>
+    <DropItems>3,4,5</DropItems>
+    <DropChance>0.5</DropChance>
+    <IsEnabled>true</IsEnabled>
     <Slug>Sailormoon</Slug>
   </Character>
 </ArrayOfCharacter>

@@ -26,6 +26,7 @@ public class TerrainIns
     public bool Flyable { get; set; }
     public bool Swimable { get; set; }
     public bool HasElement { get; set; }
+    public bool HasMonster { get; set; }
     public string DropItems { get; set; }
     public float DropChance { get; set; }
     public TerrainType Type { get; set; }

@@ -36,7 +36,6 @@ public class TerrainActions : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyToConsume))
         {
-
             var currentElement = Terrain_Manager.GetEllement(pos.x, pos.y);
             if (currentElement != null)
             {
@@ -58,7 +57,6 @@ public class TerrainActions : MonoBehaviour {
                 }
                 return;
             }
-
             TerrainIns currentTerrain = Terrain_Manager.SelectTerrain(pos.x, pos.y);
             if (currentTerrain != null)
             {
@@ -80,7 +78,6 @@ public class TerrainActions : MonoBehaviour {
                 return;
             }
         }
-
         if (Input.GetKeyDown(KeyToDrop))
         {
             //print("###inside Terrainaction: " + pos);
@@ -91,13 +88,11 @@ public class TerrainActions : MonoBehaviour {
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+            print(collision.gameObject.name);
+    }
 
-    //public void DropItem(int id)
-    //{
-    //    var pos = transform.position;
-    //    pos.z += 0.01f;
-    //    DropItem(pos, 1, id.ToString());
-    //}
 
     private void DropItem(Vector3 pos, float chance, string dropItems)
     {

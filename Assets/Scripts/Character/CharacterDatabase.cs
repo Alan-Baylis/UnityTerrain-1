@@ -10,7 +10,7 @@ public class CharacterDatabase : MonoBehaviour {
 
     private static CharacterDatabase _characterDatabase;
 
-    private List<Character> _characters = new List<Character>();
+    internal List<Character> _characters = new List<Character>();
     private List<ItemContainer> _characterInventory = new List<ItemContainer>();
     private CharacterSetting _characterSetting;
     private CharacterMixture _characterMixture;
@@ -29,27 +29,8 @@ public class CharacterDatabase : MonoBehaviour {
     public Character.SpeedType Speed;
     public Character.BodyType Body;
     public Character.CarryType Carry;
-    public void CreateCharacter()
-    {
-        LoadCharacters();
-        //Add Character through the public properties 
-        Character tempCharacter = new Character(
-            _characters.Count,
-            Name,
-            Description,
-            Type,
-            Attack,
-            Defence,
-            Speed,
-            Body,
-            Carry
-        );
-        if (!tempCharacter.Exist(_characters))
-            _characters.Add(tempCharacter);
-        //Save the new list back in Character.xml file in the streamingAssets folder
-        SaveCharacters();
-    }
-    
+
+   
     void Awake()
     {
         _characterDatabase = CharacterDatabase.Instance();
@@ -66,14 +47,21 @@ public class CharacterDatabase : MonoBehaviour {
 
         tempCharacter = new Character(
             _characters.Count,
-            "Phoenix",
-            "Phoenix Flyer",
-            Character.CharacterType.Fly,
-            Character.AttackType.Close,
-            Character.DefenceType.Range,
-            Character.SpeedType.Fast,
-            Character.BodyType.Tiny,
-            Character.CarryType.Light
+            "Sailormoon",
+            "Sailormoon walker",
+            Character.CharacterType.Walk,
+            Character.AttackRange.Close,
+            Character.DefenceRange.Close,
+            Character.AttackType.Magic,
+            Character.DefenceType.Magic,
+            5, //Att
+            5, //def
+            Character.SpeedType.Regular,
+            Character.BodyType.Slim,
+            Character.CarryType.Light,
+            TerrainIns.TerrainType.Land,
+            "3,4,5",
+            0.5f
         );
         if (!tempCharacter.Exist(_characters))
         {
@@ -164,6 +152,8 @@ public class CharacterDatabase : MonoBehaviour {
         serializer.Serialize(fs, _characters);
         fs.Close();
     }
+    //Monster 
+
     //CharacterSetting
     public CharacterSetting FindCharacterSetting(int id)
     {
@@ -218,7 +208,6 @@ public class CharacterDatabase : MonoBehaviour {
         serializer.Serialize(fs, _characterMixture);
         fs.Close();
     }
-
     //Instance
     public static CharacterDatabase Instance()
     {
@@ -231,5 +220,8 @@ public class CharacterDatabase : MonoBehaviour {
         return _characterDatabase;
     }
 
-
+    internal MonsterIns GenerateMonster(Character monsterCharacter)
+    {
+        return new MonsterIns(monsterCharacter, _characterSetting.Level);
+    }
 }

@@ -31,10 +31,18 @@ Research Phase
 
 	
 Fight Phase	
-Scene for fight (fight logic  Att aganst Shields if more shield then get att)
-	https://www.youtube.com/watch?v=W8ielU8iURI
+
+1- Inscene fight 
+	1-https://www.youtube.com/watch?v=1MgnZ3SK_h8
+	2-https://www.youtube.com/watch?v=r8kIVR9oXXE
+	3-https://www.youtube.com/watch?v=iD_Bpcy_p5s
+	more video in thecode 
 damage puop up 
 	https://www.youtube.com/watch?v=fbUOG7f3jq8
+	
+2- Seperate scene fight 
+	Scene for fight (fight logic  Att aganst Shields if more shield then get att)
+	https://www.youtube.com/watch?v=W8ielU8iURI
 	
 
 

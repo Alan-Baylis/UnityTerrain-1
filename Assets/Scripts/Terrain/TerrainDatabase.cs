@@ -10,9 +10,9 @@ public class TerrainDatabase : MonoBehaviour {
     private static TerrainDatabase _terrainDatabase;
 
 
-    public List<EllementIns> _ellements = new List<EllementIns>();
-    public List<TerrainIns> _terrains = new List<TerrainIns>();
-
+    internal List<EllementIns> _ellements = new List<EllementIns>();
+    internal List<TerrainIns> _terrains = new List<TerrainIns>();
+    internal List<Character> _character = new List<Character>();
 
     void Awake()
     {
@@ -24,10 +24,9 @@ public class TerrainDatabase : MonoBehaviour {
 
     private void LoadTerrains()
     {
-        //Empty the Recipes DB
         _terrains.Clear();
         string path = Path.Combine(Application.streamingAssetsPath, "Terrain.xml");
-        //Read the Recipes from Recipe.xml file in the streamingAssets folder
+        //Read the Recipes from Terrain.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(List<TerrainIns>));
         FileStream fs = new FileStream(path, FileMode.Open);
         _terrains = (List<TerrainIns>)serializer.Deserialize(fs);
@@ -36,16 +35,14 @@ public class TerrainDatabase : MonoBehaviour {
 
     private void LoadEllements()
     {
-        //Empty the Recipes DB
         _ellements.Clear();
         string path = Path.Combine(Application.streamingAssetsPath, "Ellement.xml");
-        //Read the Recipes from Recipe.xml file in the streamingAssets folder
+        //Read the Recipes from Ellement.xml file in the streamingAssets folder
         XmlSerializer serializer = new XmlSerializer(typeof(List<EllementIns>));
         FileStream fs = new FileStream(path, FileMode.Open);
         _ellements = (List<EllementIns>)serializer.Deserialize(fs);
         fs.Close();
     }
-
 
     public static TerrainDatabase Instance()
     {

@@ -12,6 +12,7 @@
   <Updated>true</Updated>
   <Rank>0</Rank>
   <ClanId>0</ClanId>
+  <ClanRank>None</ClanRank>
   <Live>0</Live>
   <Coin>26476</Coin>
   <Gem>659</Gem>
@@ -32,6 +33,7 @@
   <MagicDefence>0</MagicDefence>
   <PoisonAttack>0</PoisonAttack>
   <PoisonDefence>0</PoisonDefence>
+  <Ellement>None</Ellement>
   <Carry>110</Carry>
   <CarryCnt>6</CarryCnt>
   <Speed>3</Speed>

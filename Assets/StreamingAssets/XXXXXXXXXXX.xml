@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<ArrayOfMonsterSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <MonsterSetting>
+    <Id>0</Id>
+    <CharacterId>Mon 1</CharacterId>
+    <Description>Mon 1</Description>
+    <BasicHealth>100</BasicHealth>
+    <BasicAttack>10</BasicAttack>
+    <BasicDefence>10</BasicDefence>
+    <BasicSpeed>10</BasicSpeed>
+    <BasicAttack>10</BasicAttack>
+    <FavouriteTerrainTypes>Land</FavouriteTerrainTypes>
+    <DropItems>1,2,3</DropItems>
+    <DropChance>0.7</DropChance>
+    <IsEnabled>true</IsEnabled>
+  </MonsterSetting>
+</ArrayOfMonsterSetting>

@@ -41,11 +41,11 @@ public class Move : MonoBehaviour {
         var ellement = Terrain_Manager.GetEllement(mapPos);
         if (
             //Terrain Types and charcter type 
-            (!terrain.Walkable && _characterManager.Character.MoveType == Character.CharacterType.Walk) ||
-            (!terrain.Flyable && _characterManager.Character.MoveType == Character.CharacterType.Fly) ||
-            (!terrain.Swimable && _characterManager.Character.MoveType == Character.CharacterType.Swim) ||
+            (!terrain.Walkable && _characterManager.Character.MoveT == Character.CharacterType.Walk) ||
+            (!terrain.Flyable && _characterManager.Character.MoveT == Character.CharacterType.Fly) ||
+            (!terrain.Swimable && _characterManager.Character.MoveT == Character.CharacterType.Swim) ||
             //ellement + character
-            (ellement != null && !ellement.EllementTypeInUse.Enterable && _characterManager.Character.MoveType != Character.CharacterType.Fly)
+            (ellement != null && !ellement.EllementTypeInUse.Enterable && _characterManager.Character.MoveT != Character.CharacterType.Fly)
             )
         {
             return true;
@@ -59,6 +59,7 @@ public class Move : MonoBehaviour {
 	    Vector3 currentPos = transform.position;
 	    Vector2 mapPos = Terrain_Manager.WorldToMapPosition(currentPos);
 	    var ellement = Terrain_Manager.GetEllement(mapPos);
+	    var Monster = Terrain_Manager.GetMonster(mapPos);
         //print("###Inside Move Update: "+ currentPos+ previousPosition+ mapPos);
         if (IsBlocked(currentPos))
         { 

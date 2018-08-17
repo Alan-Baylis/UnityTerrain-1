@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [Serializable]
@@ -12,16 +13,29 @@ public class Character {
         Fly,
         Swim
     }
-    public enum AttackType
+    public enum AttackRange
     {
         Range, 
         Close
     }
-    public enum DefenceType
+    public enum DefenceRange
     {
         Range,
         Close
     }
+    public enum AttackType
+    {
+        Strength,
+        Magic,
+        Poison
+    }
+    public enum DefenceType
+    {
+        Strength,
+        Magic,
+        Poison
+    }
+
     public enum SpeedType
     {
         Slug = 1,
@@ -49,36 +63,77 @@ public class Character {
         Hefty
     }
 
+    public enum Ellements
+    {
+        None,
+        Ice,
+        Fire,
+        Water,
+        Earth,
+        Metal
+    }
+
+    public enum ClanRanks
+    {
+        None,
+        User,
+        Commander,
+        Chief
+    }
+
     //todo: make all set private to nost screw db ?? 
     public int Id { get; private set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string IconPath { get; set; }
     public int IconId { get; set; }
-    //public Sprite Icon { get; set; }
-    public int Cost { get; set; }
-    public int Weight { get; set; }
-    public CharacterType MoveType { get; set; }
-    public AttackType Attack { get; set; }
-    public DefenceType Defence { get; set; }
-    public SpeedType Speed { get; set; }
-    public BodyType Body { get; set; }
-    public CarryType Carry { get; set; }
+    public bool IsAnimated { get; set; }
+    public CharacterType MoveT { get; set; }
+    public AttackRange AttackR { get; set; }
+    public DefenceRange DefenceR { get; set; }
+    public AttackType AttackT { get; set; }
+    public DefenceType DefenceT { get; set; }
+    public float BasicAttack { get; set; }
+    public float BasicDefence { get; set; }
+    public float BasicSpeed { get; set; }
+    public int BasicHealth { get; set; }
+    public SpeedType SpeedT { get; set; }
+    public BodyType BodyT { get; set; }
+    public CarryType CarryT { get; set; }
+    public TerrainIns.TerrainType FavouriteTerrainTypes { get; set; }
+    public string DropItems { get; set; }
+    public float DropChance { get; set; }
+    public bool IsEnabled { get; set; }
     public string Slug { get; set; }
 
-    public Character(int id, string name, string desc, CharacterType moveType, AttackType attack, DefenceType defence, SpeedType speed, BodyType body, CarryType carry)
+    public Character(int id, string name, string desc, 
+        CharacterType moveT, AttackRange attackR, DefenceRange defenceR, AttackType attackT, DefenceType defenceT,
+        int basicAttack, int basicDefence, 
+        SpeedType speedT, BodyType bodyT, CarryType carryT,
+        TerrainIns.TerrainType favouriteTerrainTypes, string dropItems,float dropChance)
     {
         Id = id;
         Name = name;
         Description = desc;
         IconPath = "Somewhere";
         IconId = id;
-        MoveType = moveType;
-        Attack = attack;
-        Defence = defence;
-        Speed = speed;
-        Body = body;
-        Carry = carry;
+        IsAnimated = true;
+        MoveT = moveT;
+        AttackR = attackR;
+        DefenceR = defenceR;
+        AttackT = attackT;
+        DefenceT = defenceT;
+        BasicAttack = basicAttack;
+        BasicDefence = basicDefence;
+        BasicSpeed = (int) speedT;
+        BasicHealth = (int)bodyT * 1000;
+        SpeedT = speedT;
+        BodyT = bodyT;
+        CarryT = carryT;
+        DropItems = dropItems;
+        DropChance = dropChance;
+        FavouriteTerrainTypes = favouriteTerrainTypes;
+        IsEnabled = true;
         Slug = name.Replace(" ", "_");
     }
 
@@ -89,9 +144,18 @@ public class Character {
 
     public Sprite GetSprite()
     {
-        Sprite[] spriteList = Resources.LoadAll<Sprite>(IconPath);
-        return spriteList[IconId];
+        Sprite[] characterSprites = Resources.LoadAll<Sprite>("Characters/" + Name);
+        // Get specific sprite
+        return characterSprites.Single(s => s.name == "right_3");
     }
+
+    public RuntimeAnimatorController GetAnimator()
+    {
+        // Load Animation Controllers
+        string animationPath = "Characters/Animations/";
+        return (RuntimeAnimatorController)Resources.Load(animationPath + Name + "Controller");
+    }
+
 
     public bool Exist(List<Character> characters)
     {
@@ -100,5 +164,5 @@ public class Character {
                 return true;
         return false;
     }
-
+    
 }

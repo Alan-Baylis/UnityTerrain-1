@@ -61,18 +61,25 @@ public class MoveManager : MonoBehaviour {
     void Update () {
 
         //New moving System by touch/Mouse
+        //Vector3 touchpos;
         //Touch touch = Input.GetTouch(0);
-        //Vector3 touchpos = GetComponentInChildren<Camera>().ScreenToWorldPoint(touch.position);
-        //Vector3 touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //Vector3 playerpos = transform.position;
-        //_movement = (touchpos - playerpos).normalized;
-        //print( touchpos + " - " + playerpos + " = " + (touchpos - playerpos) + " normalized = " + _movement); 
-
+        ////touchpos = GetComponentInChildren<Camera>().ScreenToWorldPoint(touch.position);
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    touchpos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    Vector3 playerpos = transform.position;
+        //    _movement = (touchpos - playerpos).normalized;
+        //    print(touchpos + " - " + playerpos + " = " + (touchpos - playerpos) + " normalized = " + _movement);
+        //}
 
 
         //Old moving System by key board 
         //Get the value of the movemoen x -1(Left) .. +1(Right) & y -1(Down) .. +1(UP)
         _movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+
+
+
+
         //Change Sprite or Animation according to the direction of moving
         if (DoAnimation)
             HandleAnimation(_movement);
@@ -99,7 +106,7 @@ public class MoveManager : MonoBehaviour {
 
     private void HandleAnimation(Vector3 movement)
     {
-        if (_playerCharacter.MoveType != Character.CharacterType.Fly && movement == Vector3.zero)
+        if (_playerCharacter.MoveT != Character.CharacterType.Fly && movement == Vector3.zero)
             _animator.speed = 0;
         else
             _animator.speed = 1;

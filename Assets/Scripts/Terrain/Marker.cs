@@ -8,13 +8,15 @@ public class Marker  {
     public TerrainIns Terrain { get; set; }
     public Vector2 Location { get; set; }
     public bool HasEllement { get; set; }
+    public bool HasMonster { get; set; }
     //public float EllementMass { get; set; }
     public char[,] CharMap { get; set; }
 
-    protected Marker(TerrainIns terrain, bool hasEllement, Vector2 location)
+    protected Marker(TerrainIns terrain, Vector2 location)
     {
         Terrain = terrain;
-        HasEllement = hasEllement;
+        HasEllement = terrain.HasElement;
+        HasMonster = terrain.HasMonster;
         Location = location;
         CharMap = new char[16, 16];
         for (int x = 0; x < 16; x++)
@@ -36,7 +38,7 @@ public class Marker  {
                 var terrain = activeTerrains[RandomHelper.Range(x + iX, y + iY, key, activeTerrains.Count)];
                 //it will be a city if the terrain is walkable && a small chance to be city 
                 Vector2 location = new Vector2((int) (x + iX) << 4, (int) (y + iY) << 4);
-                markers[markerIndex] = new Marker(terrain, terrain.HasElement, location);
+                markers[markerIndex] = new Marker(terrain, location);
                 //Debug.Log(markerIndex + "-" + markers[markerIndex].Terrain.Name +" " + markers[markerIndex].Location);
                 markerIndex++;
             }
