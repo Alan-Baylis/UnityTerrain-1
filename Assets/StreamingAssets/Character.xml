@@ -12,8 +12,8 @@
     <DefenceR>Range</DefenceR>
     <AttackT>Strength</AttackT>
     <DefenceT>Strength</DefenceT>
-    <BasicAttack>10</BasicAttack>
-    <BasicDefence>10</BasicDefence>
+    <BasicAttack>1</BasicAttack>
+    <BasicDefence>2</BasicDefence>
     <BasicSpeed>4</BasicSpeed>
     <BasicHealth>1000</BasicHealth>
     <SpeedT>Fast</SpeedT>
@@ -37,8 +37,8 @@
     <DefenceR>Close</DefenceR>
     <AttackT>Magic</AttackT>
     <DefenceT>Magic</DefenceT>
-    <BasicAttack>5</BasicAttack>
-    <BasicDefence>5</BasicDefence>
+    <BasicAttack>2</BasicAttack>
+    <BasicDefence>3</BasicDefence>
     <BasicSpeed>3</BasicSpeed>
     <BasicHealth>2000</BasicHealth>
     <SpeedT>Regular</SpeedT>

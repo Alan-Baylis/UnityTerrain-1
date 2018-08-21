@@ -58,13 +58,18 @@ public class MonsterIns
         DefenceSpeed = monsterCharacter.BasicSpeed;
         AbilityAttack = monsterCharacter.AttackT == Character.AttackType.Strength ? monsterCharacter.BasicAttack * Level : 0;
         AbilityDefence = monsterCharacter.AttackT == Character.AttackType.Strength ? monsterCharacter.BasicDefence * Level : 0;
-        MagicAttack = monsterCharacter.AttackT == Character.AttackType.Strength ? monsterCharacter.BasicAttack * Level : 0;
-        MagicDefence = monsterCharacter.AttackT == Character.AttackType.Strength ? monsterCharacter.BasicDefence * Level : 0;
-        PoisonAttack = monsterCharacter.AttackT == Character.AttackType.Strength ? monsterCharacter.BasicAttack * Level : 0;
-        PoisonDefence = monsterCharacter.AttackT == Character.AttackType.Strength ? monsterCharacter.BasicDefence * Level : 0;
+        MagicAttack = monsterCharacter.AttackT == Character.AttackType.Magic ? monsterCharacter.BasicAttack * Level : 0;
+        MagicDefence = monsterCharacter.AttackT == Character.AttackType.Magic ? monsterCharacter.BasicDefence * Level : 0;
+        PoisonAttack = monsterCharacter.AttackT == Character.AttackType.Poison ? monsterCharacter.BasicAttack * Level : 0;
+        PoisonDefence = monsterCharacter.AttackT == Character.AttackType.Poison ? monsterCharacter.BasicDefence * Level : 0;
         Speed = monsterCharacter.BasicSpeed;
         Ellement = Character.Ellements.None;
         Level = level;
+    }
+
+    public Character GetCharacter()
+    {
+        return _monsterCharacter;
     }
 
     internal void Print()

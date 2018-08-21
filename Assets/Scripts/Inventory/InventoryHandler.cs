@@ -135,7 +135,6 @@ public class InventoryHandler : MonoBehaviour
                 InvSlots[i].name = itemObject.name = _invItems[i].Name;
                 if (_invItems[i].Id != -1)
                 {
-
                     itemObject.GetComponent<Image>().sprite = _invItems[i].GetSprite();
                     itemObject.transform.GetChild(0).GetComponent<Text>().text = _invItems[i].StackCnt > 1 ? _invItems[i].StackCnt.ToString() :"";
                 }

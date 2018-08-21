@@ -7,6 +7,7 @@ public class ActiveMonsterType : MonoBehaviour
     public MonsterIns MonsterType;
     public Vector3 OrgLocation;
     public Vector3 NewLocation;
+    public bool SawTarget;
     public bool Alive;
-    public bool Reset;
+    public bool Moved;
 }

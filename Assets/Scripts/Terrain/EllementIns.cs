@@ -17,6 +17,8 @@ public class EllementIns {
 
     public int Id { get; set; }
     public string Name { get; set; }
+    public string MultipleName { get; set; }
+    public int MultipleId { get; set; }
     public bool Walkable { get; set; }
     public bool Flyable { get; set; }
     public bool Swimable { get; set; }
@@ -38,7 +40,15 @@ public class EllementIns {
 
     public void BuildSprite()
     {
-        _tile = Resources.Load<Sprite>("Ellements/"+ Name);
+        if (MultipleId!=-1)
+        {
+            Sprite[] sprites = Resources.LoadAll<Sprite>("Ellements/" + MultipleName);
+            // Get specific sprite
+            _tile = sprites[MultipleId];
+
+        }
+        else
+            _tile = Resources.Load<Sprite>("Ellements/"+ Name);
     }
 
 

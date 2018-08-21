@@ -4,8 +4,8 @@ using System.Linq;
 using UnityEngine;
 
 public class TerrainActions : MonoBehaviour {
+    private TerrainManager _terrainManager;
 
-    public TerrainManager Terrain_Manager;
     private InventoryHandler _inv;
     public KeyCode KeyToConsume = KeyCode.C;
     public KeyCode KeyToDrop = KeyCode.D;
@@ -19,6 +19,7 @@ public class TerrainActions : MonoBehaviour {
     void Start () {
         _cache = Cache.Get();
         _inv = InventoryHandler.Instance();
+        _terrainManager = TerrainManager.Instance();
     }
 	
 	// Update is called once per frame
@@ -28,20 +29,20 @@ public class TerrainActions : MonoBehaviour {
         pos.z += 0.01f;
         if (Input.GetKeyDown(KeyToPick))
         {
-            ActiveItemType currentItem = Terrain_Manager.GetDropItem(pos.x, pos.y);
+            ActiveItemType currentItem = _terrainManager.GetDropItem(pos.x, pos.y);
             if (currentItem != null)
                 if (_inv.AddItemToInventory(currentItem.ItemTypeInUse.Id))
-                    Terrain_Manager.DistroyItem(currentItem);
+                    _terrainManager.DistroyItem(currentItem);
         }
 
         if (Input.GetKeyDown(KeyToConsume))
         {
-            var currentElement = Terrain_Manager.GetEllement(pos.x, pos.y);
+            var currentElement = _terrainManager.GetEllement(pos.x, pos.y);
             if (currentElement != null)
             {
                 if (currentElement.EllementTypeInUse.Distroyable)
                 {
-                    if (Terrain_Manager.DistroyEllement(currentElement, true))
+                    if (_terrainManager.DistroyEllement(currentElement, true))
                     {
                         Vector3 elementPos = currentElement.transform.position;
                         //Remember Consume elemnt to not draw them 
@@ -57,13 +58,13 @@ public class TerrainActions : MonoBehaviour {
                 }
                 return;
             }
-            TerrainIns currentTerrain = Terrain_Manager.SelectTerrain(pos.x, pos.y);
+            TerrainIns currentTerrain = _terrainManager.SelectTerrain(pos.x, pos.y);
             if (currentTerrain != null)
             {
                 if (currentTerrain.Diggable)
                 {
                     pos.y -= 0.2f;
-                    if (Terrain_Manager.CreateDigging(pos,true))
+                    if (_terrainManager.CreateDigging(pos,true))
                     {
                         _cache.Add(new CacheContent()
                             {
@@ -81,7 +82,7 @@ public class TerrainActions : MonoBehaviour {
         if (Input.GetKeyDown(KeyToDrop))
         {
             //print("###inside Terrainaction: " + pos);
-            TerrainIns currentTerrain = Terrain_Manager.SelectTerrain(pos.x, pos.y);
+            TerrainIns currentTerrain = _terrainManager.SelectTerrain(pos.x, pos.y);
             if (currentTerrain != null)
                 if (currentTerrain.Walkable)
                     DropItem(pos, 1, "0,1,2,3,4");
@@ -104,7 +105,7 @@ public class TerrainActions : MonoBehaviour {
             {
                 //todo: item based on rarity of item 
                 int itemId = items[RandomHelper.Range(pos, 1, items.Count)];
-                Terrain_Manager.CreateItem(pos, itemId);
+                _terrainManager.CreateItem(pos, itemId);
                 _cache.Add(new CacheContent()
                     {
                         Location = pos,

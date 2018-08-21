@@ -23,49 +23,42 @@
     </Consumable>
   </ItemContainer>
   <ItemContainer>
-    <Weapon>
-      <Id>2</Id>
-      <Name>Small Sword</Name>
-      <Description>Small Sword</Description>
-      <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>73</IconId>
-      <Cost>10</Cost>
-      <Weight>3</Weight>
+    <Tool>
+      <Id>6</Id>
+      <Name>Iron Shovel</Name>
+      <Description>Iron Shovel</Description>
+      <IconPath>Inventory/InventoryTools</IconPath>
+      <IconId>16</IconId>
+      <Cost>1</Cost>
+      <Weight>5</Weight>
       <MaxStackCnt>1</MaxStackCnt>
       <StackCnt>1</StackCnt>
-      <Type>Weapon</Type>
+      <Type>Tool</Type>
       <Rarity>Common</Rarity>
-      <Slug>Small_Sword</Slug>
+      <Slug>Iron_Shovel</Slug>
       <DurationDays>365</DurationDays>
-      <ExpirationTime>2019-06-14T15:17:24.2938024-05:00</ExpirationTime>
+      <ExpirationTime>2019-08-09T11:51:45.0731418-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
-      <CarryType>OneHand</CarryType>
-      <AttackSpeed>1</AttackSpeed>
-      <DefenceSpeed>0</DefenceSpeed>
-      <AbilityAttack>1</AbilityAttack>
-      <AbilityDefence>0</AbilityDefence>
-      <MagicAttack>0</MagicAttack>
-      <MagicDefence>0</MagicDefence>
-      <PoisonAttack>0</PoisonAttack>
-      <PoisonDefence>0</PoisonDefence>
-    </Weapon>
+      <TimeToUse>-69</TimeToUse>
+      <FavouriteEllement>Hole</FavouriteEllement>
+    </Tool>
   </ItemContainer>
   <ItemContainer>
     <Equipment>
-      <Id>5</Id>
-      <Name>Basic Glove</Name>
-      <Description>Basic glove from animal leather</Description>
+      <Id>4</Id>
+      <Name>Basic Shoe</Name>
+      <Description>Basic shoe from animal leather</Description>
       <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>204</IconId>
-      <Cost>3</Cost>
+      <IconId>197</IconId>
+      <Cost>5</Cost>
       <Weight>1</Weight>
       <MaxStackCnt>2</MaxStackCnt>
       <StackCnt>2</StackCnt>
       <Type>Equipment</Type>
       <Rarity>Common</Rarity>
-      <Slug>Basic_Glove</Slug>
+      <Slug>Basic_Shoe</Slug>
       <DurationDays>365</DurationDays>
-      <ExpirationTime>2019-06-28T18:35:01.5138436-05:00</ExpirationTime>
+      <ExpirationTime>2019-06-21T11:37:40.2849039-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
       <PlaceHolder>Feet</PlaceHolder>
       <Agility>0</Agility>
@@ -74,7 +67,7 @@
       <CarryCnt>0</CarryCnt>
       <Confidence>0</Confidence>
       <Intellect>0</Intellect>
-      <Krafting>1</Krafting>
+      <Krafting>0</Krafting>
       <Researching>0</Researching>
       <Speed>0</Speed>
       <Stemina>0</Stemina>
@@ -103,8 +96,44 @@
       <Energy>0</Energy>
     </Consumable>
   </ItemContainer>
-  <ItemContainer />
-  <ItemContainer />
+  <ItemContainer>
+    <Substance>
+      <Id>3</Id>
+      <Name>Round Rock</Name>
+      <Description>Round Rock</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>240</IconId>
+      <Cost>0</Cost>
+      <Weight>5</Weight>
+      <MaxStackCnt>5</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Substance</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Round_Rock</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-06-14T17:06:57.5051813-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+    </Substance>
+  </ItemContainer>
+  <ItemContainer>
+    <Substance>
+      <Id>3</Id>
+      <Name>Round Rock</Name>
+      <Description>Round Rock</Description>
+      <IconPath>Inventory/InventorySet1</IconPath>
+      <IconId>240</IconId>
+      <Cost>0</Cost>
+      <Weight>5</Weight>
+      <MaxStackCnt>5</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Substance</Type>
+      <Rarity>Common</Rarity>
+      <Slug>Round_Rock</Slug>
+      <DurationDays>365</DurationDays>
+      <ExpirationTime>2019-06-14T17:06:57.5051813-05:00</ExpirationTime>
+      <IsEnable>true</IsEnable>
+    </Substance>
+  </ItemContainer>
   <ItemContainer />
   <ItemContainer />
   <ItemContainer />

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class CharacterManager : MonoBehaviour {
 
@@ -141,8 +142,10 @@ public class CharacterManager : MonoBehaviour {
                 CharacterSetting.Agility += value;
                 break;
             case "Health":
-                CharacterSetting.Health -= (int)value;
-                CharacterSetting.Coin += 1;
+                //print(field + CharacterSetting.Health + "+"+value);
+                CharacterSetting.Health += (int)value;
+                if (CharacterSetting.Health < 0)
+                    DoGameOver();
                 break;
             case "Energy":
                 CharacterSetting.Energy += (int)value;
@@ -162,6 +165,11 @@ public class CharacterManager : MonoBehaviour {
         }
         CharacterSetting.Updated = true;
         SaveCharacterSetting();
+    }
+
+    private void DoGameOver()
+    {
+        throw new NotImplementedException();
     }
 
     public void CharacterSettingUseItem(ItemContainer item, int energy,bool save)

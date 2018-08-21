@@ -16,12 +16,15 @@ public class TerrainManager : MonoBehaviour {
     public Sprite Dig;
 
 
+    private static TerrainManager _terrainManager;
     private InventoryHandler _inv;
     private ItemDatabase _itemDatabase;
     private TerrainDatabase _terrainDatabase;
     private CharacterDatabase _characterDatabase;
 
     private int _horizontalTiles = 25;
+
+    private int _baseSortIndex = 0;
     private List<TerrainIns> _terrainTypes;
     private List<TerrainIns> _availableTerrainTypes = new List<TerrainIns>();
 
@@ -42,6 +45,8 @@ public class TerrainManager : MonoBehaviour {
 
     private Cache _cache;
 
+    [SerializeField]
+    private GameObject MonsterObj;
 
     void Start()
     {
@@ -50,6 +55,7 @@ public class TerrainManager : MonoBehaviour {
         _terrainDatabase = TerrainDatabase.Instance();
         _characterDatabase = CharacterDatabase.Instance();
         _cache = Cache.Get();
+        _terrainManager = TerrainManager.Instance();
         _terrainTypes = _terrainDatabase._terrains;
         _ellementTypes = _terrainDatabase._ellements;
         _monsterTypes = _characterDatabase._characters;
@@ -61,7 +67,6 @@ public class TerrainManager : MonoBehaviour {
         //todo: make the player private
         //Player = GameObject.FindGameObjectWithTag("PlayerCamera").transform;
 
-        int sortIndex = 0;
         var offset = new Vector3(0 - _horizontalTiles / 2, 0 - _verticalTiles / 2, 0);
         _renderers = new SpriteRenderer[_horizontalTiles, _verticalTiles];
 
@@ -72,7 +77,7 @@ public class TerrainManager : MonoBehaviour {
                 var tile = new GameObject();
                 tile.transform.position = new Vector3(x, y, 0) + offset;
                 var renderer = _renderers[x, y] = tile.AddComponent<SpriteRenderer>();
-                renderer.sortingOrder = sortIndex--;
+                renderer.sortingOrder = _baseSortIndex;
                 tile.name = "Terrain " + tile.transform.position;
                 tile.transform.parent = transform;
             }
@@ -90,6 +95,7 @@ public class TerrainManager : MonoBehaviour {
         if (starter == null)
             SetPlayerlocation();
     }
+
 
 
     void Update()
@@ -150,6 +156,7 @@ public class TerrainManager : MonoBehaviour {
         }
 
         //Destruction happen at the end of the frame not immediately 
+        CacheMonsters();
         _ellements.ForEach(x => Destroy(x.gameObject));
         _ellements.Clear();
         _monsters.ForEach(x => Destroy(x.gameObject));
@@ -179,27 +186,11 @@ public class TerrainManager : MonoBehaviour {
             if (currentElement!=null)
                 DistroyEllement(currentElement,false);
         }
-        //foreach (var monster in _cache.Find("MovedMonster", transform.position, _horizontalTiles / 2, true))
-        //{
-        //    var currentMonster = GetMonster(monster.Location.x, monster.Location.y);
-        //    if (currentMonster!=null)
-        //    {
-        //        if (currentMonster.Alive)
-        //        {
-        //            if (currentMonster.Reset)
-        //            {
-        //                //Remove from MovedMonster cache 
-        //                continue;
-        //            }
-        //            currentMonster.NewLocation = monster.Location;
-        //            currentMonster.transform.position = monster.Location;
-        //        }
-        //        else
-        //            DistroyMonster(currentMonster, false);
-        //    }
-        //}
+
+        UnCacheMonsters(transform.position, _horizontalTiles / 2);
         LoadCaches();
     }
+
 
     private void LoadCaches()
     {
@@ -288,6 +279,7 @@ public class TerrainManager : MonoBehaviour {
         var renderer = ellement.AddComponent<SpriteRenderer>();
         var ellementInfo = _availableEllementTypes[RandomHelper.Range(ellement.transform.position, Key, _availableEllementTypes.Count)];
         renderer.sprite = ellementInfo.GetSprite();
+        renderer.sortingOrder = _baseSortIndex+  5;
         active.EllementTypeInUse = ellementInfo;
 
         ellement.name = "Ellement " + ellement.transform.position;
@@ -300,8 +292,9 @@ public class TerrainManager : MonoBehaviour {
         {
             var bLoc = ellement.transform.position;
             //Mappos inbetween the ellement 
-            if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
-                return ellement;
+            //if (mapPos.x == bLoc.x && mapPos.y == bLoc.y)
+                if (Math.Abs(bLoc.x - mapPos.x) < 1 && Math.Abs(bLoc.y - mapPos.y) < 1)
+                    return ellement;
         }
         return null;
     }
@@ -388,44 +381,45 @@ public class TerrainManager : MonoBehaviour {
     }
     private ActiveMonsterType CreateMonsters(Vector3 location)
     {
-        var monster = new GameObject();
-        var active = monster.AddComponent<ActiveMonsterType>();
-        _monsters.Add(active);
+        GameObject monster = Instantiate(MonsterObj);
         monster.transform.position = location;
+        monster.transform.parent = transform;
+        monster.name = "Monster " + monster.transform.position;
+
+        var active = monster.GetComponent<ActiveMonsterType>();
+        var spriteRenderer = monster.GetComponent<SpriteRenderer>();
         active.OrgLocation = location;
+        active.Alive = true;
+        _monsters.Add(active);
+
         var monsterCharacter = _availableCharacterTypes[RandomHelper.Range(monster.transform.position, Key, _availableEllementTypes.Count)];
 
-        var renderer = monster.AddComponent<SpriteRenderer>();
-        renderer.sprite = monsterCharacter.GetSprite();
-        var rigidbody2D = monster.AddComponent<Rigidbody2D>();
-        //rigidbody2D.bodyType = RigidbodyType2D.Static;
-        rigidbody2D.gravityScale = 0;
-        rigidbody2D.freezeRotation = true;
+        spriteRenderer.sprite = monsterCharacter.GetSprite();
+        if (monsterCharacter.MoveT == Character.CharacterType.Fly)
+            spriteRenderer.sortingOrder = _baseSortIndex +  6;
+        else
+            spriteRenderer.sortingOrder = _baseSortIndex +  3;
         if (monsterCharacter.IsAnimated)
         {
-            var animator = monster.AddComponent<Animator>();
+            var animator = monster.GetComponent<Animator>();
             animator.runtimeAnimatorController = monsterCharacter.GetAnimator();
-            if (monsterCharacter.MoveT == Character.CharacterType.Fly)
-                animator.speed = 1;
-            else
-                animator.speed = 0;
+            animator.speed = monsterCharacter.MoveT == Character.CharacterType.Fly ? 1 : 0;
         }
         active.MonsterType = _characterDatabase.GenerateMonster(monsterCharacter);
-        monster.name = "Monster " + monster.transform.position;
-        monster.transform.parent = transform;
+
         return active;
     }
-    internal ActiveMonsterType GetMonster(Vector2 mapPos)
+    internal ActiveMonsterType GetMonster(Vector2 mapPos, int radius)
     {
-        return GetMonster(mapPos.x, mapPos.y);
+        return GetMonster(mapPos.x, mapPos.y, radius);
     }
-    private ActiveMonsterType GetMonster(float x, float y)
+    private ActiveMonsterType GetMonster(float x, float y, int radius)
     {
         foreach (var monster in _monsters)
         {
             var bLoc = monster.transform.position;
             //Mappos in between the monster 
-            if (Math.Abs(bLoc.x - x) < 5 && Math.Abs(bLoc.y - y) < 5)
+            if (Math.Abs(bLoc.x - x) < radius && Math.Abs(bLoc.y - y) < radius)
                 return monster;
         }
         return null;
@@ -433,11 +427,86 @@ public class TerrainManager : MonoBehaviour {
     internal bool DistroyMonster(ActiveMonsterType monster, bool drop)
     {
         if (drop)
-            print("drop Monster");
+            print("Drop Monster");
+        print("Killing Monster " + monster.OrgLocation);
         _monsters.Remove(monster);
         Destroy(monster.gameObject);
         return true;
     }
+
+    private void CacheMonsters()
+    {
+        foreach (var monster in _monsters)
+        {
+            var pos = monster.OrgLocation;
+            if (!monster.Alive)
+            {
+                print("Added to DeadMonster cache"+ pos);
+                _cache.Add(new CacheContent()
+                    {
+                        Location = pos,
+                        ObjectType = "DeadMonster"
+                    }
+                );
+            }else if (monster.Moved)
+            {
+                print("Added to MovedMonster cache" + pos + "New location ="+ monster.transform.position);
+                _cache.Add(new CacheContent()
+                    {
+                        Location = pos ,
+                        Content = monster.transform.position.ToString(),
+                        ObjectType = "MovedMonster"
+                    }
+                );
+            }
+        }
+    }
+
+    private void UnCacheMonsters(Vector3 near, float radius)
+    {
+        //print("UnCacheMonsters(Vector3 near, float radius) " + near+ radius);
+        foreach (var monster in _cache.Find("DeadMonster", near, radius, true))
+        {
+            print("out from DeadMonster cache" + monster.Location);
+            var currentMonster = GetMonster(monster.Location.x, monster.Location.y,1);
+            if (currentMonster != null)
+                DistroyMonster(currentMonster, false);
+        }
+        foreach (var monster in _cache.Find("MovedMonster",  true))
+        {
+            new WaitForSeconds(5);
+            print("1-out from MovedMonster cache" + monster.Location + "New location =" + monster.Content);
+            var currentMonster = GetMonster(monster.Location.x, monster.Location.y, 1);
+            if (currentMonster != null)
+            {
+                Vector3 newPos = StringToVector3(monster.Content);
+                print("2-out from MovedMonster cache" + monster.Location + "New location =" + newPos);
+                currentMonster.transform.position = currentMonster.NewLocation = newPos;
+                print("Moving Monster " + currentMonster.OrgLocation + " To " + currentMonster.NewLocation);
+            }
+        }
+    }
+
+    public static Vector3 StringToVector3(string sVector)
+    {
+        // Remove the parentheses
+        if (sVector.StartsWith("(") && sVector.EndsWith(")"))
+        {
+            sVector = sVector.Substring(1, sVector.Length - 2);
+        }
+
+        // split the items
+        string[] sArray = sVector.Split(',');
+
+        // store as a Vector3
+        Vector3 result = new Vector3(
+            float.Parse(sArray[0]),
+            float.Parse(sArray[1]),
+            float.Parse(sArray[2]));
+
+        return result;
+    }
+
     //Digging
     public bool CreateDigging(Vector3 location,bool useTool)
     {
@@ -449,6 +518,7 @@ public class TerrainManager : MonoBehaviour {
         dig.transform.position = location;
         var renderer = dig.AddComponent<SpriteRenderer>();
         renderer.sprite = Dig;
+        renderer.sortingOrder = _baseSortIndex + 1;
         dig.name = "Dig " + dig.transform.position;
         dig.transform.parent = transform;
         return true;
@@ -457,17 +527,19 @@ public class TerrainManager : MonoBehaviour {
     //Items
     public void CreateItem(Vector3 location, int itemId)
     {
-        GameObject Item = new GameObject();
-        var active = Item.AddComponent<ActiveItemType>();
+        GameObject item = new GameObject();
+        var active = item.AddComponent<ActiveItemType>();
         active.ItemTypeInUse = _itemDatabase.FindItem(itemId);
         location.z -= 0.001f;
         active.Location = location;
         _activeItems.Add(active);
-        Item.transform.position = location;
-        var renderer = Item.AddComponent<SpriteRenderer>();
+        item.transform.position = location;
+        item.transform.localScale += new Vector3(0.1f, 0, 0);
+        var renderer = item.AddComponent<SpriteRenderer>();
         renderer.sprite = active.ItemTypeInUse.GetSprite();
-        Item.name = active.ItemTypeInUse.Name + Item.transform.position;
-        Item.transform.parent = transform;
+        renderer.sortingOrder =  _baseSortIndex+  2;
+        item.name = active.ItemTypeInUse.Name + item.transform.position;
+        item.transform.parent = transform;
     }
     public ActiveItemType GetDropItem(float x, float y)
     {
@@ -520,4 +592,16 @@ public class TerrainManager : MonoBehaviour {
                         return;
                     }
     }
+
+    public static TerrainManager Instance()
+    {
+        if (!_terrainManager)
+        {
+            _terrainManager = FindObjectOfType(typeof(TerrainManager)) as TerrainManager;
+            if (!_terrainManager)
+                Debug.LogError("There needs to be one active TerrainManager script on a GameObject in your scene.");
+        }
+        return _terrainManager;
+    }
+
 }

@@ -9,12 +9,13 @@ using UnityEngine;
 public class MoveManager : MonoBehaviour {
     
     public float Speed = 3;
-    public float MaxSpeed = 2;
+    public float MaxSpeed = 5;
     public KeyCode EnableFastSpeedWithKey = KeyCode.LeftShift;
     //public Transform TurnWithMovement;
     public bool DoAnimation = true;
 
 
+    private int _baseSortIndex = 0;
     private CharacterManager _characterManager;
     private Character _playerCharacter;
 
@@ -48,8 +49,8 @@ public class MoveManager : MonoBehaviour {
         if (_animator == null)
             _animator = GameObject.FindGameObjectWithTag("Player").AddComponent<Animator>();
 
-        SetMoveSprites(99);
-        SetMoveAnimation(99);
+        SetMoveSprites();
+        SetMoveAnimation();
 
         if (DoAnimation)
             _animator.runtimeAnimatorController = _playerAnimeCtrl;
@@ -72,13 +73,9 @@ public class MoveManager : MonoBehaviour {
         //    print(touchpos + " - " + playerpos + " = " + (touchpos - playerpos) + " normalized = " + _movement);
         //}
 
-
         //Old moving System by key board 
         //Get the value of the movemoen x -1(Left) .. +1(Right) & y -1(Down) .. +1(UP)
         _movement = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-
-
-
 
         //Change Sprite or Animation according to the direction of moving
         if (DoAnimation)
@@ -100,6 +97,11 @@ public class MoveManager : MonoBehaviour {
         }
         //Old moving system
         transform.Translate(movement * currentSpeed * Time.deltaTime);
+        if (_playerCharacter.MoveT == Character.CharacterType.Fly)
+            _renderer.sortingOrder = _baseSortIndex  + 6;
+        else
+            _renderer.sortingOrder = _baseSortIndex  + 3;
+
         //Physics moving
         //_myRigidbody2D.velocity = movement.normalized * currentSpeed;
     }
@@ -122,7 +124,6 @@ public class MoveManager : MonoBehaviour {
             movement = Vector3.down;
         _animator.SetFloat("x",movement.x);
         _animator.SetFloat("y", movement.y);
-
     }
 
     private void HandleSprite(Vector3 movement)
@@ -141,23 +142,19 @@ public class MoveManager : MonoBehaviour {
     //https://www.youtube.com/watch?v=Y03jBu6enf8 (some movement improvement animantions on layers)
 
 
-    private void SetMoveSprites(int charId)
+    private void SetMoveSprites()
     {
-        string character = _playerCharacter.Name;
-        // Load all sprites in atlas
-        Sprite[] abilityIconsAtlas = Resources.LoadAll<Sprite>("Characters/"+character);
-        // Get specific sprite
-        _right = abilityIconsAtlas.Single(s => s.name == "right_3");
-        _left = abilityIconsAtlas.Single(s => s.name == "left_3");
-        _up = abilityIconsAtlas.Single(s => s.name == "up_3");
-        _down = abilityIconsAtlas.Single(s => s.name == "down_3");
+        var sprites = _playerCharacter.GetSprites();
+        _right = sprites[0];
+        _left = sprites[1];
+        _up = sprites[2];
+        _down = sprites[3];
     }
 
-    private void SetMoveAnimation(int charId)
+    private void SetMoveAnimation()
     {
         // Load Animation Controllers
-        string animationPath = "Characters/Animations/";
-        _playerAnimeCtrl = (RuntimeAnimatorController)Resources.Load(animationPath + _playerCharacter.Name + "Controller");
+        _playerAnimeCtrl = _playerCharacter.GetAnimator();
     }
 
 

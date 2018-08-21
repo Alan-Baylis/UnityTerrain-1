@@ -3,6 +3,8 @@
   <EllementIns>
     <Id>0</Id>
     <Name>Inn</Name>
+    <MultipleName></MultipleName>
+    <MultipleId>-1</MultipleId>
     <Walkable>true</Walkable>
     <Flyable>true</Flyable>
     <Swimable>false</Swimable>
@@ -17,6 +19,8 @@
   <EllementIns>
     <Id>1</Id>
     <Name>BasicTree</Name>
+    <MultipleName>Tree-sprites-standard-terrain</MultipleName>
+    <MultipleId>16</MultipleId>
     <Walkable>false</Walkable>
     <Flyable>true</Flyable>
     <Swimable>false</Swimable>
@@ -27,5 +31,5 @@
     <Type>Tree</Type>
     <FavouriteTerrainTypes>Land</FavouriteTerrainTypes>
     <IsEnabled>true</IsEnabled>
-  </EllementIns>
+</EllementIns>
 </ArrayOfEllementIns>

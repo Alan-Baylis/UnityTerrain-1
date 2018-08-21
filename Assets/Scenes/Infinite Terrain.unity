@@ -3088,6 +3088,7 @@ MonoBehaviour:
   MaxDistanceFromCenter: 7
   MapOffset: {x: 0.5, y: 0.5}
   Dig: {fileID: 21300000, guid: f1f9523f062dd1b46bb3d47186f303c5, type: 3}
+  MonsterObj: {fileID: 1711888546896390, guid: 2a7e361d05134fe44b65b45b74714c56, type: 2}
 --- !u!224 &933284269 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224305261600387626, guid: d2f1137db5cc5d34a8e7c1ed6e87f76a,
@@ -3386,6 +3387,7 @@ GameObject:
   - component: {fileID: 1120850919}
   - component: {fileID: 1120850920}
   - component: {fileID: 1120850921}
+  - component: {fileID: 1120850922}
   m_Layer: 0
   m_Name: PlayerPic
   m_TagString: Player
@@ -3461,7 +3463,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c555d1ab72192f44b22fb785fa74337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Terrain_Manager: {fileID: 929507440}
   KeyToConsume: 99
   KeyToDrop: 100
   KeyToPick: 112
@@ -3485,6 +3486,18 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &1120850922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1120850917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a62312cf3e44d04458de5ef983e1d646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Monster: {fileID: 0}
 --- !u!1 &1162031757
 GameObject:
   m_ObjectHideFlags: 0
@@ -6327,7 +6340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d033268ec694db4449488a5691b42a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Terrain_Manager: {fileID: 929507440}
 --- !u!4 &1954072673
 Transform:
   m_ObjectHideFlags: 0
@@ -6354,7 +6366,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f14213d70330e4696ca34d71784a38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Terrain_Manager: {fileID: 929507440}
 --- !u!114 &1954072675
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,8 +4,6 @@
   <CharacterId>1</CharacterId>
   <Name>Avid2</Name>
   <Description>Werewolf2</Description>
-  <IconPath>Somewhere</IconPath>
-  <IconId>0</IconId>
   <Level>1</Level>
   <Longitude>0</Longitude>
   <Latitude>0</Latitude>
@@ -20,14 +18,14 @@
   <MaxExperience>1000</MaxExperience>
   <HandsCnt>2</HandsCnt>
   <MaxHealth>1000</MaxHealth>
-  <Health>964</Health>
+  <Health>828</Health>
   <MaxMana>1000</MaxMana>
   <Mana>1000</Mana>
   <MaxEnergy>1000</MaxEnergy>
-  <Energy>845</Energy>
-  <AttackSpeed>12</AttackSpeed>
+  <Energy>825</Energy>
+  <AttackSpeed>13</AttackSpeed>
   <DefenceSpeed>3</DefenceSpeed>
-  <AbilityAttack>9</AbilityAttack>
+  <AbilityAttack>10</AbilityAttack>
   <AbilityDefence>0</AbilityDefence>
   <MagicAttack>0</MagicAttack>
   <MagicDefence>0</MagicDefence>
@@ -41,7 +39,7 @@
   <Agility>60</Agility>
   <Strength>0</Strength>
   <Stemina>0</Stemina>
-  <Krafting>332</Krafting>
+  <Krafting>333</Krafting>
   <Researching>0</Researching>
   <Bravery>0</Bravery>
   <Confidence>0</Confidence>
@@ -58,20 +56,20 @@
     <ItemContainer />
     <ItemContainer>
       <Equipment>
-        <Id>4</Id>
-        <Name>Basic Shoe</Name>
-        <Description>Basic shoe from animal leather</Description>
+        <Id>5</Id>
+        <Name>Basic Glove</Name>
+        <Description>Basic glove from animal leather</Description>
         <IconPath>Inventory/InventorySet1</IconPath>
-        <IconId>197</IconId>
-        <Cost>5</Cost>
+        <IconId>204</IconId>
+        <Cost>3</Cost>
         <Weight>1</Weight>
         <MaxStackCnt>2</MaxStackCnt>
         <StackCnt>2</StackCnt>
         <Type>Equipment</Type>
         <Rarity>Common</Rarity>
-        <Slug>Basic_Shoe</Slug>
+        <Slug>Basic_Glove</Slug>
         <DurationDays>365</DurationDays>
-        <ExpirationTime>2019-06-21T11:37:40.2849039-05:00</ExpirationTime>
+        <ExpirationTime>2019-06-28T18:35:01.5138436-05:00</ExpirationTime>
         <IsEnable>true</IsEnable>
         <PlaceHolder>Feet</PlaceHolder>
         <Agility>0</Agility>
@@ -80,12 +78,40 @@
         <CarryCnt>0</CarryCnt>
         <Confidence>0</Confidence>
         <Intellect>0</Intellect>
-        <Krafting>0</Krafting>
+        <Krafting>1</Krafting>
         <Researching>0</Researching>
         <Speed>0</Speed>
         <Stemina>0</Stemina>
         <Strength>0</Strength>
       </Equipment>
+    </ItemContainer>
+    <ItemContainer>
+      <Weapon>
+        <Id>2</Id>
+        <Name>Small Sword</Name>
+        <Description>Small Sword</Description>
+        <IconPath>Inventory/InventorySet1</IconPath>
+        <IconId>73</IconId>
+        <Cost>10</Cost>
+        <Weight>3</Weight>
+        <MaxStackCnt>1</MaxStackCnt>
+        <StackCnt>1</StackCnt>
+        <Type>Weapon</Type>
+        <Rarity>Common</Rarity>
+        <Slug>Small_Sword</Slug>
+        <DurationDays>365</DurationDays>
+        <ExpirationTime>2019-06-14T15:17:24.2938024-05:00</ExpirationTime>
+        <IsEnable>true</IsEnable>
+        <CarryType>OneHand</CarryType>
+        <AttackSpeed>1</AttackSpeed>
+        <DefenceSpeed>0</DefenceSpeed>
+        <AbilityAttack>1</AbilityAttack>
+        <AbilityDefence>0</AbilityDefence>
+        <MagicAttack>0</MagicAttack>
+        <MagicDefence>0</MagicDefence>
+        <PoisonAttack>0</PoisonAttack>
+        <PoisonDefence>0</PoisonDefence>
+      </Weapon>
     </ItemContainer>
     <ItemContainer>
       <Tool>
@@ -104,29 +130,8 @@
         <DurationDays>365</DurationDays>
         <ExpirationTime>2019-08-14T15:42:05.8492805-05:00</ExpirationTime>
         <IsEnable>true</IsEnable>
-        <TimeToUse>94</TimeToUse>
+        <TimeToUse>85</TimeToUse>
         <FavouriteEllement>Tree</FavouriteEllement>
-      </Tool>
-    </ItemContainer>
-    <ItemContainer>
-      <Tool>
-        <Id>6</Id>
-        <Name>Iron Shovel</Name>
-        <Description>Iron Shovel</Description>
-        <IconPath>Inventory/InventoryTools</IconPath>
-        <IconId>16</IconId>
-        <Cost>1</Cost>
-        <Weight>5</Weight>
-        <MaxStackCnt>1</MaxStackCnt>
-        <StackCnt>1</StackCnt>
-        <Type>Tool</Type>
-        <Rarity>Common</Rarity>
-        <Slug>Iron_Shovel</Slug>
-        <DurationDays>365</DurationDays>
-        <ExpirationTime>2019-08-09T11:51:45.0731418-05:00</ExpirationTime>
-        <IsEnable>true</IsEnable>
-        <TimeToUse>-58</TimeToUse>
-        <FavouriteEllement>Hole</FavouriteEllement>
       </Tool>
     </ItemContainer>
     <ItemContainer />

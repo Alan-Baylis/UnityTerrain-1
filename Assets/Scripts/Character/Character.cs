@@ -149,6 +149,22 @@ public class Character {
         return characterSprites.Single(s => s.name == "right_3");
     }
 
+
+    public List<Sprite> GetSprites()
+    {
+        List<Sprite> MoveSprites = new List<Sprite>();
+        // Load all sprites in atlas
+        Sprite[] abilityIconsAtlas = Resources.LoadAll<Sprite>("Characters/" + Name);
+        // Get specific sprite
+        MoveSprites.Add(abilityIconsAtlas.Single(s => s.name == "right_3"));
+        MoveSprites.Add(abilityIconsAtlas.Single(s => s.name == "left_3"));
+        MoveSprites.Add(abilityIconsAtlas.Single(s => s.name == "up_3"));
+        MoveSprites.Add(abilityIconsAtlas.Single(s => s.name == "down_3"));
+        return MoveSprites;
+    }
+
+
+
     public RuntimeAnimatorController GetAnimator()
     {
         // Load Animation Controllers

@@ -1,3 +1,9 @@
+RPG tutorial
+
+#3.4 Change attack ellemnt 
+	https://www.youtube.com/watch?v=wntKVHVwXnc
+#3.5 Unity RPG Tutorial - Spell effect
+
 try clearing the whole %LocalAppData%\JetBrains\Transient 
 start from here 
 
@@ -6,6 +12,12 @@ Write codes
 	InsideStory
 	ScriptTextHandler
 
+	
+	at office: 
+	
+	cash moved monster 
+	change the class to insiate thing Terrain_Manager!! 
+	Monster prefab
 	
 user agreement
 https://termsfeed.com/blog/sample-eula-template/	
@@ -29,7 +41,7 @@ Research Phase
 
 	
 
-	
+	036908397
 Fight Phase	
 
 1- Inscene fight 
@@ -63,6 +75,8 @@ level up splash
 	Settingscene 
 
 
+
+	
 Phase 
 	Add live container
 	

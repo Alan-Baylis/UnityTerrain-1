@@ -4,13 +4,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Move : MonoBehaviour {
-
-    public TerrainManager Terrain_Manager;
+    private TerrainManager _terrainManager;
 
     private Vector3 previousPosition = Vector3.zero;
     
     private CharacterManager _characterManager;
-
+    private SpriteRenderer _renderer;
     private Cache _cache;
 
 
@@ -18,12 +17,15 @@ public class Move : MonoBehaviour {
     void Awake()
     {
         _characterManager = CharacterManager.Instance();
-        _cache = Cache.Get();
-        
+        //_cache = Cache.Get();
+        _terrainManager = TerrainManager.Instance();
+
     }
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        _renderer = transform.GetComponentsInChildren<SpriteRenderer>()[0];
         /*foreach (var item in _cache.Find("Player",true))
         {
             if (IsBlocked(item.Location))
@@ -33,12 +35,11 @@ public class Move : MonoBehaviour {
         }*/
     }
 
-    private bool IsBlocked(Vector3 itemLocation)
+    private bool IsBlocked(Vector3 itemLocation, ActiveEllementType ellement)
     {
         Vector3 currentPos = itemLocation;
-        Vector2 mapPos = Terrain_Manager.WorldToMapPosition(currentPos);
-        var terrain = Terrain_Manager.SelectTerrain(mapPos.x, mapPos.y);
-        var ellement = Terrain_Manager.GetEllement(mapPos);
+        Vector2 mapPos = _terrainManager.WorldToMapPosition(currentPos);
+        var terrain = _terrainManager.SelectTerrain(mapPos.x, mapPos.y);
         if (
             //Terrain Types and charcter type 
             (!terrain.Walkable && _characterManager.Character.MoveT == Character.CharacterType.Walk) ||
@@ -57,11 +58,15 @@ public class Move : MonoBehaviour {
 	void Update ()
 	{
 	    Vector3 currentPos = transform.position;
-	    Vector2 mapPos = Terrain_Manager.WorldToMapPosition(currentPos);
-	    var ellement = Terrain_Manager.GetEllement(mapPos);
-	    var Monster = Terrain_Manager.GetMonster(mapPos);
+        Vector2 mapPos = _terrainManager.WorldToMapPosition(currentPos);
+        var ellement = _terrainManager.GetEllement(mapPos);
+	    if (ellement != null)
+	        if(ellement.transform.position.y> currentPos.y)
+	            ellement.transform.GetComponent<SpriteRenderer>().sortingOrder = _renderer.sortingOrder -1;
+            else
+	            ellement.transform.GetComponent<SpriteRenderer>().sortingOrder = _renderer.sortingOrder + 1;
         //print("###Inside Move Update: "+ currentPos+ previousPosition+ mapPos);
-        if (IsBlocked(currentPos))
+        if (IsBlocked(currentPos, ellement))
         { 
             transform.position = currentPos = previousPosition;
         }
