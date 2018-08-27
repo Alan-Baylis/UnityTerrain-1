@@ -5,6 +5,7 @@ RPG tutorial
 #3.5 Unity RPG Tutorial - Spell effect
 
 try clearing the whole %LocalAppData%\JetBrains\Transient 
+C:\Users\anarimani\AppData\Local\JetBrains\Transient
 start from here 
 
 	https://www.youtube.com/watch?v=1MgnZ3SK_h8
@@ -13,11 +14,10 @@ Write codes
 	ScriptTextHandler
 
 	
-	at office: 
-	
-	cash moved monster 
-	change the class to insiate thing Terrain_Manager!! 
-	Monster prefab
+At office: 
+Cashe item on drop will stay cach fter pik up 
+use all item drop
+fix the picture of the character in menu 
 	
 user agreement
 https://termsfeed.com/blog/sample-eula-template/	

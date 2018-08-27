@@ -12,7 +12,7 @@
     <DefenceR>Range</DefenceR>
     <AttackT>Strength</AttackT>
     <DefenceT>Strength</DefenceT>
-    <BasicAttack>1</BasicAttack>
+    <BasicAttack>0</BasicAttack>
     <BasicDefence>2</BasicDefence>
     <BasicSpeed>4</BasicSpeed>
     <BasicHealth>1000</BasicHealth>

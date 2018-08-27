@@ -12,7 +12,7 @@ public class SlotData : MonoBehaviour,IDropHandler{
     // Use this for initialization
     private InventoryHandler _inv;
     private ItemMixture _itemMixture;
-    private static ModalPanel _modalPanel;
+    private ModalPanel _modalPanel;
 
     void Start()
     {

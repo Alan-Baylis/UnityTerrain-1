@@ -15,6 +15,7 @@ public class MonsterMove : MonoBehaviour {
 
     private ActiveMonsterType _active;
     private Character _character;
+    
 
     private SpriteRenderer _renderer;
     private Animator _animator;
@@ -38,6 +39,7 @@ public class MonsterMove : MonoBehaviour {
 
         _renderer = transform.GetComponent<SpriteRenderer>();
         _animator = transform.GetComponent<Animator>();
+        
 
         if (_character.IsAnimated)
             _animator.runtimeAnimatorController = GetMoveAnimation();
@@ -56,7 +58,6 @@ public class MonsterMove : MonoBehaviour {
             Transform player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
             Vector3 targetPos = player.position;
             Vector3 monsterPos = transform.position;
-
             float dist = Vector3.Distance(targetPos, monsterPos);
             if (dist>1)
             {
@@ -72,25 +73,16 @@ public class MonsterMove : MonoBehaviour {
             {
                 AttackPlayer(_active.MonsterType);
             }
-
+            _active.SawTarget = false;
         }
     }
 
     private void AttackPlayer(MonsterIns monsterType)
     {
-        switch (_character.AttackT)
-        {
-            case Character.AttackType.Strength:
-                _characterManager.AddCharacterSetting("Health", -monsterType.AbilityAttack);
-                break;
-            case Character.AttackType.Magic:
-                _characterManager.AddCharacterSetting("Health", -monsterType.MagicAttack);
-                break;
-            case Character.AttackType.Poison:
-                _characterManager.AddCharacterSetting("Health", -monsterType.PoisonAttack);
-                break;
-        }
-
+        var attAmount = monsterType.AbilityAttack + monsterType.MagicAttack + monsterType.PoisonAttack;          var dealAtt = RandomHelper.AttackRange(attAmount);
+        if (dealAtt > attAmount)
+            print("Monster CRITICAL ATTACK");
+        _characterManager.AddCharacterSetting("Health", -dealAtt);
     }
 
     private void DoMove(Vector3 movement)
@@ -111,7 +103,7 @@ public class MonsterMove : MonoBehaviour {
             (!terrain.Walkable && _character.MoveT == Character.CharacterType.Walk) ||
             (!terrain.Flyable && _character.MoveT == Character.CharacterType.Fly) ||
             (!terrain.Swimable && _character.MoveT == Character.CharacterType.Swim) 
-        )
+            )
             return true;
         return false;
     }

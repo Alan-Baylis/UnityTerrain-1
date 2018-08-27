@@ -10,7 +10,7 @@ public class InventoryHandler : MonoBehaviour
     private static InventoryHandler _inv;
     private int _playerSlots;
     private GUIManager _GUIManager;
-    private ModalPanel _modalPanel;
+    //private ModalPanel _modalPanel;
 
     private ItemDatabase _itemDatabase;
     private CharacterManager _characterManager;
@@ -58,7 +58,7 @@ public class InventoryHandler : MonoBehaviour
         _itemDatabase = ItemDatabase.Instance();
         _characterManager = CharacterManager.Instance();
         _GUIManager = GUIManager.Instance();
-        _modalPanel = ModalPanel.Instance();
+        //_modalPanel = ModalPanel.Instance();
 
         _inventoryPanel = GameObject.Find("Inventory Panel");
         _slotPanel = _inventoryPanel.transform.Find("Slot Panel").gameObject;
@@ -259,12 +259,22 @@ public class InventoryHandler : MonoBehaviour
 
     public bool AddItemToInventory(int itemId)
     {
-        ItemContainer item = BuilItemFromDatabase(itemId);
         for (int i = 0; i < _playerSlots; i++)
         {
-            ItemData tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>();
+            ItemData tmpItem = InvSlots[i].transform.GetChild(0).GetComponent<ItemData>(); if (tmpItem.Item.Id == itemId)
+            {
+                if (tmpItem.Item.StackCnt < tmpItem.Item.MaxStackCnt)
+                {
+                    tmpItem.Item.setStackCnt(tmpItem.Item.StackCnt + 1);
+                    UpdateInventory(true);
+                    return true;
+                }
+                else
+                    continue;
+            }
             if (tmpItem.Item.Id != -1)
                 continue;
+            ItemContainer item = BuilItemFromDatabase(itemId);
             tmpItem.LoadItem(item);
             UpdateInventory(true);
             return true;
@@ -280,6 +290,11 @@ public class InventoryHandler : MonoBehaviour
         else
             _inventoryPanel.SetActive(true);
     }
+    public bool InventoryPanelStat()
+    {
+        return _inventoryPanel.activeSelf;
+    }
+
 
     public void GoToRecepieScene()
     {

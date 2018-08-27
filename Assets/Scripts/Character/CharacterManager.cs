@@ -20,6 +20,7 @@ public class CharacterManager : MonoBehaviour {
     
 
     public int PlayerId=0;
+    private float nextActionTime = 0.0f;
 
     //private int _basicHealth = 1000;
     //private int _basicSpeed = 3;
@@ -52,6 +53,21 @@ public class CharacterManager : MonoBehaviour {
 
     void Update()
     {
+
+        float period = 100/ CharacterSetting.Level;
+        if (Time.time > nextActionTime)
+        {
+            print("Executed Increase time =" + Time.time);
+            nextActionTime += period;
+            if (CharacterSetting.Energy< CharacterSetting.MaxEnergy)
+                CharacterSetting.Energy += 1;
+            if (CharacterSetting.Health < CharacterSetting.MaxHealth)
+                CharacterSetting.Health += 1;
+            if (CharacterSetting.Mana < CharacterSetting.MaxMana)
+                CharacterSetting.Mana += 1;
+            CharacterSetting.Updated = true;
+        }
+
         if (CharacterSetting.Experience >= CharacterSetting.MaxExperience)
         {
             CharacterSetting.Experience -= CharacterSetting.MaxExperience;
@@ -60,6 +76,9 @@ public class CharacterManager : MonoBehaviour {
             CharacterSetting.Updated = true;
             SaveCharacterSetting();
         }
+
+
+
     }
 
     //middle man to CharacterDatabase
@@ -179,9 +198,15 @@ public class CharacterManager : MonoBehaviour {
         switch (item.Type)
         {
             case Item.ItemType.Consumable:
-                CharacterSetting.Health += item.Consumable.Health;
-                CharacterSetting.Mana += item.Consumable.Mana;
-                CharacterSetting.Energy += item.Consumable.Energy;
+                CharacterSetting.Health += item.Consumable.Health* item.StackCnt;
+                CharacterSetting.Mana += item.Consumable.Mana * item.StackCnt;
+                CharacterSetting.Energy += item.Consumable.Energy * item.StackCnt;
+                if (CharacterSetting.Health > CharacterSetting.MaxHealth)
+                    CharacterSetting.Health = CharacterSetting.MaxHealth;
+                if (CharacterSetting.Mana > CharacterSetting.MaxMana)
+                    CharacterSetting.Mana = CharacterSetting.MaxMana;
+                if (CharacterSetting.Energy > CharacterSetting.MaxEnergy)
+                    CharacterSetting.Energy = CharacterSetting.MaxEnergy;
                 break;
             case Item.ItemType.Equipment:
                 CharacterSetting.Agility += item.Equipment.Agility;

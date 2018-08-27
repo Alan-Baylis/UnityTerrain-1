@@ -40,8 +40,9 @@ public class SlotConsume: MonoBehaviour, IDropHandler
         switch (draggedItem.Item.Type)
         {
             case Item.ItemType.Consumable:
+                //Use all the stack
                 _inv.UseItem(draggedItem.Item);
-                draggedItem.Item.setStackCnt(draggedItem.Item.StackCnt -1);
+                draggedItem.Item.setStackCnt(0);
                 break;
             case Item.ItemType.Equipment:
                     if (draggedItem.Item.StackCnt == draggedItem.Item.MaxStackCnt)

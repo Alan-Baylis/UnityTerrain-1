@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class TerrainActions : MonoBehaviour {
     private TerrainManager _terrainManager;
+    private GUIManager _GUIManager;
 
     private InventoryHandler _inv;
     public KeyCode KeyToConsume = KeyCode.C;
     public KeyCode KeyToDrop = KeyCode.D;
-    public KeyCode KeyToPick = KeyCode.P;
+    //public KeyCode KeyToPick = KeyCode.P;
 
     
 
@@ -20,63 +21,93 @@ public class TerrainActions : MonoBehaviour {
         _cache = Cache.Get();
         _inv = InventoryHandler.Instance();
         _terrainManager = TerrainManager.Instance();
+        _GUIManager = GUIManager.Instance();
     }
 	
 	// Update is called once per frame
     void Update()
     {
+        if (_inv.InventoryPanelStat())
+            return;
+
         var pos = transform.position;
         pos.z += 0.01f;
-        if (Input.GetKeyDown(KeyToPick))
-        {
-            ActiveItemType currentItem = _terrainManager.GetDropItem(pos.x, pos.y);
-            if (currentItem != null)
-                if (_inv.AddItemToInventory(currentItem.ItemTypeInUse.Id))
-                    _terrainManager.DistroyItem(currentItem);
-        }
 
-        if (Input.GetKeyDown(KeyToConsume))
+        if (Input.GetMouseButtonDown(0))
         {
-            var currentElement = _terrainManager.GetEllement(pos.x, pos.y);
-            if (currentElement != null)
+            var touchLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float distance = Vector2.Distance(touchLocation, pos);
+            if (distance > 1)
             {
-                if (currentElement.EllementTypeInUse.Distroyable)
+                _GUIManager.AddMessage("YEL: Too far from this location");
+            }
+            else
+            {
+                //Pick Up Item
+                var currentItem = _terrainManager.GetDropItem(touchLocation);
+                if (currentItem != null)
                 {
-                    if (_terrainManager.DistroyEllement(currentElement, true))
+                    if (_inv.AddItemToInventory(currentItem.ItemTypeInUse.Id))
+                        _terrainManager.DistroyItem(currentItem);
+                    return;
+                }
+                //Consume Ellemnt
+                else
+                {
+                    var currentElement = _terrainManager.GetEllement(touchLocation);
+                    if (currentElement != null)
                     {
-                        Vector3 elementPos = currentElement.transform.position;
-                        //Remember Consume elemnt to not draw them 
-                        //print("###Inside KeyToConsume currentElement ADD to cache" + currentElement.name);
-                        _cache.Add(new CacheContent()
+                        if (currentElement.EllementTypeInUse.Distroyable)
+                        {
+                            if (_terrainManager.DistroyEllement(currentElement, true))
                             {
-                                Location = elementPos,
-                                ObjectType = "VacantElement"
+                                Vector3 elementPos = currentElement.transform.position;
+                                //Remember Consume elemnt to not draw them 
+                                //print("###Inside KeyToConsume currentElement ADD to cache" + currentElement.name);
+                                _cache.Add(new CacheContent()
+                                {
+                                    Location = elementPos,
+                                    ObjectType = "VacantElement"
+                                }
+                                );
+                                _terrainManager.DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
                             }
-                        );
-                        DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
+                        }
+                        return;
                     }
                 }
-                return;
             }
-            TerrainIns currentTerrain = _terrainManager.SelectTerrain(pos.x, pos.y);
-            if (currentTerrain != null)
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            var touchLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            float distance = Vector2.Distance(touchLocation, pos);
+            if (distance > 1)
             {
-                if (currentTerrain.Diggable)
+                _GUIManager.AddMessage("YEL: Too far from this location");
+            }
+            else
+            {
+                TerrainIns currentTerrain = _terrainManager.SelectTerrain(pos.x, pos.y);
+                if (currentTerrain != null)
                 {
-                    pos.y -= 0.2f;
-                    if (_terrainManager.CreateDigging(pos,true))
+                    if (currentTerrain.Diggable)
                     {
-                        _cache.Add(new CacheContent()
+                        pos.y -= 0.2f;
+                        if (_terrainManager.CreateDigging(pos, true))
+                        {
+                            _cache.Add(new CacheContent()
                             {
                                 Location = pos,
                                 ObjectType = "Digging"
                             }
-                        );
-                        DropItem(pos, currentTerrain.DropChance, currentTerrain.DropItems);
+                            );
+                            _terrainManager.DropItem(pos, currentTerrain.DropChance, currentTerrain.DropItems);
+                        }
                     }
-
+                    return;
                 }
-                return;
             }
         }
         if (Input.GetKeyDown(KeyToDrop))
@@ -85,35 +116,60 @@ public class TerrainActions : MonoBehaviour {
             TerrainIns currentTerrain = _terrainManager.SelectTerrain(pos.x, pos.y);
             if (currentTerrain != null)
                 if (currentTerrain.Walkable)
-                    DropItem(pos, 1, "0,1,2,3,4");
+                    _terrainManager.DropItem(pos, 1, "0,1,2,3,4");
         }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-            print(collision.gameObject.name);
-    }
 
 
-    private void DropItem(Vector3 pos, float chance, string dropItems)
-    {
-        print("chance = "+ chance +" Yourchance= " + RandomHelper.Percent(pos, 1) + pos);
-        if (chance >= 1f || chance > RandomHelper.Percent(pos, 1))
-        {
-            List<int> items = dropItems.Split(',').Select(int.Parse).ToList();
-            if (items.Count > 0)
-            {
-                //todo: item based on rarity of item 
-                int itemId = items[RandomHelper.Range(pos, 1, items.Count)];
-                _terrainManager.CreateItem(pos, itemId);
-                _cache.Add(new CacheContent()
-                    {
-                        Location = pos,
-                        Content = itemId.ToString(),
-                        ObjectType = "Item"
-                    }
-                );
-            }
-        }
-    }
+        //if (Input.GetKeyDown(KeyToPick))
+        //{
+        //    ActiveItemType currentItem = _terrainManager.GetDropItem(pos);
+        //    if (currentItem != null)
+        //        if (_inv.AddItemToInventory(currentItem.ItemTypeInUse.Id))
+        //            _terrainManager.DistroyItem(currentItem);
+        //}
+        //if (Input.GetKeyDown(KeyToConsume))
+        //{
+        //    var currentElement = _terrainManager.GetEllement(pos);
+        //    if (currentElement != null)
+        //    {
+        //        if (currentElement.EllementTypeInUse.Distroyable)
+        //        {
+        //            if (_terrainManager.DistroyEllement(currentElement, true))
+        //            {
+        //                Vector3 elementPos = currentElement.transform.position;
+        //                //Remember Consume elemnt to not draw them 
+        //                //print("###Inside KeyToConsume currentElement ADD to cache" + currentElement.name);
+        //                _cache.Add(new CacheContent()
+        //                    {
+        //                        Location = elementPos,
+        //                        ObjectType = "VacantElement"
+        //                    }
+        //                );
+        //                _terrainManager.DropItem(elementPos, currentElement.EllementTypeInUse.DropChance, currentElement.EllementTypeInUse.DropItems);
+        //            }
+        //        }
+        //        return;
+        //    }
+        //    TerrainIns currentTerrain = _terrainManager.SelectTerrain(pos.x, pos.y);
+        //    if (currentTerrain != null)
+        //    {
+        //        if (currentTerrain.Diggable)
+        //        {
+        //            pos.y -= 0.2f;
+        //            if (_terrainManager.CreateDigging(pos,true))
+        //            {
+        //                _cache.Add(new CacheContent()
+        //                    {
+        //                        Location = pos,
+        //                        ObjectType = "Digging"
+        //                    }
+        //                );
+        //                _terrainManager.DropItem(pos, currentTerrain.DropChance, currentTerrain.DropItems);
+        //            }
+        //        }
+        //        return;
+        //    }
+        //}
+
+    } 
 }

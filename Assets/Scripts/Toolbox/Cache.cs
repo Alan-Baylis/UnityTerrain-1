@@ -116,18 +116,6 @@ public class Cache : MonoBehaviour {
                 _content.Remove(c);
     }
 
-    public bool Find(string objectType, Vector3 location)
-    {
-        foreach (var c in _content)
-        {
-            if (c.ObjectType != objectType)
-                continue;
-            if (location == c.Location)
-                return true;
-        }
-        return false;
-    }
-    //target has to be seralizable
  
 
     public void SyncItems(string objectType, List<ActiveItemType> items)
@@ -156,4 +144,16 @@ public class Cache : MonoBehaviour {
     }
 
 
+    //public bool Find(string objectType, Vector3 location)
+    //{
+    //    foreach (var c in _content)
+    //    {
+    //        if (c.ObjectType != objectType)
+    //            continue;
+    //        if (location == c.Location)
+    //            return true;
+    //    }
+    //    return false;
+    //}
+    //target has to be seralizable
 }

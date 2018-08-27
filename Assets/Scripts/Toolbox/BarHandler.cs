@@ -86,4 +86,5 @@ public class BarHandler : MonoBehaviour
         MaxValue = maxValue;
         Level = level;
     }
+
 }

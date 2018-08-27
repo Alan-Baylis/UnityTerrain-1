@@ -17,6 +17,8 @@ public class CharacterSetting {
     public float Longitude { get; set; }
     public float Latitude { get; set; }
     public bool Updated { get; set; }
+    public DateTime LastUpdated { get; set; }
+    public bool Fightmode { get; set; }
     public int Rank { get; set; }
     public int ClanId { get; set; }
     public Character.ClanRanks ClanRank { get; set; }
@@ -57,7 +59,7 @@ public class CharacterSetting {
 
     public CharacterSetting(int id = 0, int characterId = 0, string name = null,
          string description = null, 
-        int level = 0, float longitude = 0, float latitude = 0,bool updated = true,
+        int level = 0, float longitude = 0, float latitude = 0,bool updated = true,  bool fightmode = false, 
         int rank = 0, int clanId = 0, Character.ClanRanks clanRank = 0,
         int live = 0, int coin = 0, int gem = 0,
         int experience = 0, int maxExperience = 0, int handsCnt = 2, 
@@ -80,6 +82,8 @@ public class CharacterSetting {
         Longitude = longitude;
         Latitude = latitude;
         Updated = updated;
+        LastUpdated = DateTime.Now;
+        Fightmode = fightmode;
         Coin = coin;
         Gem = gem;
         Experience = experience;
@@ -140,6 +144,8 @@ public class CharacterSetting {
         Longitude = characterSetting.Longitude;
         Latitude = characterSetting.Latitude;
         Updated = characterSetting.Updated;
+        LastUpdated = DateTime.Now;
+        Fightmode = characterSetting.Fightmode;
         Coin = characterSetting.Coin;
         Gem = characterSetting.Gem;
         Experience = characterSetting.Experience;

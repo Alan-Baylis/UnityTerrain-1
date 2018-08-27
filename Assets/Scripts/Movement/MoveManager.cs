@@ -9,7 +9,6 @@ using UnityEngine;
 public class MoveManager : MonoBehaviour {
     
     public float Speed = 3;
-    public float MaxSpeed = 5;
     public KeyCode EnableFastSpeedWithKey = KeyCode.LeftShift;
     //public Transform TurnWithMovement;
     public bool DoAnimation = true;
@@ -18,6 +17,7 @@ public class MoveManager : MonoBehaviour {
     private int _baseSortIndex = 0;
     private CharacterManager _characterManager;
     private Character _playerCharacter;
+    private CharacterSetting _playerCharacterSetting;
 
     private Sprite _up;
     private Sprite _down;
@@ -40,6 +40,7 @@ public class MoveManager : MonoBehaviour {
     {
         _characterManager = CharacterManager.Instance();
         _playerCharacter = _characterManager.Character;
+        _playerCharacterSetting = _characterManager.CharacterSetting;
 
         _renderer = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
         _myRigidbody2D = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody2D>();
@@ -86,14 +87,15 @@ public class MoveManager : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        DoMove(_movement);
+        if (!_playerCharacterSetting.Fightmode)
+            DoMove(_movement);
     }
     private void DoMove(Vector3 movement)
     {
-        var currentSpeed = Speed;
+        var currentSpeed = _playerCharacter.BasicSpeed;
         if (Input.GetKey(EnableFastSpeedWithKey))
         {
-            currentSpeed = MaxSpeed;
+            currentSpeed += 2;
         }
         //Old moving system
         transform.Translate(movement * currentSpeed * Time.deltaTime);

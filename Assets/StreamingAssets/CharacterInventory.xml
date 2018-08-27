@@ -1,26 +1,32 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <ArrayOfItemContainer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ItemContainer>
-    <Consumable>
-      <Id>1</Id>
-      <Name>Cherry</Name>
-      <Description>One Cherry</Description>
+    <Weapon>
+      <Id>2</Id>
+      <Name>Small Sword</Name>
+      <Description>Small Sword</Description>
       <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>1</IconId>
-      <Cost>0</Cost>
-      <Weight>0</Weight>
-      <MaxStackCnt>20</MaxStackCnt>
-      <StackCnt>9</StackCnt>
-      <Type>Consumable</Type>
+      <IconId>73</IconId>
+      <Cost>10</Cost>
+      <Weight>3</Weight>
+      <MaxStackCnt>1</MaxStackCnt>
+      <StackCnt>1</StackCnt>
+      <Type>Weapon</Type>
       <Rarity>Common</Rarity>
-      <Slug>Cherry</Slug>
+      <Slug>Small_Sword</Slug>
       <DurationDays>365</DurationDays>
-      <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
+      <ExpirationTime>2019-06-14T15:17:24.2938024-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
-      <Health>1</Health>
-      <Mana>0</Mana>
-      <Energy>0</Energy>
-    </Consumable>
+      <CarryType>OneHand</CarryType>
+      <AttackSpeed>1</AttackSpeed>
+      <DefenceSpeed>0</DefenceSpeed>
+      <AbilityAttack>1</AbilityAttack>
+      <AbilityDefence>0</AbilityDefence>
+      <MagicAttack>0</MagicAttack>
+      <MagicDefence>0</MagicDefence>
+      <PoisonAttack>0</PoisonAttack>
+      <PoisonDefence>0</PoisonDefence>
+    </Weapon>
   </ItemContainer>
   <ItemContainer>
     <Tool>
@@ -76,21 +82,21 @@
   </ItemContainer>
   <ItemContainer>
     <Consumable>
-      <Id>0</Id>
-      <Name>Black Berry</Name>
-      <Description>Black Berry</Description>
+      <Id>1</Id>
+      <Name>Cherry</Name>
+      <Description>One Cherry</Description>
       <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>0</IconId>
+      <IconId>1</IconId>
       <Cost>0</Cost>
       <Weight>0</Weight>
       <MaxStackCnt>20</MaxStackCnt>
-      <StackCnt>3</StackCnt>
+      <StackCnt>13</StackCnt>
       <Type>Consumable</Type>
       <Rarity>Common</Rarity>
-      <Slug>Black_Berry</Slug>
+      <Slug>Cherry</Slug>
       <DurationDays>365</DurationDays>
       <ExpirationTime>2019-06-14T14:08:24.5968313-05:00</ExpirationTime>
-      <IsEnable>false</IsEnable>
+      <IsEnable>true</IsEnable>
       <Health>1</Health>
       <Mana>0</Mana>
       <Energy>0</Energy>
@@ -106,7 +112,7 @@
       <Cost>0</Cost>
       <Weight>5</Weight>
       <MaxStackCnt>5</MaxStackCnt>
-      <StackCnt>1</StackCnt>
+      <StackCnt>3</StackCnt>
       <Type>Substance</Type>
       <Rarity>Common</Rarity>
       <Slug>Round_Rock</Slug>
@@ -116,23 +122,35 @@
     </Substance>
   </ItemContainer>
   <ItemContainer>
-    <Substance>
-      <Id>3</Id>
-      <Name>Round Rock</Name>
-      <Description>Round Rock</Description>
+    <Equipment>
+      <Id>5</Id>
+      <Name>Basic Glove</Name>
+      <Description>Basic glove from animal leather</Description>
       <IconPath>Inventory/InventorySet1</IconPath>
-      <IconId>240</IconId>
-      <Cost>0</Cost>
-      <Weight>5</Weight>
-      <MaxStackCnt>5</MaxStackCnt>
+      <IconId>204</IconId>
+      <Cost>3</Cost>
+      <Weight>1</Weight>
+      <MaxStackCnt>2</MaxStackCnt>
       <StackCnt>1</StackCnt>
-      <Type>Substance</Type>
+      <Type>Equipment</Type>
       <Rarity>Common</Rarity>
-      <Slug>Round_Rock</Slug>
+      <Slug>Basic_Glove</Slug>
       <DurationDays>365</DurationDays>
-      <ExpirationTime>2019-06-14T17:06:57.5051813-05:00</ExpirationTime>
+      <ExpirationTime>2019-06-28T18:35:01.5138436-05:00</ExpirationTime>
       <IsEnable>true</IsEnable>
-    </Substance>
+      <PlaceHolder>Feet</PlaceHolder>
+      <Agility>0</Agility>
+      <Bravery>0</Bravery>
+      <Carry>0</Carry>
+      <CarryCnt>0</CarryCnt>
+      <Confidence>0</Confidence>
+      <Intellect>0</Intellect>
+      <Krafting>1</Krafting>
+      <Researching>0</Researching>
+      <Speed>0</Speed>
+      <Stemina>0</Stemina>
+      <Strength>0</Strength>
+    </Equipment>
   </ItemContainer>
   <ItemContainer />
   <ItemContainer />

@@ -8,6 +8,8 @@
   <Longitude>0</Longitude>
   <Latitude>0</Latitude>
   <Updated>true</Updated>
+  <LastUpdated>2018-08-27T17:32:13.04313-05:00</LastUpdated>
+  <Fightmode>false</Fightmode>
   <Rank>0</Rank>
   <ClanId>0</ClanId>
   <ClanRank>None</ClanRank>
@@ -18,11 +20,11 @@
   <MaxExperience>1000</MaxExperience>
   <HandsCnt>2</HandsCnt>
   <MaxHealth>1000</MaxHealth>
-  <Health>828</Health>
+  <Health>1003</Health>
   <MaxMana>1000</MaxMana>
-  <Mana>1000</Mana>
+  <Mana>1003</Mana>
   <MaxEnergy>1000</MaxEnergy>
-  <Energy>825</Energy>
+  <Energy>529</Energy>
   <AttackSpeed>13</AttackSpeed>
   <DefenceSpeed>3</DefenceSpeed>
   <AbilityAttack>10</AbilityAttack>
@@ -130,7 +132,7 @@
         <DurationDays>365</DurationDays>
         <ExpirationTime>2019-08-14T15:42:05.8492805-05:00</ExpirationTime>
         <IsEnable>true</IsEnable>
-        <TimeToUse>85</TimeToUse>
+        <TimeToUse>83</TimeToUse>
         <FavouriteEllement>Tree</FavouriteEllement>
       </Tool>
     </ItemContainer>

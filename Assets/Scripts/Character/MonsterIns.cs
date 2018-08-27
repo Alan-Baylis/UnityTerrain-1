@@ -64,7 +64,6 @@ public class MonsterIns
         PoisonDefence = monsterCharacter.AttackT == Character.AttackType.Poison ? monsterCharacter.BasicDefence * Level : 0;
         Speed = monsterCharacter.BasicSpeed;
         Ellement = Character.Ellements.None;
-        Level = level;
     }
 
     public Character GetCharacter()

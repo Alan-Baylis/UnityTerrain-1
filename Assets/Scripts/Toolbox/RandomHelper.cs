@@ -58,5 +58,16 @@ public class RandomHelper
     }
 
 
+    public static float AttackRange(float max)
+    {
+        if (max<=1)
+            return 0;
+        var criticalAtt = UnityEngine.Random.Range(0, 10) > 8 ? 5 : 1;
+        var attack = UnityEngine.Random.Range(1, max) * criticalAtt;
+        Debug.Log("criticalAtt =" + criticalAtt + " attack =" + attack);
+        return attack;
+    }
+
+
 }
 
