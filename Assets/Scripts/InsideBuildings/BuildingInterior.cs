@@ -55,9 +55,9 @@ public class BuildingInterior : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        var starter = GameObject.FindObjectOfType<InsideBuildingStarter>();
+        var starter = GameObject.FindObjectOfType<SceneStarter>();
         if (starter == null)
-            starter = new GameObject().AddComponent<InsideBuildingStarter>();
+            starter = new GameObject().AddComponent<SceneStarter>();
         _mapPosition = starter.MapPosition;
         Key = starter.Key;
         PreviousPosition = starter.PreviousPosition;

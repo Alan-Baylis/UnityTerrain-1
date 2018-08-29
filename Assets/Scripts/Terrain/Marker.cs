@@ -9,6 +9,7 @@ public class Marker  {
     public Vector2 Location { get; set; }
     public bool HasEllement { get; set; }
     public bool HasMonster { get; set; }
+    public int MarkerIndex { get; set; }
     //public float EllementMass { get; set; }
     public char[,] CharMap { get; set; }
 
@@ -22,6 +23,13 @@ public class Marker  {
         for (int x = 0; x < 16; x++)
             for (int y = 0; y < 16; y++)
                 CharMap[x, y] = 'E';
+    }
+
+    public Marker(TerrainIns terrain, Vector2 location,int key)
+    {
+        Terrain = terrain;
+        Location = location;
+        MarkerIndex = key;
     }
 
     public static IEnumerable<Marker> GetMarkers(float x, float y,int key, List<TerrainIns> activeTerrains, float ellementChance)
@@ -46,6 +54,9 @@ public class Marker  {
         return markers;
     }
 
+
+
+
     public static Marker Closest(IEnumerable<Marker> markers,Vector2 location,int key)
     {
         Marker selected = null;
@@ -66,5 +77,4 @@ public class Marker  {
         }
         return selected;
     }
-
 }

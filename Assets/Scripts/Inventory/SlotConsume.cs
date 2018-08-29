@@ -12,7 +12,7 @@ public class SlotConsume: MonoBehaviour, IDropHandler
     private static ModalPanel _modalPanel;
     private static GUIManager _GUIManager;
     private CharacterManager _characterManager;
-
+    private Button[] _buttons;
 
 
     // Use this for initialization
@@ -26,6 +26,20 @@ public class SlotConsume: MonoBehaviour, IDropHandler
 
     void Start()
     {
+        _buttons = GetComponentsInChildren<Button>();
+        _buttons[0].image.sprite = _characterManager.Character.GetSprite();
+        _buttons[1].image.sprite = _characterManager.Character.GetSprite();
+
+        StartCoroutine("LoadImages");
+    }
+    
+    // The source image
+    private IEnumerator LoadImages()
+    {
+        var directory = "https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200";
+        WWW www = new WWW(directory);
+        yield return www;
+        _buttons[1].image.sprite = Sprite.Create(www.texture, new Rect(0, 0, www.texture.width, www.texture.height), new Vector2(0, 0));
     }
 
     public void OnDrop(PointerEventData eventData)

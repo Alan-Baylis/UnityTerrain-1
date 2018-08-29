@@ -49,6 +49,11 @@ public class TerrainIns
         _tiles = Resources.LoadAll<Sprite>("Terrain/" + Name).ToList();
     }
 
+    public Sprite GetSprite()
+    {
+        Sprite[] terrainSprites = Resources.LoadAll<Sprite>("Terrain/" + Name);
+        return terrainSprites[0];
+    }
 
     public RuntimeAnimatorController GetAnimation(float x, float y, int key)
     {

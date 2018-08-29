@@ -146,7 +146,7 @@ public class Character {
     {
         Sprite[] characterSprites = Resources.LoadAll<Sprite>("Characters/" + Name);
         // Get specific sprite
-        return characterSprites.Single(s => s.name == "right_3");
+        return characterSprites.Single(s => s.name == "down_0");
     }
 
 

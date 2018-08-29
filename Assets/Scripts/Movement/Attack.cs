@@ -8,7 +8,7 @@
     // Use this for initialization
     void Start ()     {         _characterManager = CharacterManager.Instance();         _terrainManager = TerrainManager.Instance();         _inv = InventoryHandler.Instance();
         _modalPanel = ModalPanel.Instance();         _cache = Cache.Get();     } 	 	// Update is called once per frame 	void Update () 	{ 	    if (Input.GetMouseButtonDown(0))
-            AttackTarget();         InLineOfSight(); 	}      void FixedUpdate()
+            AttackTarget();         //todo: InLineOfSight(); 	}      void FixedUpdate()
     {
         float period = 10f;
         if (Time.time > nextActionTime)

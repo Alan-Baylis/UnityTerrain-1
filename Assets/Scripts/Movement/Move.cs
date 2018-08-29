@@ -77,7 +77,7 @@ public class Move : MonoBehaviour {
             GameObject go = new GameObject();
             //Make go undestroyable
             GameObject.DontDestroyOnLoad(go);
-            var starter=go.AddComponent<InsideBuildingStarter>();
+            var starter=go.AddComponent<SceneStarter>();
             starter.Key = TerrainManager.Key;
             starter.MapPosition = mapPos;
             starter.PreviousPosition = previousPosition;

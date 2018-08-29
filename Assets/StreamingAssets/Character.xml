@@ -37,7 +37,7 @@
     <DefenceR>Close</DefenceR>
     <AttackT>Magic</AttackT>
     <DefenceT>Magic</DefenceT>
-    <BasicAttack>2</BasicAttack>
+    <BasicAttack>0</BasicAttack>
     <BasicDefence>3</BasicDefence>
     <BasicSpeed>3</BasicSpeed>
     <BasicHealth>2000</BasicHealth>

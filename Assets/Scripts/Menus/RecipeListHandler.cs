@@ -33,7 +33,7 @@ public class RecipeListHandler : MonoBehaviour {
             GameObject recipeObject = Instantiate(RecipeContent);
             recipeObject.transform.SetParent(_contentPanel.transform);
 
-            recipeObject.transform.name = "Recepie "+_recipes[i].Id;
+            recipeObject.transform.name = "Recipe " + _recipes[i].Id;
             var items = recipeObject.GetComponentsInChildren<Image>();
             for (int j = 0; j < items.Length; j++)
             {
